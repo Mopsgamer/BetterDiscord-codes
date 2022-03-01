@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.2.10
+ * @version 1.2.10.2
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,15 +21,15 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.2.10',
+            version: '1.2.10.2',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
         },
         changelog: [
-            { "title": "New Stuff", "items": ["Adding localization: Chinese, Taiwan (Thanks JimLi999!), Ukrainian."] },
-            { "title": "Improvements", "type": "improved", "items": ["Reworked the tabs of the groups, now the setting will be more comfortable.", "Sliders have been replaced by input boxes."] },
-            //{ "title": "Fixes", "type": "fixed", "items": ["Fixed performance issues."] }
+            { "title": "New Stuff", "items": ["Adding localization: Japanese (Thanks mirukuPC!)."] },
+            //{ "title": "Improvements", "type": "improved", "items": ["Reworked the tabs of the groups, now the setting will be more comfortable.", "Sliders have been replaced by input boxes."] },
+            { "title": "Fixes", "type": "fixed", "items": ["Integer input fields."] }
         ],
         main: 'index.js',
     };
@@ -1277,6 +1277,145 @@
                                     GROUP_POPOUTS: 'Вспл. окна',
                                     
                                     GROUP_ADVANCED: 'Расширенные',
+                                }
+                            }
+                        break;
+
+                        case 'ja':
+                            var TEMPS = {
+                                TOOLTIPS: {
+                                    BUTTON_ANIMATIONS_VERSION_CHANGELOG: '最新の変更',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK: 'アップデートを確認',
+                                    BUTTON_ANIMATIONS_RESET: '全設定をリセット',
+                                    BUTTON_ANIMATIONS_REBUILD: 'スタイルを再作成します。プラグインを再起動すると、スタイルも再作成されます。',
+                                    BUTTON_ANIMATIONS_ISSUES: 'GitHubへのリンク',
+                                    BUTTON_ANIMATIONS_DISCUSSIONS: 'GitHubへのリンク',
+                                    BUTTON_LISTS_SWITCH: 'リスト切り替え',
+                                    BUTTON_BUTTONS_SWITCH: 'ボタン切り替え',
+                                    BUTTON_MESSAGES_SWITCH: 'メッセージ切り替え',                                
+                                    BUTTON_POPOUTS_SWITCH: 'ポップアウト切り替え',                                
+                                    BUTTON_RESET_LISTS: 'リストの設定をリセットする',
+                                    BUTTON_RESET_BUTTONS: 'ボタンの設定をリセットする',
+                                    BUTTON_RESET_MESSAGES: 'メッセージの設定をリセットする',
+                                    BUTTON_RESET_POPOUTS: 'ポップアウトの設定をリセットする',
+                                    BUTTON_SELECTORS_LISTS_DEFAULT: 'デフォルトのセレクタに戻す',
+                                    BUTTON_SELECTORS_LISTS_CLEAR: 'テキストエリアをクリアする',
+                                    BUTTON_SELECTORS_BUTTONS_DEFAULT: 'デフォルトのセレクタに戻す',
+                                    BUTTON_SELECTORS_BUTTONS_CLEAR: 'テキストエリアをクリアする',
+                                    BUTTON_SELECTORS_POPOUTS_DEFAULT: 'デフォルトのセレクタに戻す',
+                                    BUTTON_SELECTORS_POPOUTS_CLEAR: 'テキストエリアをクリアする'
+                                },
+                                LABELS: {
+                                    BUTTON_ANIMATIONS_RESET: 'すべてリセット',
+                                    BUTTON_ANIMATIONS_RESET_RESETING: 'リセット...',
+                                    BUTTON_ANIMATIONS_REBUILD: 'アニメーションの再構築',
+                                    BUTTON_ANIMATIONS_VERSION_CHANGELOG: '変更履歴',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK: 'アップデート',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_SEARCHING: 'アップデートを調べる...',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_TIMEOUT: 'タイムアウトを超過しました',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_ERROR: 'エラーが発生しました',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_OLDER: (version_='{version}')=>`v${version_} - Update`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_TITLE: 'あなたのバージョンは古いです',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_COMPARE: (yourV_, githubV_)=>`v${yourV_} (your)  →  v${githubV_} (github)`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_NOTE: 'プラグインはアップデートされます',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_NEWER: (version_='{version}')=>`v${version_} - Your own version`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_TITLE: 'あなたのバージョンは最新です',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_COMPARE: (yourV_, githubV_)=>`v${yourV_} (your)  ←  v${githubV_} (github)`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_NOTE: 'プラグインはダウンデートされます',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_LATEST: (version_='{version}')=>`v${version_} - Latest version`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_TITLE: 'あなたのバージョンは最新です',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE: (yourV_, githubV_)=>`v${yourV_} (your)  ↔  v${githubV_} (github)`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE: 'プラグインが復元されます',
+                                    BUTTON_ANIMATIONS_ISSUES: '問題',
+                                    BUTTON_ANIMATIONS_DISCUSSIONS: '議論',
+                                    BUTTON_LISTS_SWITCH: 'リスト',
+                                    BUTTON_BUTTONS_SWITCH: 'ボタン',
+                                    BUTTON_MESSAGES_SWITCH: 'メッセージ',
+                                    BUTTON_POPOUTS_SWITCH: 'ポップアウト',
+                                    BUTTON_RESET_LISTS: 'リストをリセット',
+                                    BUTTON_RESET_BUTTONS: 'ボタンをリセット',
+                                    BUTTON_RESET_MESSAGES: 'メッセージをリセット',
+                                    BUTTON_RESET_POPOUTS: 'ポップアウトをリセット',
+                                    BUTTON_SELECTORS_LISTS_DEFAULT: 'デフォルト',
+                                    BUTTON_SELECTORS_LISTS_CLEAR: 'クリア',
+                                    BUTTON_SELECTORS_BUTTONS_DEFAULT: 'デフォルト',
+                                    BUTTON_SELECTORS_BUTTONS_CLEAR: 'クリア',
+                                    BUTTON_SELECTORS_POPOUTS_DEFAULT: 'デフォルト',
+                                    BUTTON_SELECTORS_POPOUTS_CLEAR: 'クリア',
+    
+                                    FIELD_NAME: '名前',
+                                    FIELD_SEQUENCE: '構築',
+                                    FIELD_DELAY: '遅延',
+                                    FIELD_LIMIT: '表示数',
+                                    FIELD_DURATION: '時間',
+    
+                                    FIELD_LISTS_NAME_NOTE: (default_='{default}')=>`[デフォルト:${default_}] リストが表示されるときのアニメーションの名前。`,
+                                    FIELD_LISTS_SEQUENCE_NOTE: (default_='{default}')=>`[デフォルト:${default_}] リストを構築する順序。`,
+                                    FIELD_LISTS_DELAY_NOTE: (default_='{default}')=>`[デフォルト:${default_}] 各リストが表示されるまでの遅延時間(秒)。`,
+                                    FIELD_LISTS_LIMIT_NOTE: (default_='{default}')=>`[デフォルト:${default_}] アニメーションを再生するリスト内の最大項目数。`,
+                                    FIELD_LISTS_DURATION_NOTE: (default_='{default}')=>`[デフォルト:${default_}] 遅延後の各リストのアニメーションの再生速度(秒)。`,
+    
+                                    FIELD_BUTTONS_NAME_NOTE: (default_='{default}')=>`[デフォルト:${default_}] ボタンが表示されるときのアニメーションの名前。`,
+                                    FIELD_BUTTONS_SEQUENCE_NOTE: (default_='{default}')=>`[デフォルト:${default_}] ボタンを構築する順序。`,
+                                    FIELD_BUTTONS_DELAY_NOTE: (default_='{default}')=>`[デフォルト:${default_}] 各ボタンが表示されるまでの遅延時間(秒)。`,
+                                    FIELD_BUTTONS_DURATION_NOTE: (default_='{default}')=>`[デフォルト:${default_}] 遅延後の各ボタンのアニメーションの再生速度(秒)。`,
+    
+                                    FIELD_MESSAGES_NAME_NOTE: (default_='{default}')=>`[デフォルト:${default_}] メッセージが表示されるときのアニメーションの名前。`,
+                                    FIELD_MESSAGES_DELAY_NOTE: (default_='{default}')=>`[デフォルト:${default_}] 各メッセージが表示されるまでの遅延時間(秒)。`,
+                                    FIELD_MESSAGES_LIMIT_NOTE: (default_='{default}')=>`[デフォルト:${default_}] アニメーションが再生されるリスト内のメッセージの最大数。`,
+                                    FIELD_MESSAGES_DURATION_NOTE: (default_='{default}')=>`[デフォルト:${default_}] 遅延後の各メッセージのアニメーションの再生速度(秒)。`,
+    
+                                    FIELD_POPOUTS_NAME_NOTE: (default_='{default}')=>`[デフォルト:${default_}] ポップアップが表示されるときのアニメーションの名前。`,
+                                    FIELD_POPOUTS_DURATION_NOTE: (default_='{default}')=>`[デフォルト:${default_}] ポップアウトのアニメーションの再生速度(秒)。`,
+    
+                                    FIELD_LISTS_SELECTORS: 'リストのセレクタ',
+                                    FIELD_LISTS_SELECTORS_NOTE: 'このフィールドを空にすると、再読み込み時にデフォルトのセレクタがここに表示されます。セレクタの変更は、入力時に保存されます(コードが有効である場合)。セパレータはカンマ(,)です。',
+                                    FIELD_BUTTONS_SELECTORS: 'ボタンのセレクタ',
+                                    FIELD_BUTTONS_SELECTORS_NOTE: 'このフィールドを空にすると、再読み込み時にデフォルトのセレクタがここに表示されます。セレクタの変更は、入力時に保存されます(コードが有効である場合)。セパレータはカンマ(,)です。',
+                                    FIELD_POPOUTS_SELECTORS: 'ポップアウトのセレクタ',
+                                    FIELD_POPOUTS_SELECTORS_NOTE: 'このフィールドを空にすると、再読み込み時にデフォルトのセレクタがここに表示されます。セレクタの変更は、入力時に保存されます(コードが有効である場合)。セパレータはカンマ(,)です。',
+    
+                                    PREVIEW_SELECTING: '選択',
+                                    PREVIEW_EDITING: '編集',
+                                    PREVIEW_BUTTON_TEMPLATE: 'テンプレート',
+                                    PREVIEW_BUTTON_CLEAR: '削除',
+                                    PREVIEW_BUTTON_LOAD: '読込',
+                                    PREVIEW_BUTTON_SAVE: '保存',
+                                    PREVIEW_PLACEHOLDER_HINT: 'アニメーションの要素の変換には"scale(0)"が含まれるため、\n最終フレーム(100%)に"scale(1)"を含んでいなければなりません。',
+                                    PREVIEW_IN: 'In',
+                                    PREVIEW_OUT: 'Out',
+                                    PREVIEW_CIRCLE: 'Circle',
+                                    PREVIEW_POLYGON: 'Polygon',
+                                    PREVIEW_OPACITY: 'Opacity',
+                                    PREVIEW_SLIME: 'Slime',
+                                    PREVIEW_BRICK_RIGHT: 'Brick right',
+                                    PREVIEW_BRICK_LEFT: 'Brick left',
+                                    PREVIEW_BRICK_UP: 'Brick up',
+                                    PREVIEW_BRICK_DOWN: 'Brick down',
+                                    PREVIEW_SLIDE_RIGHT: 'Slide right',
+                                    PREVIEW_SLIDE_LEFT: 'Slide left',
+                                    PREVIEW_SLIDE_UP: 'Slide up',
+                                    PREVIEW_SLIDE_DOWN: 'Slide down',
+                                    PREVIEW_SLIDE_UP_RIGHT: 'Slide up (right)',
+                                    PREVIEW_SLIDE_UP_LEFT: 'Slide up (left)',
+                                    PREVIEW_SLIDE_DOWN_RIGHT: 'Slide down (right)',
+                                    PREVIEW_SLIDE_DOWN_LEFT: 'Slide down (left)',
+                                    PREVIEW_SKEW_RIGHT: 'Skew right',
+                                    PREVIEW_SKEW_LEFT: 'Skew left',
+                                    PREVIEW_WIDE_SKEW_RIGHT: 'Wide skew right',
+                                    PREVIEW_WIDE_SKEW_LEFT: 'Wide skew left',
+    
+                                    PREVIEW_VERTICAL_FROM_FIRST: '↓',
+                                    PREVIEW_VERTICAL_FROM_LAST: '↑',
+                                    PREVIEW_HORIZONTAL_FROM_FIRST: '→',
+                                    PREVIEW_HORIZONTAL_FROM_LAST: '←',
+    
+                                    GROUP_LISTS: 'リスト',
+                                    GROUP_BUTTONS: 'ボタン',
+                                    GROUP_MESSAGES: 'メッセージ',
+                                    GROUP_POPOUTS: 'ポップアウト',
+                                    
+                                    GROUP_ADVANCED: '高度',
                                 }
                             }
                         break;
@@ -2786,7 +2925,7 @@
                                                             value: this.settings.lists.duration,
                                                             max: 3,
                                                             step: 0.1,
-                                                            type: 'integer',
+                                                            type: 'number',
                                                             onchange: (e) => {
                                                                 var value = Number(e.currentTarget.value);
             
@@ -2906,7 +3045,7 @@
                                                             value: this.settings.buttons.delay,
                                                             max: 0.5,
                                                             step: 0.01,
-                                                            type: 'integer',
+                                                            type: 'number',
                                                             onchange: (e) => {
                                                                 var value = Number(e.currentTarget.value);
             
@@ -2929,7 +3068,7 @@
                                                             value: this.settings.buttons.duration,
                                                             max: 3,
                                                             step: 0.1,
-                                                            type: 'integer',
+                                                            type: 'number',
                                                             onchange: (e) => {
                                                                 var value = Number(e.currentTarget.value);
             
@@ -3033,7 +3172,7 @@
                                                             value: this.settings.messages.delay,
                                                             max: 0.5,
                                                             step: 0.01,
-                                                            type: 'integer',
+                                                            type: 'number',
                                                             onchange: (e) => {
                                                                 var value = Number(e.currentTarget.value);
             
@@ -3079,7 +3218,7 @@
                                                             value: this.settings.messages.duration,
                                                             max: 3,
                                                             step: 0.01,
-                                                            type: 'integer',
+                                                            type: 'number',
                                                             onchange: (e) => {
                                                                 var value = Number(e.currentTarget.value);
             
@@ -3188,7 +3327,7 @@
                                                             value: this.settings.popouts.duration,
                                                             max: 3,
                                                             step: 0.01,
-                                                            type: 'integer',
+                                                            type: 'number',
                                                             onchange: (e) => {
                                                                 var value = Number(e.currentTarget.value);
             
