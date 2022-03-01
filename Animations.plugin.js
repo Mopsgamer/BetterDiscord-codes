@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.2.10.2
+ * @version 1.2.10.3
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,7 +21,7 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.2.10.2',
+            version: '1.2.10.3',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
@@ -1805,7 +1805,7 @@
                                             value: newValue
                                         })
 
-                                        input?.onchange(e)
+                                        input?.onchange(e, value)
                                     }
                                 }
                             )
@@ -2903,10 +2903,8 @@
                                                             max: 100,
                                                             step: 5,
                                                             type: 'integer',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.lists.limit = Math.floor(value);
+                                                            onchange: (e, v) => {
+                                                                this.settings.lists.limit = v;
                                                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                 this.changeStyles()
                                                             }
@@ -2926,10 +2924,8 @@
                                                             max: 3,
                                                             step: 0.1,
                                                             type: 'number',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.lists.duration = Math.floor(value);
+                                                            onchange: (e, v) => {
+                                                                this.settings.lists.duration = v;
                                                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                 this.changeStyles()
                                                             }
@@ -3046,10 +3042,8 @@
                                                             max: 0.5,
                                                             step: 0.01,
                                                             type: 'number',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.buttons.delay = Math.floor(value);
+                                                            onchange: (e, v) => {
+                                                                this.settings.buttons.delay = v;
                                                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                 this.changeStyles()
                                                             }
@@ -3069,10 +3063,8 @@
                                                             max: 3,
                                                             step: 0.1,
                                                             type: 'number',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.buttons.duration = Math.floor(value);
+                                                            onchange: (e, v) => {
+                                                                this.settings.buttons.duration = v;
                                                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                 this.changeStyles()
                                                             }
@@ -3173,10 +3165,8 @@
                                                             max: 0.5,
                                                             step: 0.01,
                                                             type: 'number',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.messages.delay = Math.floor(value);
+                                                            onchange: (e, v) => {
+                                                                this.settings.messages.delay = v;
                                                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                 this.changeStyles()
                                                             }
@@ -3196,10 +3186,8 @@
                                                             max: 100,
                                                             step: 1,
                                                             type: 'integer',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.messages.limit = Math.floor(value);
+                                                            onchange: (e, v) => {
+                                                                this.settings.messages.limit = v;
                                                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                 this.changeStyles()
                                                             }
@@ -3219,10 +3207,8 @@
                                                             max: 3,
                                                             step: 0.01,
                                                             type: 'number',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.messages.duration = Math.floor(value);
+                                                            onchange: (e, v) => {
+                                                                this.settings.messages.duration = v;
                                                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                 this.changeStyles()
                                                             }
@@ -3328,10 +3314,8 @@
                                                             max: 3,
                                                             step: 0.01,
                                                             type: 'number',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.popouts.duration = Math.floor(value);
+                                                            onchange: (e, v) => {
+                                                                this.settings.popouts.duration = v;
                                                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                 this.changeStyles()
                                                             }
