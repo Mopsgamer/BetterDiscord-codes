@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.2.11
+ * @version 1.2.11.1
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,7 +21,7 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.2.11',
+            version: '1.2.11.1',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
@@ -866,7 +866,7 @@
                 /* messages */
                 .${Animations.modules.MessageListItem} > .${Animations.modules.Message}
                 {
-                    ${this.settings.messages.custom.page>=0 ? this.settings.messages.custom.frames[this.settings.messages.custom.page]?.start : `transform: scale(0);`}
+                    ${this.settings.messages.custom.frames[this.settings.messages.custom.page]?.start ? this.settings.messages.custom.frames[this.settings.messages.custom.page]?.start : `transform: scale(0);`}
                     animation-fill-mode: forwards;
                     animation-name: ${this.settings.messages.custom.enabled &&
                                     (this.settings.messages.custom.page>=0 ?
