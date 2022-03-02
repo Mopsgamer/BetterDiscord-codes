@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.2.10.3
+ * @version 1.2.11
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,15 +21,15 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.2.10.3',
+            version: '1.2.11',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
         },
         changelog: [
-            { "title": "New Stuff", "items": ["Adding localization: Japanese (Thanks mirukuPC!)."] },
-            //{ "title": "Improvements", "type": "improved", "items": ["Reworked the tabs of the groups, now the setting will be more comfortable.", "Sliders have been replaced by input boxes."] },
-            { "title": "Fixes", "type": "fixed", "items": ["Integer input fields."] }
+            { "title": "New Stuff", "items": ["The editor now has a field for editing start styles.", "Discord server."] },
+            { "title": "Improvements", "type": "improved", "items": ["A couple of improvements for buttons in settings - link icons, disabling during editing.", "Smooth transitions between tabs.", "Dividers between buttons."] },
+            { "title": "Fixes", "type": "fixed", "items": ["Optimized editor."] }
         ],
         main: 'index.js',
     };
@@ -67,6 +67,17 @@
                 constructor() {
                     super();
 
+                    this.defaultFrames = {
+                        teplate: {
+                            start: 'transform: scale(0);',
+                            anim: '0% {\ntransform: translate(0, 100%);\n}\n\n100% {\ntransform: translate(0, 0) scale(1);\n}'
+                        },
+                        clear: {
+                            start: '',
+                            anim: ''
+                        },
+                    }
+
                     this.defaultSettings = {
                         lists: {
                             enabled: true,
@@ -76,7 +87,20 @@
                             selectors: '',
                             custom: {
                                 enabled: false,
-                                frames: ['', '', '', ''],
+                                frames: [
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                ],
                                 page: 0
                             },
                             duration: 0.4,
@@ -91,7 +115,20 @@
                             selectors: '',
                             custom: {
                                 enabled: false,
-                                frames: ['', '', '', ''],
+                                frames: [
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                ],
                                 page: 0
                             },
                             duration: 0.3,
@@ -103,7 +140,20 @@
                             page: 0,
                             custom: {
                                 enabled: false,
-                                frames: ['', '', '', ''],
+                                frames: [
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                ],
                                 page: 0
                             },
                             duration: 0.4,
@@ -117,7 +167,20 @@
                             selectors: '',
                             custom: {
                                 enabled: false,
-                                frames: ['', '', '', ''],
+                                frames: [
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                    {
+                                        start: '',
+                                        anim: ''
+                                    },
+                                ],
                                 page: 0
                             },
                             duration: 0.5
@@ -132,11 +195,28 @@
                 getDescription() { return config.info.description }
                 getVersion() { return config.info.version }
 
-                colors = {
+                static colors = {
                     red: '#ed4245',
                     green: '#3ba55d',
-                    yellow: '#faa81a'
+                    yellow: '#faa81a',
+                    gray: '#36393f'
                 }
+
+                static paths = {
+                    discordLogo: 'M23.0212 1.67671C21.3107 0.879656 19.5079 0.318797 17.6584 0C17.4062 0.461742 17.1749 0.934541 16.9708 1.4184C15.003 1.12145 12.9974 1.12145 11.0283 1.4184C10.819 0.934541 10.589 0.461744 10.3368 0.00546311C8.48074 0.324393 6.67795 0.885118 4.96746 1.68231C1.56727 6.77853 0.649666 11.7538 1.11108 16.652C3.10102 18.1418 5.3262 19.2743 7.69177 20C8.22338 19.2743 8.69519 18.4993 9.09812 17.691C8.32996 17.3997 7.58522 17.0424 6.87684 16.6135C7.06531 16.4762 7.24726 16.3387 7.42403 16.1847C11.5911 18.1749 16.408 18.1749 20.5763 16.1847C20.7531 16.3332 20.9351 16.4762 21.1171 16.6135C20.41 17.0369 19.6639 17.3997 18.897 17.691C19.3052 '
+                    +'18.4993 19.7718 19.2689 20.3021 19.9945C22.6677 19.2689 24.8929 18.1364 26.8828 16.6466H26.8893C27.43 10.9731 25.9665 6.04728 23.0212 1.67671ZM9.68041 13.6383C8.39754 13.6383 7.34085 12.4453 7.34085 10.994C7.34085 9.54272 8.37155 8.34973 9.68041 8.34973C10.9893 8.34973 12.0395 9.54272 12.0187 10.994C12.0187 12.4453 10.9828 13.6383 9.68041 13.6383ZM18.3161 13.6383C17.0332 13.6383 15.9765 12.4453 15.9765 10.994C15.9765 9.54272 17.0124 8.34973 18.3161 8.34973C19.6184 8.34973 20.6751 9.54272 20.6543 10.994C20.6543 12.4453 19.6184 13.6383 18.3161 13.6383Z',
+                    githubLogo: 'm12 .5c-6.63 0-12 5.28-12 11.792 0 5.211 3.438 9.63 8.205 11.188.6.111.82-.254.82-.567 0-.28-.01-1.022-.015-2.005-3.338.711-4.042-1.582-4.042-1.582-.546-1.361-1.335-1.725-1.335-1.725-1.087-.731.084-.716.084-.716 1.205.082 1.838 1.215 1.838 1.215 1.07 1.803 2.809 1.282 3.495.981.108-.763.417-1.282.76-1.577-2.665-.295-5.466-1.309-5.466-5.827 0-1.287.465-2.339 1.235-3.164-.135-.298-.54-1.497.105-3.121 0 0 1.005-.316 3.3 1.209.96-.262 1.98-.392 3-.398 1.02.006 2.04.136 3 .398 2.28-1.525 3.285-1.209 '
+                    +'3.285-1.209.645 1.624.24 2.823.12 3.121.765.825 1.23 1.877 1.23 3.164 0 4.53-2.805 5.527-5.475 5.817.42.354.81 1.077.81 2.182 0 1.578-.015 2.846-.015 3.229 0 .309.21.678.825.56 4.801-1.548 8.236-5.97 8.236-11.173 0-6.512-5.373-11.792-12-11.792z',
+        
+                    gear: 'M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z',
+                    circleArrow: 'M 13 3 c -4.97 0 -9 4.03 -9 9 H 1 l 3.89 3.89 l 0.07 0.14 L 9 12 H 6 c 0 -3.87 3.13 -7 7 -7 s 7 3.13 7 7 s -3.13 7 -7 7 c -1.93 0 -3.68 -0.79 -4.94 -2.06 l -1.42 1.42 C 8.27 19.99 10.51 21 13 21 c 4.97 0 9 -4.03 9 -9 s -4.03 -9 -9 -9 z',
+                    changelogArrow: 'M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z',
+                    downloadArrow: 'M16.293 9.293L17.707 10.707L12 16.414L6.29297 10.707L7.70697 9.293L11 12.586V2H13V12.586L16.293 9.293ZM18 20V18H20V20C20 21.102 19.104 22 18 22H6C4.896 22 4 21.102 4 20V18H6V20H18Z',
+                    linkArrow: [
+                        'M10 5V3H5.375C4.06519 3 3 4.06519 3 5.375V18.625C3 19.936 4.06519 21 5.375 21H18.625C19.936 21 21 19.936 21 18.625V14H19V19H5V5H10Z',
+                        'M21 2.99902H14V4.99902H17.586L9.29297 13.292L10.707 14.706L19 6.41302V9.99902H21V2.99902Z'
+                    ],
+                    }
 
                 static selectorsLists = [
                     /*active threads button*/
@@ -301,8 +381,10 @@
                                 else {
                                     children.style.animationDelay = `${((i + threadsCount) * this.settings.lists.delay).toFixed(2)}s`;
                                     children.style.animationName = this.settings.lists.custom.enabled &&
-                                        this.settings.lists.custom.frames[this.settings.lists.custom.page].trim() != '' &&
-                                        this.isValidCSS(this.settings.lists.custom.frames[this.settings.lists.custom.page])
+                                        (this.settings.lists.custom.page>=0?
+                                            this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() != '' &&
+                                            this.isValidKeyframe(this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim)
+                                        : 0)
                                         ? 'custom-lists' : this.settings.lists.name;
                                 }
                             }
@@ -322,7 +404,7 @@
                                     }
                                     else {
                                         thread.style.animationDelay = `${((i + threadsCount) * this.settings.lists.delay).toFixed(2)}s`;
-                                        thread.style.animationName = this.settings.lists.custom.enabled && this.settings.lists.custom.frames[this.settings.lists.custom.page].trim() != '' ? 'custom-lists' : this.settings.lists.name;
+                                        thread.style.animationName = this.settings.lists.custom.enabled && (this.settings.lists.custom.page>=0 ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() : 0) != '' ? 'custom-lists' : this.settings.lists.name;
                                     }
                                 }
                             }
@@ -650,6 +732,17 @@
                                 this.settings[type].name = this.defaultSettings[type].name;
                                 PluginUtilities.saveSettings(this.getName(), this.settings);
                             }
+                            if (this.settings[type].custom.frames.some(frame=>typeof frame == 'string')) {
+                                this.settings[type].custom.frames.forEach(
+                                    (frame, index)=>{
+                                        if(typeof frame == 'string') this.settings[type].custom.frames[index] = {
+                                            start: 'transform: scale(0);',
+                                            anim: frame
+                                        }
+                                    }
+                                )
+                                PluginUtilities.saveSettings(this.getName(), this.settings);
+                            }
                         });
 
                         ;(["lists", "buttons"]).forEach(type=>{
@@ -663,7 +756,8 @@
                             for (var i = 1; i < 5; i++) {
                                 result += `.animPreview[data-animation="${animName}"]:hover > .animPreviewTempsContainer > .animTempBlock:nth-child(${i})`
                                     + ` {
-                                        transform: scale(0); animation-name: ${animName};
+                                        transform: scale(0);
+                                        animation-name: ${animName};
                                         animation-fill-mode: forwards;
                                         animation-duration: 0.3s;
                                         animation-delay: ${(i - 1) * 0.06}s;
@@ -707,7 +801,7 @@
                 .${Animations.modules.ContainerDefaultSpaceBeforeCategory},
                 .${Animations.modules.ContainerDefault}
                 {
-                    transform: scaleX(0);
+                    ${this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start : `transform: scale(0);`}
                     animation-fill-mode: forwards;
                     animation-duration: ${this.settings.lists.duration}s;
                 }
@@ -720,10 +814,12 @@
 
                 ${this.settings.lists.selectors?this.settings.lists.selectors:Animations.selectorsLists.join(', ')}
                 {
-                    transform: scaleX(0);
+                    ${this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start : `transform: scale(0);`}
                     animation-name: ${this.settings.lists.custom.enabled &&
-                                    this.settings.lists.custom.frames[this.settings.lists.custom.page].trim() != '' &&
-                                    this.isValidCSS(this.settings.lists.custom.frames[this.settings.lists.custom.page])
+                                    (this.settings.lists.custom.page>=0 ?
+                                        this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() != '' &&
+                                        this.isValidKeyframe(this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim)
+                                    : 0)
                                     ? 'custom-lists' : this.settings.lists.name};
                     animation-fill-mode: forwards;
                     animation-duration: ${this.settings.lists.duration}s;
@@ -740,10 +836,12 @@
                 ${!this.settings.buttons.enabled ? '' : `
                 ${this.settings.buttons.selectors?this.settings.buttons.selectors:Animations.selectorsButtons.join(', ')}
                 {
-                    transform: scaleX(0);
+                    ${this.settings.buttons.custom.frames[this.settings.buttons.custom.page]?.start ? this.settings.buttons.custom.frames[this.settings.buttons.custom.page]?.start : `transform: scale(0);`}
                     animation-name: ${this.settings.buttons.custom.enabled &&
-                                    this.settings.buttons.custom.frames[this.settings.buttons.custom.page].trim() != '' &&
-                                    this.isValidCSS(this.settings.buttons.custom.frames[this.settings.buttons.custom.page])
+                                    (this.settings.buttons.custom.page>=0 ?
+                                        this.settings.buttons.custom.frames[this.settings.buttons.custom.page].anim.trim() != '' &&
+                                        this.isValidKeyframe(this.settings.buttons.custom.frames[this.settings.buttons.custom.page].anim)
+                                    : 0)
                                     ? 'custom-buttons' : this.settings.buttons.name};
                     animation-fill-mode: forwards;
                     animation-duration: ${this.settings.buttons.duration}s;
@@ -753,10 +851,12 @@
                 ${!this.settings.popouts.enabled ? '' : `
                 ${this.settings.popouts.selectors?this.settings.popouts.selectors:Animations.selectorsPopouts.join(', ')}
                 {
-                    transform: scaleX(0);
+                    ${this.settings.popouts.custom.frames[this.settings.popouts.custom.page]?.start ? this.settings.popouts.custom.frames[this.settings.popouts.custom.page]?.start : `transform: scale(0);`}
                     animation-name: ${this.settings.popouts.custom.enabled &&
-                                    this.settings.popouts.custom.frames[this.settings.popouts.custom.page].trim() != '' &&
-                                    this.isValidCSS(this.settings.popouts.custom.frames[this.settings.popouts.custom.page])
+                                    (this.settings.popouts.custom.page>=0 ?
+                                        this.settings.popouts.custom.frames[this.settings.popouts.custom.page].anim.trim() != '' &&
+                                        this.isValidKeyframe(this.settings.popouts.custom.frames[this.settings.popouts.custom.page].anim)
+                                    : 0)
                                     ? 'custom-popouts' : this.settings.popouts.name};
                     animation-duration: ${this.settings.popouts.duration}s;
                 }
@@ -766,11 +866,13 @@
                 /* messages */
                 .${Animations.modules.MessageListItem} > .${Animations.modules.Message}
                 {
-                    transform: scale(0);
+                    ${this.settings.messages.custom.page>=0 ? this.settings.messages.custom.frames[this.settings.messages.custom.page]?.start : `transform: scale(0);`}
                     animation-fill-mode: forwards;
                     animation-name: ${this.settings.messages.custom.enabled &&
-                                    this.settings.messages.custom.frames[this.settings.messages.custom.page].trim() != '' &&
-                                    this.isValidCSS(this.settings.messages.custom.frames[this.settings.messages.custom.page])
+                                    (this.settings.messages.custom.page>=0 ?
+                                        this.settings.messages.custom.frames[this.settings.messages.custom.page].anim.trim() != '' &&
+                                        this.isValidKeyframe(this.settings.messages.custom.frames[this.settings.messages.custom.page].anim)
+                                    : 0)
                                     ? 'custom-messages' : this.settings.messages.name};
                     animation-duration: ${this.settings.messages.duration}s;
                 }
@@ -805,19 +907,19 @@
                 /*Custom keyframes*/
                 
                 @keyframes custom-lists {
-                    ${this.settings.lists.custom.frames[this.settings.lists.custom.page]}
+                    ${this.settings.lists.custom.page>=0 ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim : ''}
                 }
 
                 @keyframes custom-buttons {
-                    ${this.settings.buttons.custom.frames[this.settings.buttons.custom.page]}
+                    ${this.settings.buttons.custom.page>=0 ? this.settings.buttons.custom.frames[this.settings.buttons.custom.page]?.anim : ''}
                 }
 
                 @keyframes custom-messages {
-                    ${this.settings.messages.custom.frames[this.settings.messages.custom.page]}
+                    ${this.settings.messages.custom.page>=0 ? this.settings.messages.custom.frames[this.settings.messages.custom.page]?.anim : ''}
                 }
 
                 @keyframes custom-popouts {
-                    ${this.settings.popouts.custom.frames[this.settings.popouts.custom.page]}
+                    ${this.settings.popouts.custom.page>=0 ? this.settings.popouts.custom.frames[this.settings.popouts.custom.page]?.anim : ''}
                 }
                     `;
 
@@ -839,10 +941,22 @@
                     return new Promise((rs, rj)=>setTimeout(rs, ms))
                 }
 
-                isValidCSS(text){
-                    if(text.trim()=='') return false;
-                    var id = 'CSSValidChecker';
+                isValidKeyframe(text){
+                    return (/\s*((from|to|\d+%)\s*{\s*(\s*[a-z-]+:\s*[(\d*\.)*\w\(\)\,\s*]*[(\d*\.)*\w\(\)\,];?\s*)*}\s*)+\s*/g).test(text)
+                    if(text?.trim()=='') return false;
+                    var id = 'KeyframeValidChecker';
                     var css = `@keyframes KEYFRAME_VALIDATOR {\n${text}\n}`
+                    BdApi.injectCSS(id, css)
+                    var isValid = document.querySelector("head > bd-head > bd-styles > #" + id).sheet.rules[0]?.cssText.replace(/;| |\n/g, "") === css.replace(/;| |\n/g, "")
+                    BdApi.clearCSS(id)
+                    return isValid
+                }
+
+                isValidCSS(text){
+                    return (/(\s*[a-z-]+:\s*[(\d*\.)*\w\(\)\,\s*]*[(\d*\.)*\w\(\)\,];?\s*)*/g).test(text)
+                    if(text?.trim()=='') return false;
+                    var id = 'CSSValidChecker';
+                    var css = `CSS_VALIDATOR {\n${text}\n}`
                     BdApi.injectCSS(id, css)
                     var isValid = document.querySelector("head > bd-head > bd-styles > #" + id).sheet.rules[0]?.cssText.replace(/;| |\n/g, "") === css.replace(/;| |\n/g, "")
                     BdApi.clearCSS(id)
@@ -855,6 +969,30 @@
                     } catch {return false}
                     return true
                 }
+
+                eqObjects(object1, object2) {
+                    var isObject = function(object) {
+                        return object != null && typeof object === 'object';
+                    }
+                    const keys1 = Object.keys(object1);
+                    const keys2 = Object.keys(object2);
+                    if (keys1.length !== keys2.length) {
+                      return false;
+                    }
+                    for (const key of keys1) {
+                      const val1 = object1[key];
+                      const val2 = object2[key];
+                      const areObjects = isObject(val1) && isObject(val2);
+                      if (
+                        areObjects && !deepEqual(val1, val2) ||
+                        !areObjects && val1 !== val2
+                      ) {
+                        return false;
+                      }
+                    }
+                    return true;
+                  }
+                  
 
                 getSettingsPanel() {
 
@@ -874,6 +1012,7 @@
                                     BUTTON_ANIMATIONS_RESET: 'Réinitialise tous les paramètres',
                                     BUTTON_ANIMATIONS_REBUILD: 'Récrer les styles. Quand le plugin sera redémarré, les styles seront recrées',
                                     BUTTON_ANIMATIONS_ISSUES: 'Lien vers GitHub',
+                                    BUTTON_ANIMATIONS_SERVER: 'Link to Discord',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: 'Lien vers GitHub',
                                     BUTTON_LISTS_SWITCH: 'Activer/désactiver l\'animation des listes',
                                     BUTTON_BUTTONS_SWITCH: 'Activer/désactiver l\'animation des boutons',
@@ -912,6 +1051,7 @@
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE: (yourV_, githubV_)=>`v${yourV_} (toi)  ↔  v${githubV_} (github)`,
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE: 'Le plugin va être restoré.',
                                     BUTTON_ANIMATIONS_ISSUES: 'Problème',
+                                    BUTTON_ANIMATIONS_SERVER: 'Server',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: 'Discussions',
                                     BUTTON_LISTS_SWITCH: 'Listes',
                                     BUTTON_BUTTONS_SWITCH: 'Boutons',
@@ -966,7 +1106,6 @@
                                     PREVIEW_BUTTON_CLEAR: 'Vider',
                                     PREVIEW_BUTTON_LOAD: 'Charger',
                                     PREVIEW_BUTTON_SAVE: 'Sauvegarder',
-                                    PREVIEW_PLACEHOLDER_HINT: 'L\'élément animé a "scale(0)" dans sa transformation,\n donc votre transmation doit contenir "scale(1)" dans la dernière étape(100%).',
                                     PREVIEW_IN: 'Dessus',
                                     PREVIEW_OUT: 'Dessous',
                                     PREVIEW_CIRCLE: 'Cercle',
@@ -1010,9 +1149,10 @@
                                 TOOLTIPS: {
                                     BUTTON_ANIMATIONS_VERSION_CHANGELOG: 'Останні зміни',
                                     BUTTON_ANIMATIONS_VERSION_CHECK: 'Перевіряє оновлення',
-                                    BUTTON_ANIMATIONS_RESET: 'Скидає усі налаштування',
+                                    BUTTON_ANIMATIONS_RESET: 'Скидає всі налаштування',
                                     BUTTON_ANIMATIONS_REBUILD: 'Перестворює стилі. При перезавантаженні плагіну стилі також перестворюються',
                                     BUTTON_ANIMATIONS_ISSUES: 'Посилання на GitHub',
+                                    BUTTON_ANIMATIONS_SERVER: 'Посилання на Discord',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: 'Посилання на GitHub',
                                     BUTTON_LISTS_SWITCH: 'Перемикання списків',
                                     BUTTON_BUTTONS_SWITCH: 'Перемикання кнопок',
@@ -1051,6 +1191,7 @@
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE: (yourV_, githubV_)=>`v${yourV_} (ваша)  ↔  v${githubV_} (github)`,
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE: 'Плагін буде перевстановлено.',
                                     BUTTON_ANIMATIONS_ISSUES: 'Проблеми',
+                                    BUTTON_ANIMATIONS_SERVER: 'Сервер',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: 'Обговорення',
                                     BUTTON_LISTS_SWITCH: 'Списки',
                                     BUTTON_BUTTONS_SWITCH: 'Кнопки',
@@ -1104,7 +1245,6 @@
                                     PREVIEW_BUTTON_CLEAR: 'Очистити',
                                     PREVIEW_BUTTON_LOAD: 'Завантажити',
                                     PREVIEW_BUTTON_SAVE: 'Зберегти',
-                                    PREVIEW_PLACEHOLDER_HINT: 'Анімовані елементи мають "scale(0)" у трансформації,\nтому ваша анімація повинна мати "scale(1)" на останньому кадрі (100%).',
                                     PREVIEW_IN: 'Вхід',
                                     PREVIEW_OUT: 'Вихід',
                                     PREVIEW_CIRCLE: 'Коло',
@@ -1151,6 +1291,7 @@
                                     BUTTON_ANIMATIONS_RESET: 'Сбрасывает все настройки',
                                     BUTTON_ANIMATIONS_REBUILD: 'Пересоздаёт стили. При перезагрузке плагина стили тоже пересоздаются',
                                     BUTTON_ANIMATIONS_ISSUES: 'Ссылка на GitHub',
+                                    BUTTON_ANIMATIONS_SERVER: 'Ссылка на Discord',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: 'Ссылка на GitHub',
                                     BUTTON_LISTS_SWITCH: 'Переключение списков',
                                     BUTTON_BUTTONS_SWITCH: 'Переключение кнопок',
@@ -1189,6 +1330,7 @@
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE: (yourV_, githubV_)=>`v${yourV_} (ваша)  ↔  v${githubV_} (github)`,
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE: 'Плагин будет переустановлен.',
                                     BUTTON_ANIMATIONS_ISSUES: 'Проблемы',
+                                    BUTTON_ANIMATIONS_SERVER: 'Сервер',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: 'Обсуждения',
                                     BUTTON_LISTS_SWITCH: 'Списки',
                                     BUTTON_BUTTONS_SWITCH: 'Кнопки',
@@ -1242,7 +1384,6 @@
                                     PREVIEW_BUTTON_CLEAR: 'Очистить',
                                     PREVIEW_BUTTON_LOAD: 'Загрузить',
                                     PREVIEW_BUTTON_SAVE: 'Сохранить',
-                                    PREVIEW_PLACEHOLDER_HINT: 'Анимированные элементы имеют "scale(0)" в трансформации,\nпоэтому ваша анимация должна содержать "scale(1)" на конечном кадре (100%).',
                                     PREVIEW_IN: 'Вход',
                                     PREVIEW_OUT: 'Выход',
                                     PREVIEW_CIRCLE: 'Круг',
@@ -1289,6 +1430,7 @@
                                     BUTTON_ANIMATIONS_RESET: '全設定をリセット',
                                     BUTTON_ANIMATIONS_REBUILD: 'スタイルを再作成します。プラグインを再起動すると、スタイルも再作成されます。',
                                     BUTTON_ANIMATIONS_ISSUES: 'GitHubへのリンク',
+                                    BUTTON_ANIMATIONS_SERVER: 'Link to Discord',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: 'GitHubへのリンク',
                                     BUTTON_LISTS_SWITCH: 'リスト切り替え',
                                     BUTTON_BUTTONS_SWITCH: 'ボタン切り替え',
@@ -1327,6 +1469,7 @@
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE: (yourV_, githubV_)=>`v${yourV_} (your)  ↔  v${githubV_} (github)`,
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE: 'プラグインが復元されます',
                                     BUTTON_ANIMATIONS_ISSUES: '問題',
+                                    BUTTON_ANIMATIONS_SERVER: 'Server',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: '議論',
                                     BUTTON_LISTS_SWITCH: 'リスト',
                                     BUTTON_BUTTONS_SWITCH: 'ボタン',
@@ -1381,7 +1524,6 @@
                                     PREVIEW_BUTTON_CLEAR: '削除',
                                     PREVIEW_BUTTON_LOAD: '読込',
                                     PREVIEW_BUTTON_SAVE: '保存',
-                                    PREVIEW_PLACEHOLDER_HINT: 'アニメーションの要素の変換には"scale(0)"が含まれるため、\n最終フレーム(100%)に"scale(1)"を含んでいなければなりません。',
                                     PREVIEW_IN: 'In',
                                     PREVIEW_OUT: 'Out',
                                     PREVIEW_CIRCLE: 'Circle',
@@ -1428,6 +1570,7 @@
                                     BUTTON_ANIMATIONS_RESET: '重設所有設定',
                                     BUTTON_ANIMATIONS_REBUILD: '重新生成樣式。當插件重新啟動時，樣式也會重新生成',
                                     BUTTON_ANIMATIONS_ISSUES: '前往GitHub',
+                                    BUTTON_ANIMATIONS_SERVER: 'Link to Discord',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: '前往GitHub',
                                     BUTTON_LISTS_SWITCH: '列表開關',
                                     BUTTON_BUTTONS_SWITCH: '按鈕開關',
@@ -1466,6 +1609,7 @@
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE: (yourV_, githubV_) => `v${yourV_} (您的)  ↔  v${githubV_} (github)`,
                                     BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE: '插件將會恢復',
                                     BUTTON_ANIMATIONS_ISSUES: '發生錯誤了?',
+                                    BUTTON_ANIMATIONS_SERVER: 'Server',
                                     BUTTON_ANIMATIONS_DISCUSSIONS: '討論',
                                     BUTTON_LISTS_SWITCH: '列表',
                                     BUTTON_BUTTONS_SWITCH: '按鈕',
@@ -1520,7 +1664,6 @@
                                     PREVIEW_BUTTON_CLEAR: '清除',
                                     PREVIEW_BUTTON_LOAD: '載入',
                                     PREVIEW_BUTTON_SAVE: '儲存',
-                                    PREVIEW_PLACEHOLDER_HINT: '動畫元素在變換中具有“scale(0)”\n因此您的動畫必須在最後一幀 (100%) 上包含“scale(1)”',
                                     PREVIEW_IN: '由內往外',
                                     PREVIEW_OUT: '由外往內',
                                     PREVIEW_CIRCLE: '圓形展開',
@@ -1558,263 +1701,152 @@
                                 }
                             }
                         break;
+                        
                         case 'en-US':
                         case 'en-GB':
                         default:
-                        var TEMPS = {
-                            TOOLTIPS: {
-                                BUTTON_ANIMATIONS_VERSION_CHANGELOG: 'Latest changes',
-                                BUTTON_ANIMATIONS_VERSION_CHECK: 'Checks for updates',
-                                BUTTON_ANIMATIONS_RESET: 'Resets all settings',
-                                BUTTON_ANIMATIONS_REBUILD: 'Recreates styles. When the plugin is restarted, the styles are recreates too',
-                                BUTTON_ANIMATIONS_ISSUES: 'Link to GitHub',
-                                BUTTON_ANIMATIONS_DISCUSSIONS: 'Link to GitHub',
-                                BUTTON_LISTS_SWITCH: 'Lists switch',
-                                BUTTON_BUTTONS_SWITCH: 'Buttons switch',
-                                BUTTON_MESSAGES_SWITCH: 'Messages switch',                                
-                                BUTTON_POPOUTS_SWITCH: 'Popouts switch',                                
-                                BUTTON_RESET_LISTS: 'Resets lists settings',
-                                BUTTON_RESET_BUTTONS: 'Resets buttons settings',
-                                BUTTON_RESET_MESSAGES: 'Resets messages settings',
-                                BUTTON_RESET_POPOUTS: 'Resets popouts settings',
-                                BUTTON_SELECTORS_LISTS_DEFAULT: 'Restores default selectors',
-                                BUTTON_SELECTORS_LISTS_CLEAR: 'Clears the textarea',
-                                BUTTON_SELECTORS_BUTTONS_DEFAULT: 'Restores default selectors',
-                                BUTTON_SELECTORS_BUTTONS_CLEAR: 'Clears the textarea',
-                                BUTTON_SELECTORS_POPOUTS_DEFAULT: 'Restores default selectors',
-                                BUTTON_SELECTORS_POPOUTS_CLEAR: 'Clears the textarea'
-                            },
-                            LABELS: {
-                                BUTTON_ANIMATIONS_RESET: 'Reset all',
-                                BUTTON_ANIMATIONS_RESET_RESETING: 'Reseting...',
-                                BUTTON_ANIMATIONS_REBUILD: 'Rebuild animations',
-                                BUTTON_ANIMATIONS_VERSION_CHANGELOG: 'Changelog',
-                                BUTTON_ANIMATIONS_VERSION_CHECK: 'Update',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_SEARCHING: 'Searching for updates...',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_TIMEOUT: 'Timeout exceeded',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_ERROR: 'An error occurred',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_OLDER: (version_='{version}')=>`v${version_} - Update`,
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_TITLE: 'Your version is older',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_COMPARE: (yourV_, githubV_)=>`v${yourV_} (your)  →  v${githubV_} (github)`,
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_NOTE: 'The plugin will be updated.',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_NEWER: (version_='{version}')=>`v${version_} - Your own version`,
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_TITLE: 'Your version is newer',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_COMPARE: (yourV_, githubV_)=>`v${yourV_} (your)  ←  v${githubV_} (github)`,
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_NOTE: 'The plugin will be downdated.',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_LATEST: (version_='{version}')=>`v${version_} - Latest version`,
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_TITLE: 'Your version is latest',
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE: (yourV_, githubV_)=>`v${yourV_} (your)  ↔  v${githubV_} (github)`,
-                                BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE: 'The plugin will be restored.',
-                                BUTTON_ANIMATIONS_ISSUES: 'Issues',
-                                BUTTON_ANIMATIONS_DISCUSSIONS: 'Discussions',
-                                BUTTON_LISTS_SWITCH: 'Lists',
-                                BUTTON_BUTTONS_SWITCH: 'Buttons',
-                                BUTTON_MESSAGES_SWITCH: 'Messages',
-                                BUTTON_POPOUTS_SWITCH: 'Popouts',
-                                BUTTON_RESET_LISTS: 'Reset lists',
-                                BUTTON_RESET_BUTTONS: 'Reset buttons',
-                                BUTTON_RESET_MESSAGES: 'Reset messages',
-                                BUTTON_RESET_POPOUTS: 'Reset popouts',
-                                BUTTON_SELECTORS_LISTS_DEFAULT: 'Default',
-                                BUTTON_SELECTORS_LISTS_CLEAR: 'Clear',
-                                BUTTON_SELECTORS_BUTTONS_DEFAULT: 'Default',
-                                BUTTON_SELECTORS_BUTTONS_CLEAR: 'Clear',
-                                BUTTON_SELECTORS_POPOUTS_DEFAULT: 'Default',
-                                BUTTON_SELECTORS_POPOUTS_CLEAR: 'Clear',
+                            var TEMPS = {
+                                TOOLTIPS: {
+                                    BUTTON_ANIMATIONS_VERSION_CHANGELOG: 'Latest changes',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK: 'Checks for updates',
+                                    BUTTON_ANIMATIONS_RESET: 'Resets all settings',
+                                    BUTTON_ANIMATIONS_REBUILD: 'Recreates styles. When the plugin is restarted, the styles are recreates too',
+                                    BUTTON_ANIMATIONS_ISSUES: 'Link to GitHub',
+                                    BUTTON_ANIMATIONS_SERVER: 'Link to Discord',
+                                    BUTTON_ANIMATIONS_DISCUSSIONS: 'Link to GitHub',
+                                    BUTTON_LISTS_SWITCH: 'Lists switch',
+                                    BUTTON_BUTTONS_SWITCH: 'Buttons switch',
+                                    BUTTON_MESSAGES_SWITCH: 'Messages switch',
+                                    BUTTON_POPOUTS_SWITCH: 'Popouts switch',
+                                    BUTTON_RESET_LISTS: 'Resets lists settings',
+                                    BUTTON_RESET_BUTTONS: 'Resets buttons settings',
+                                    BUTTON_RESET_MESSAGES: 'Resets messages settings',
+                                    BUTTON_RESET_POPOUTS: 'Resets popouts settings',
+                                    BUTTON_SELECTORS_LISTS_DEFAULT: 'Restores default selectors',
+                                    BUTTON_SELECTORS_LISTS_CLEAR: 'Clears the textarea',
+                                    BUTTON_SELECTORS_BUTTONS_DEFAULT: 'Restores default selectors',
+                                    BUTTON_SELECTORS_BUTTONS_CLEAR: 'Clears the textarea',
+                                    BUTTON_SELECTORS_POPOUTS_DEFAULT: 'Restores default selectors',
+                                    BUTTON_SELECTORS_POPOUTS_CLEAR: 'Clears the textarea'
+                                },
+                                LABELS: {
+                                    BUTTON_ANIMATIONS_RESET: 'Reset all',
+                                    BUTTON_ANIMATIONS_RESET_RESETING: 'Reseting...',
+                                    BUTTON_ANIMATIONS_REBUILD: 'Rebuild animations',
+                                    BUTTON_ANIMATIONS_VERSION_CHANGELOG: 'Changelog',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK: 'Update',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_SEARCHING: 'Searching for updates...',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_TIMEOUT: 'Timeout exceeded',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_ERROR: 'An error occurred',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_OLDER: (version_ = '{version}') => `v${version_} - Update`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_TITLE: 'Your version is older',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_COMPARE: (yourV_, githubV_) => `v${yourV_} (your)  →  v${githubV_} (github)`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_NOTE: 'The plugin will be updated.',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_NEWER: (version_ = '{version}') => `v${version_} - Your own version`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_TITLE: 'Your version is newer',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_COMPARE: (yourV_, githubV_) => `v${yourV_} (your)  ←  v${githubV_} (github)`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_NOTE: 'The plugin will be downdated.',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_LATEST: (version_ = '{version}') => `v${version_} - Latest version`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_TITLE: 'Your version is latest',
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE: (yourV_, githubV_) => `v${yourV_} (your)  ↔  v${githubV_} (github)`,
+                                    BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE: 'The plugin will be restored.',
+                                    BUTTON_ANIMATIONS_ISSUES: 'Issues',
+                                    BUTTON_ANIMATIONS_SERVER: 'Server',
+                                    BUTTON_ANIMATIONS_DISCUSSIONS: 'Discussions',
+                                    BUTTON_LISTS_SWITCH: 'Lists',
+                                    BUTTON_BUTTONS_SWITCH: 'Buttons',
+                                    BUTTON_MESSAGES_SWITCH: 'Messages',
+                                    BUTTON_POPOUTS_SWITCH: 'Popouts',
+                                    BUTTON_RESET_LISTS: 'Reset lists',
+                                    BUTTON_RESET_BUTTONS: 'Reset buttons',
+                                    BUTTON_RESET_MESSAGES: 'Reset messages',
+                                    BUTTON_RESET_POPOUTS: 'Reset popouts',
+                                    BUTTON_SELECTORS_LISTS_DEFAULT: 'Default',
+                                    BUTTON_SELECTORS_LISTS_CLEAR: 'Clear',
+                                    BUTTON_SELECTORS_BUTTONS_DEFAULT: 'Default',
+                                    BUTTON_SELECTORS_BUTTONS_CLEAR: 'Clear',
+                                    BUTTON_SELECTORS_POPOUTS_DEFAULT: 'Default',
+                                    BUTTON_SELECTORS_POPOUTS_CLEAR: 'Clear',
 
-                                FIELD_NAME: 'Name',
-                                FIELD_SEQUENCE: 'Sequence',
-                                FIELD_DELAY: 'Delay',
-                                FIELD_LIMIT: 'Limit',
-                                FIELD_DURATION: 'Duration',
+                                    FIELD_NAME: 'Name',
+                                    FIELD_SEQUENCE: 'Sequence',
+                                    FIELD_DELAY: 'Delay',
+                                    FIELD_LIMIT: 'Limit',
+                                    FIELD_DURATION: 'Duration',
 
-                                FIELD_LISTS_NAME_NOTE: (default_='{default}')=>`[${default_}] The name of the animation of the list items when they appear.`,
-                                FIELD_LISTS_SEQUENCE_NOTE: (default_='{default}')=>`[${default_}] The sequence in which the list items are built.`,
-                                FIELD_LISTS_DELAY_NOTE: (default_='{default}')=>`[${default_}] Delay before appearing for each list item in seconds.`,
-                                FIELD_LISTS_LIMIT_NOTE: (default_='{default}')=>`[${default_}] The maximum number of items in the list for which the animation will be played.`,
-                                FIELD_LISTS_DURATION_NOTE: (default_='{default}')=>`[${default_}] Animation playback speed in seconds for each list item after the delay.`,
+                                    FIELD_LISTS_NAME_NOTE: (default_ = '{default}') => `[${default_}] The name of the animation of the list items when they appear.`,
+                                    FIELD_LISTS_SEQUENCE_NOTE: (default_ = '{default}') => `[${default_}] The sequence in which the list items are built.`,
+                                    FIELD_LISTS_DELAY_NOTE: (default_ = '{default}') => `[${default_}] Delay before appearing for each list item in seconds.`,
+                                    FIELD_LISTS_LIMIT_NOTE: (default_ = '{default}') => `[${default_}] The maximum number of items in the list for which the animation will be played.`,
+                                    FIELD_LISTS_DURATION_NOTE: (default_ = '{default}') => `[${default_}] Animation playback speed in seconds for each list item after the delay.`,
 
-                                FIELD_BUTTONS_NAME_NOTE: (default_='{default}')=>`[${default_}] The name of the animation of the buttons when they appear.`,
-                                FIELD_BUTTONS_SEQUENCE_NOTE: (default_='{default}')=>`[${default_}] The sequence in which the buttons are built.`,
-                                FIELD_BUTTONS_DELAY_NOTE: (default_='{default}')=>`[${default_}] Delay before appearing for each button in seconds.`,
-                                FIELD_BUTTONS_DURATION_NOTE: (default_='{default}')=>`[${default_}] Animation playback speed in seconds for each button after the delay.`,
+                                    FIELD_BUTTONS_NAME_NOTE: (default_ = '{default}') => `[${default_}] The name of the animation of the buttons when they appear.`,
+                                    FIELD_BUTTONS_SEQUENCE_NOTE: (default_ = '{default}') => `[${default_}] The sequence in which the buttons are built.`,
+                                    FIELD_BUTTONS_DELAY_NOTE: (default_ = '{default}') => `[${default_}] Delay before appearing for each button in seconds.`,
+                                    FIELD_BUTTONS_DURATION_NOTE: (default_ = '{default}') => `[${default_}] Animation playback speed in seconds for each button after the delay.`,
 
-                                FIELD_MESSAGES_NAME_NOTE: (default_='{default}')=>`[${default_}] The name of the animation of the messages when they appear.`,
-                                FIELD_MESSAGES_DELAY_NOTE: (default_='{default}')=>`[${default_}] Delay before appearing for each message in seconds.`,
-                                FIELD_MESSAGES_LIMIT_NOTE: (default_='{default}')=>`[${default_}] The maximum number of messages in the list for which the animation will be played.`,
-                                FIELD_MESSAGES_DURATION_NOTE: (default_='{default}')=>`[${default_}] Animation playback speed in seconds for each message after the delay.`,
+                                    FIELD_MESSAGES_NAME_NOTE: (default_ = '{default}') => `[${default_}] The name of the animation of the messages when they appear.`,
+                                    FIELD_MESSAGES_DELAY_NOTE: (default_ = '{default}') => `[${default_}] Delay before appearing for each message in seconds.`,
+                                    FIELD_MESSAGES_LIMIT_NOTE: (default_ = '{default}') => `[${default_}] The maximum number of messages in the list for which the animation will be played.`,
+                                    FIELD_MESSAGES_DURATION_NOTE: (default_ = '{default}') => `[${default_}] Animation playback speed in seconds for each message after the delay.`,
 
-                                FIELD_POPOUTS_NAME_NOTE: (default_='{default}')=>`[${default_}] The name of the animation of the popouts when they appear.`,
-                                FIELD_POPOUTS_DURATION_NOTE: (default_='{default}')=>`[${default_}] Animation playback speed in seconds for a popout.`,
+                                    FIELD_POPOUTS_NAME_NOTE: (default_ = '{default}') => `[${default_}] The name of the animation of the popouts when they appear.`,
+                                    FIELD_POPOUTS_DURATION_NOTE: (default_ = '{default}') => `[${default_}] Animation playback speed in seconds for a popout.`,
 
-                                FIELD_LISTS_SELECTORS: 'Selectors of lists',
-                                FIELD_LISTS_SELECTORS_NOTE: 'If you leave this field empty, the default selectors will appear here on reload. Changes to the selectors are saved when typing (if the code is valid). The separator is a comma (,).',
-                                FIELD_BUTTONS_SELECTORS: 'Selectors of buttons',
-                                FIELD_BUTTONS_SELECTORS_NOTE: 'If you leave this field empty, the default selectors will appear here on reload. Changes to the selectors are saved when typing (if the code is valid). The separator is a comma (,).',
-                                FIELD_POPOUTS_SELECTORS: 'Selectors of popouts',
-                                FIELD_POPOUTS_SELECTORS_NOTE: 'If you leave this field empty, the default selectors will appear here on reload. Changes to the selectors are saved when typing (if the code is valid). The separator is a comma (,).',
+                                    FIELD_LISTS_SELECTORS: 'Selectors of lists',
+                                    FIELD_LISTS_SELECTORS_NOTE: 'If you leave this field empty, the default selectors will appear here on reload. Changes to the selectors are saved when typing (if the code is valid). The separator is a comma (,).',
+                                    FIELD_BUTTONS_SELECTORS: 'Selectors of buttons',
+                                    FIELD_BUTTONS_SELECTORS_NOTE: 'If you leave this field empty, the default selectors will appear here on reload. Changes to the selectors are saved when typing (if the code is valid). The separator is a comma (,).',
+                                    FIELD_POPOUTS_SELECTORS: 'Selectors of popouts',
+                                    FIELD_POPOUTS_SELECTORS_NOTE: 'If you leave this field empty, the default selectors will appear here on reload. Changes to the selectors are saved when typing (if the code is valid). The separator is a comma (,).',
 
-                                PREVIEW_SELECTING: 'Selecting',
-                                PREVIEW_EDITING: 'Editing',
-                                PREVIEW_BUTTON_TEMPLATE: 'Template',
-                                PREVIEW_BUTTON_CLEAR: 'Clear',
-                                PREVIEW_BUTTON_LOAD: 'Load',
-                                PREVIEW_BUTTON_SAVE: 'Save',
-                                PREVIEW_PLACEHOLDER_HINT: 'Animated elements have "scale(0)" in the transformation,\nso your animation must contain "scale(1)" on the final frame(100%).',
-                                PREVIEW_IN: 'In',
-                                PREVIEW_OUT: 'Out',
-                                PREVIEW_CIRCLE: 'Circle',
-                                PREVIEW_POLYGON: 'Polygon',
-                                PREVIEW_OPACITY: 'Opacity',
-                                PREVIEW_SLIME: 'Slime',
-                                PREVIEW_BRICK_RIGHT: 'Brick right',
-                                PREVIEW_BRICK_LEFT: 'Brick left',
-                                PREVIEW_BRICK_UP: 'Brick up',
-                                PREVIEW_BRICK_DOWN: 'Brick down',
-                                PREVIEW_SLIDE_RIGHT: 'Slide right',
-                                PREVIEW_SLIDE_LEFT: 'Slide left',
-                                PREVIEW_SLIDE_UP: 'Slide up',
-                                PREVIEW_SLIDE_DOWN: 'Slide down',
-                                PREVIEW_SLIDE_UP_RIGHT: 'Slide up (right)',
-                                PREVIEW_SLIDE_UP_LEFT: 'Slide up (left)',
-                                PREVIEW_SLIDE_DOWN_RIGHT: 'Slide down (right)',
-                                PREVIEW_SLIDE_DOWN_LEFT: 'Slide down (left)',
-                                PREVIEW_SKEW_RIGHT: 'Skew right',
-                                PREVIEW_SKEW_LEFT: 'Skew left',
-                                PREVIEW_WIDE_SKEW_RIGHT: 'Wide skew right',
-                                PREVIEW_WIDE_SKEW_LEFT: 'Wide skew left',
+                                    PREVIEW_SELECTING: 'Selecting',
+                                    PREVIEW_EDITING: 'Editing',
+                                    PREVIEW_BUTTON_TEMPLATE: 'Template',
+                                    PREVIEW_BUTTON_CLEAR: 'Clear',
+                                    PREVIEW_BUTTON_LOAD: 'Load',
+                                    PREVIEW_BUTTON_SAVE: 'Save',
+                                    PREVIEW_IN: 'In',
+                                    PREVIEW_OUT: 'Out',
+                                    PREVIEW_CIRCLE: 'Circle',
+                                    PREVIEW_POLYGON: 'Polygon',
+                                    PREVIEW_OPACITY: 'Opacity',
+                                    PREVIEW_SLIME: 'Slime',
+                                    PREVIEW_BRICK_RIGHT: 'Brick right',
+                                    PREVIEW_BRICK_LEFT: 'Brick left',
+                                    PREVIEW_BRICK_UP: 'Brick up',
+                                    PREVIEW_BRICK_DOWN: 'Brick down',
+                                    PREVIEW_SLIDE_RIGHT: 'Slide right',
+                                    PREVIEW_SLIDE_LEFT: 'Slide left',
+                                    PREVIEW_SLIDE_UP: 'Slide up',
+                                    PREVIEW_SLIDE_DOWN: 'Slide down',
+                                    PREVIEW_SLIDE_UP_RIGHT: 'Slide up (right)',
+                                    PREVIEW_SLIDE_UP_LEFT: 'Slide up (left)',
+                                    PREVIEW_SLIDE_DOWN_RIGHT: 'Slide down (right)',
+                                    PREVIEW_SLIDE_DOWN_LEFT: 'Slide down (left)',
+                                    PREVIEW_SKEW_RIGHT: 'Skew right',
+                                    PREVIEW_SKEW_LEFT: 'Skew left',
+                                    PREVIEW_WIDE_SKEW_RIGHT: 'Wide skew right',
+                                    PREVIEW_WIDE_SKEW_LEFT: 'Wide skew left',
 
-                                PREVIEW_VERTICAL_FROM_FIRST: '↓',
-                                PREVIEW_VERTICAL_FROM_LAST: '↑',
-                                PREVIEW_HORIZONTAL_FROM_FIRST: '→',
-                                PREVIEW_HORIZONTAL_FROM_LAST: '←',
+                                    PREVIEW_VERTICAL_FROM_FIRST: '↓',
+                                    PREVIEW_VERTICAL_FROM_LAST: '↑',
+                                    PREVIEW_HORIZONTAL_FROM_FIRST: '→',
+                                    PREVIEW_HORIZONTAL_FROM_LAST: '←',
 
-                                GROUP_LISTS: 'Lists',
-                                GROUP_BUTTONS: 'Buttons',
-                                GROUP_MESSAGES: 'Messages',
-                                GROUP_POPOUTS: 'Popouts',
-                                
-                                GROUP_ADVANCED: 'Advanced',
+                                    GROUP_LISTS: 'Lists',
+                                    GROUP_BUTTONS: 'Buttons',
+                                    GROUP_MESSAGES: 'Messages',
+                                    GROUP_POPOUTS: 'Popouts',
+
+                                    GROUP_ADVANCED: 'Advanced',
+                                }
                             }
                         }
-                    }
-
-                    class ElementButton extends React.Component {
-
-                        constructor(button) {
-                            super(button)
-                            this.state = button
-                        }
-
-                        render() {
-                            var button = this.state;
-                            return React.createElement('button', {
-                                style: {
-                                    display: 'inline-block',
-                                    width: button.width ?? 'fit-content',
-                                    height: button.height ?? 'fit-content',
-                                    padding: button.padding ?? '8px',
-                                    margin: button.margin ?? '8px',
-                                    'transition': 'background-color .17s ease, color .17s ease, opacity 250ms ease',
-                                },
-                                id: button.id,
-                                class: `${Animations.modules.Button} ${Animations.modules.ButtonSizeSmall} ${button.inverted ? 'inverted' : 'filled'} ${button.color ?? 'blurple'} ${button.class ?? ''}`,
-                                onClick: button.onclick ?? null
-                            },
-                                React.createElement('div', {
-                                    style: {
-                                        'pointer-events': 'none',
-                                        'display': 'flex',
-                                        'align-items': 'center',
-                                        'justify-content': 'center'
-                                    }
-                                },
-                                    [
-                                        Array.isArray(button.svgPaths) ? React.createElement('svg',
-                                            {
-                                                viewBox: button.svgView ?? '0 0 24 24',
-                                                fill: '#fff',
-                                                style: {
-                                                    width: '18px',
-                                                    height: '18px',
-                                                    'margin-right': '4px'
-                                                }
-                                            },
-                                            (() => {
-                                                var result = []
-                                                button.svgPaths.forEach(path => result.push(React.createElement('path', { d: path })));
-                                                return result;
-                                            })()
-                                        ) : null,
-                                        React.createElement('span', {
-                                            style: {
-                                                'max-width': 'none'
-                                            },
-                                            class: `${Animations.modules.ButtonText}`,
-                                        },
-                                            button.label
-                                        )
-                                    ]
-                                )
-                            )
-                        }
-                    }
-
-                    class ElementInput extends React.Component {
-
-                        constructor(input) {
-                            super(input)
-                            this.state = input
-                        }
-
-                        render() {
-                            var input = this.state;
-                            return React.createElement('input',
-                                {
-                                    style: {
-                                        display: 'inline-block',
-                                        width: input.width ?? '100%',
-                                        height: input.height ?? 'fit-content',
-                                        padding: input.padding ?? '8px',
-                                        margin: input.margin ?? '8px',
-                                    },
-                                    placeholder: input.placeholder ?? '',
-                                    maxlength: input.maxlength ?? '',
-                                    max: input.max ?? '',
-                                    min: input.min ?? '0',
-                                    size: input.size ?? '',
-                                    step: input.step ?? '0.01',
-                                    type: (['text', 'password', 'email', 'number', 'integer']).includes(input.type) ? (input.type=='integer'?'number':input.type) : 'text',
-                                    value: input.value ?? '',
-                                    id: input.id,
-                                    class: `${Animations.modules.InputDefault} ${input.class ?? ''}`,
-                                    onClick: input.onclick ?? null,
-                                    onChange: (e) => {
-                                        var value = e.currentTarget.value
-
-                                        if( (['number', 'integer']).includes(input.type) && !(/\d*,/).test(value) ) {
-                                            value = Number(value)
-                                            value = (value<=(input.max??Infinity) ? value : input.max)
-                                            value = (value>=(input.min??0) ? value : input.min??0)
-                                            value = (input.type=='integer'?Math.floor(value):value)
-                                        }
-                                        var newValue = String(value)
-
-                                        this.setState({
-                                            ...input,
-                                            value: newValue
-                                        })
-
-                                        input?.onchange(e, value)
-                                    }
-                                }
-                            )
-                        }
-                    }
 
                     /**
                      * Returns object - `class`, `render`.
-                     * @param {Array<object>} containersTemp Array with button container templates.
+                     * @param {Array<{elements: Array<ElementButtonTemp>, options: object}>} containersTemp Array with button container templates.
                      * @param {object} options Panel optinons.
                      * @param {string} [options.widthAll] The width of each button, if the template does not specify a different width.
                      * @param {string} [options.heightAll] The height of each button, if the template does not specify a different height.
@@ -1823,52 +1855,183 @@
                      */
 
                     var ElementsPanel = (containersTemp = [], options = {}) => {
-                        var containerNodes = [];
-                        containersTemp?.forEach(containerTemp => {
-                            var elementNodes = [];
-                            containerTemp.elements?.forEach(elementTemp => {
-                                switch (elementTemp.component) {
-                                    case 'button':
-                                        elementNodes.push(
-                                            React.createElement(ElementButton, {
-                                                width: options.widthAll ?? containerTemp.options?.widthAll,
-                                                height: options.heightAll ?? containerTemp.options?.heightAll,
-                                                margin: options.marginAll ?? containerTemp.options?.marginAll,
-                                                padding: options.paddingAll ?? containerTemp.options?.paddingAll,
-                                                ...elementTemp
-                                            })
+
+                        
+
+                        class ElementButton extends React.Component {
+
+                            /**
+                             * 
+                             * @param {object} button
+                             * @param {string} [button.width='fit-content']
+                             * @param {string} [button.height='fit-content']
+                             * @param {string} [button.padding='8px']
+                             * @param {string} [button.margin='8px']
+                             * @param {string} [button.id='']
+                             * @param {string} [button.class='']
+                             * @param {boolean} [button.disabled=false]
+                             * @param {string} [button.link=null]
+                             * @param {string | 'filled' | 'inverted' | 'underline'} [button.fill='filled'] ` filled ` | ` inverted ` | ` underline `
+                             * @param {string | 'blurple' | 'grey' | 'green' | 'yellow' | 'red' | 'white'} [button.color='blurple'] ` filled ` | ` inverted ` | ` underline `
+                             * @param {(e:MouseEvent)=>void} [button.onclick=null]
+                             */
+
+                            constructor(button) {
+                                super(button)
+                                this.state = button
+                            }
+    
+                            render() {
+                                class SvgElement extends React.Component {
+
+                                    constructor(props) {
+                                        super(props)
+                                        this.paths = props.paths ?? []
+                                        this.color = props.color ?? '#fff'
+                                        this.width = props.width ?? '18px'
+                                        this.height = props.height ?? '18px'
+                                        this.align = props.align ?? false
+                                        this.viewBox = props.viewBox ?? '0 0 24 24'
+                                    }
+
+                                    render() {
+
+                                        return React.createElement('svg',
+                                            {
+                                                viewBox: this.viewBox,
+                                                fill: this.color,
+                                                style: {
+                                                    width: this.width,
+                                                    height: this.height,
+                                                    position: (['right', 'left']).includes(this.align)?'absolute':'relative',
+                                                    right: (this.align=='right')?'12px':'none',
+                                                    left: (this.align=='left')?'12px':'none',
+                                                    'margin-right': '4px'
+                                                }
+                                            },
+                                            this.paths.map(path => React.createElement('path', { d: path }))
                                         )
-                                        break;
-                                    case 'input':
-                                        elementNodes.push(
-                                            React.createElement(ElementInput, {
-                                                width: options.widthAll ?? containerTemp.options?.widthAll,
-                                                height: options.heightAll ?? containerTemp.options?.heightAll,
-                                                margin: options.marginAll ?? containerTemp.options?.marginAll,
-                                                padding: options.paddingAll ?? containerTemp.options?.paddingAll,
-                                                ...elementTemp
-                                            })
-                                        )
-                                        break;
-                                
-                                    default:
-                                        break;
+                                    }
                                 }
-                            })
-                            containerNodes.push(
-                                React.createElement('div',
+
+                                var button = this.state;
+                                return React.createElement('button', {
+                                    style: {
+                                        display: 'inline-block',
+                                        width: button.width ?? 'fit-content',
+                                        height: button.height ?? 'fit-content',
+                                        padding: button.padding ?? '8px',
+                                        margin: button.margin ?? '8px',
+                                        'transition': 'background-color .17s ease, color .17s ease, opacity 250ms ease',
+                                    },
+                                    id: button.id ?? '',
+                                    class: `animButton ${Animations.modules.Button} ${Animations.modules.ButtonSizeSmall} ${button.disabled ? 'disabled' : ''} ${(['filled', 'inverted', 'underline']).includes(button.fill) ? button.fill : 'filled'} ${button.color ?? 'blurple'} ${button.class ?? ''}`,
+                                    onClick: (e)=>{             
+                                        if(e.currentTarget.classList.contains('disabled')) return
+                                        if(typeof button.onclick == 'function') button.onclick(e)
+                                        if(typeof button.link == 'string') window.open(button.link)
+                                    }
+                                },
+                                    React.createElement('div', {
+                                        style: {
+                                            'pointer-events': 'none',
+                                            'display': 'flex',
+                                            'align-items': 'center',
+                                            'justify-content': 'center'
+                                        }
+                                    },
+                                        [
+                                            Array.isArray(button.svgs) ? button.svgs.map((svgTemp) => React.createElement(SvgElement, svgTemp)) : null,
+                                            React.createElement('span', {
+                                                style: {
+                                                    'max-width': 'none'
+                                                },
+                                                class: `${Animations.modules.ButtonText}`,
+                                            },
+                                                button.label
+                                            ),
+                                            typeof button.link == 'string' ? React.createElement(SvgElement, {
+                                                align: 'right',
+                                                paths: [
+                                                    ...Animations.paths.linkArrow
+                                                ],
+                                            }) : null
+                                        ]
+                                    )
+                                )
+                            }
+                        }
+
+                        /**
+                         * 
+                         * @param {object} input
+                         * @param {string} [input.width='100%']
+                         * @param {string} [input.height='fit-content']
+                         * @param {string} [input.padding='8px']
+                         * @param {string} [input.margin='8px']
+                         * @param {string} [input.id='']
+                         * @param {string} [input.class='']
+                         * @param {boolean} [input.disabled=false]
+                         * @param {string} [input.placeholder='']
+                         * @param {number | ''} [input.maxlength='']
+                         * @param {number | ''} [input.size='']
+                         * @param {number | ''} [input.step=0.01]
+                         * @param {string} [input.value='']
+                         * @param {string | 'filled' | 'inverted' | 'underline'} [input.type='filled'] ` filled ` | ` inverted ` | ` underline `
+                         * @param {(e:MouseEvent)=>void} [button.onclick=null]
+                         */
+    
+                        class ElementInput extends React.Component {
+    
+                            constructor(input) {
+                                super(input)
+                                this.state = input
+                            }
+    
+                            render() {
+                                var input = this.state;
+                                return React.createElement('input',
                                     {
                                         style: {
-                                            display: 'inline-flex',
-                                            width: '100%',
-                                            'justify-content': options.align ?? containerTemp.options?.align ?? 'flex-start'
+                                            display: 'inline-block',
+                                            width: input.width ?? '100%',
+                                            height: input.height ?? 'fit-content',
+                                            padding: input.padding ?? '8px',
+                                            margin: input.margin ?? '8px',
                                         },
-                                        class: `elementsContainer ${options.nosidemargin ?? containerTemp.options?.nosidemargin ?? true ? 'nosidemargin':''}`
-                                    },
-                                    ...elementNodes
+                                        placeholder: input.placeholder ?? '',
+                                        maxlength: input.maxlength ?? '',
+                                        max: input.max ?? '',
+                                        min: input.min ?? '0',
+                                        size: input.size ?? '',
+                                        step: input.step ?? 0.01,
+                                        value: input.value ?? '',
+                                        type: (['text', 'password', 'email', 'number', 'integer']).includes(input.type) ? (input.type=='integer'?'number':input.type) : 'text',
+                                        id: input.id ?? '',
+                                        class: `animInput ${Animations.modules.InputDefault} ${input.disabled ? 'disabled' : ''} ${input.class ?? ''}`,
+                                        onClick: input.onclick ?? null,
+                                        onChange: (e) => {
+                                            var value = e.currentTarget.value
+    
+                                            if( (['number', 'integer']).includes(input.type) && !(/\d*,/).test(value) ) {
+                                                value = Number(value)
+                                                value = (value<=(input.max??Infinity) ? value : input.max)
+                                                value = (value>=(input.min??0) ? value : input.min??0)
+                                                value = (input.type=='integer'?Math.floor(value):value)
+                                            }
+                                            var newValue = String(value)
+    
+                                            this.setState({
+                                                ...input,
+                                                value: newValue
+                                            })
+    
+                                            input?.onchange(e, value)
+                                        }
+                                    }
                                 )
-                            )
-                        })
+                            }
+                        }
 
                         var result = React.createElement('div', {
                             style: {
@@ -1879,9 +2042,54 @@
                             },
                             class: `elementsPanel`
                         },
-                            [
-                                ...containerNodes
-                            ]
+                            containersTemp?.map(
+                                containerTemp =>
+                                    React.createElement('div',
+                                        {
+                                            style: {
+                                                display: 'inline-flex',
+                                                width: '100%',
+                                                'justify-content': options.align ?? containerTemp.options?.align ?? 'flex-start'
+                                            },
+                                            class: `elementsContainer ${options.nosidemargin ?? containerTemp.options?.nosidemargin ?? true ? 'nosidemargin' : ''}`
+                                        },
+                                        containerTemp.elements?.map(
+                                            elementTemp => {
+                                                switch (elementTemp.component) {
+                                                    case 'divider':
+                                                        return (
+                                                            React.createElement('div', {class: 'animFieldDivider'})
+                                                        )
+                                                    //break;
+
+                                                    case 'button':
+                                                        return (
+                                                            React.createElement(ElementButton, {
+                                                                width: options.widthAll ?? containerTemp.options?.widthAll,
+                                                                height: options.heightAll ?? containerTemp.options?.heightAll,
+                                                                margin: options.marginAll ?? containerTemp.options?.marginAll,
+                                                                padding: options.paddingAll ?? containerTemp.options?.paddingAll,
+                                                                ...elementTemp
+                                                            })
+                                                        )
+                                                    //break;
+
+                                                    case 'input':
+                                                        return (
+                                                            React.createElement(ElementInput, {
+                                                                width: options.widthAll ?? containerTemp.options?.widthAll,
+                                                                height: options.heightAll ?? containerTemp.options?.heightAll,
+                                                                margin: options.marginAll ?? containerTemp.options?.marginAll,
+                                                                padding: options.paddingAll ?? containerTemp.options?.paddingAll,
+                                                                ...elementTemp
+                                                            })
+                                                        )
+                                                    //break;
+                                                }
+                                            }
+                                        )
+                                    )
+                            )
                         )
 
                         class Panel extends React.Component {
@@ -1895,7 +2103,7 @@
 
                     /**
                      * Returns object - `class`, `render`.
-                     * @param {object} options TextareaPanel options.
+                     * @param {object} options TextareasPanel options.
                      * @param {string} [options.margin]
                      * @param {string} [options.padding]
                      * @param {string} [options.class]
@@ -1907,40 +2115,46 @@
                      * @param {string} [options.elementsPanel.options.marginAll] The margin of each element, if the template does not specify a different height.
                      * @param {string} [options.elementsPanel.options.paddingAll] The padding of each element, if the template does not specify a different height.
                      * @param {string} [options.elementsPanel.options.align="inline-flex"] `justify-content` css value for each element container. Default - `flex-start`.
-                     * @param {string} [options.class]
-                     * @param {object} [options.textarea] Textarea options.
-                     * @param {string} [options.textarea.width]
-                     * @param {string} [options.textarea.height]
-                     * @param {string} [options.textarea.type]
-                     * @param {string} [options.textarea.placeholder]
-                     * @param {string} [options.textarea.class] Addition classes.
-                     * @param {(e:InputEvent)=>void} onchange Event at each change of the textarea.
-                     * @param {string} value Value of the textarea.
+                     * @param {Array<object>} [options.textareas] Textareas temps.
+                     * @param {(e:InputEvent)=>void} [options.onchange] The event at each change of any of the textareas.
+                     * @param {(e:MouseEvent)=>void} [options.onclick] The event at each click of any point.
                      */
 
-                    var TextareaPanel = (options={}, value, onchange) => {
+                    var TextareasPanel = (options={}) => {
+
                         var result = React.createElement('div', {
                             style: {
                                 margin: options.margin ?? null,
                                 padding: options.padding ?? null
                             },
-                            class: `animTextareaPanel ${options.class}`
+                            class: `animTextareasPanel ${options.class}`,
+                            onClick: (e) => {
+                                options.onclick?.(e)
+                            }
                         },
                             [
                                 options.elementsPanel?(ElementsPanel(options.elementsPanel.containersTemp, options.elementsPanel.options ?? {}).render):null,
-                                React.createElement('textarea',
-                                    {
-                                        style: {
-                                            height: options?.textarea?.height ?? '270px',
-                                            width: options?.textarea?.width ?? '100%'
+                                ...options.textareas?.map(
+                                    textarea => React.createElement('textarea',
+                                        {
+                                            style: {
+                                                height: textarea?.height ?? '270px',
+                                                width: textarea?.width ?? '100%'
+                                            },
+                                            spellcheck: 'false',
+                                            type: textarea?.type ?? 'text',
+                                            placeholder: textarea?.placeholder ?? '',
+                                            class: `animTextarea ${textarea?.disabled ? 'disabled' : ''} ${textarea?.invalid ? 'invalid' : ''} ${textarea?.class ?? ''} ${Animations.modules.InputDefault} ${Animations.modules.TextArea} ${Animations.modules.ScrollbarDefault}`,
+                                            onChange: (e) => {
+                                                textarea.onchange?.(e)
+                                                options.onchange?.(e)
+                                            },
+                                            onClick: (e) => {
+                                                textarea.onclick?.(e)
+                                            }
                                         },
-                                        spellcheck: 'false',
-                                        type: options.textarea?.type ?? 'text',
-                                        placeholder: options.textarea?.placeholder ?? '',
-                                        class: `animTextarea ${options.textarea?.class ?? ''} ${Animations.modules.InputDefault} ${Animations.modules.TextArea} ${Animations.modules.ScrollbarDefault}`,
-                                        onChange: onchange ?? null
-                                    },
-                                    value
+                                        textarea.value
+                                    )
                                 )
                             ]
                         )
@@ -1963,7 +2177,7 @@
                      * @param {string} [options.class] `lists`, `messages`, `buttons`
                      * @param {object} [options.custom] Editor options.
                      * @param {boolean} [options.custom.enabled] Editor availability.
-                     * @param {Array<string>} [options.custom.frames] Editor frames default.
+                     * @param {Array<object>} [options.custom.frames] Editor frames default.
                      * @param {number} [options.custom.page] Editor page default.
                      * @param {number} [options.custom.data] Editor data `this.settings.*type*.custom`.
                      * @param {object} [options.tempBlocks] TempBlocks options.
@@ -1988,75 +2202,157 @@
 
                         if(options?.custom)
                         if(this.settings[options.class].custom.enabled)
-                        if(!this.isValidCSS(this.settings[options.class].custom.frames[this.settings[options.class].custom.page]))
+                        if(!(this.settings[options.class].custom.page>=0 ? this.isValidKeyframe(this.settings[options.class].custom.frames[this.settings[options.class].custom.page]?.anim) : 0))
                         {
                             this.settings[options.class].custom.enabled = false;
                             PluginUtilities.saveSettings(this.getName(), this.settings);
                         }
 
                         previewsTemp.forEach((template, index) => {
-                            if (value == template.value) openedPage = Math.ceil((index + 1) / previewsCountOnPage)-1;
-                            var tempBlocks = []
-                            var tempCount = ((typeof options?.tempBlocks?.count == 'number')?options.tempBlocks.count:4)
-                            for (var i = 0; i < tempCount; i++) {
-                                tempBlocks[i] = React.createElement('div', {
-                                    class: 'animTempBlock',
-                                    style: {
-                                        width: options?.tempBlocks?.width ?? (options?.horizontal?'100%':'auto'),
-                                        height: options?.tempBlocks?.height ?? (options?.horizontal?'26px':'18%'),
-                                        margin: options?.tempBlocks?.margin ?? (options?.horizontal?'0 4px':'4px')
+
+                            class Preview extends React.Component {
+
+                                constructor(props) {
+                                    super(props)
+                                    this.enabled = props.enabled
+                                    this.template = props.template
+                                    this.page = props.page
+                                }
+
+                                render() {
+
+                                    var tempBlocks = []
+                                    var tempCount = ((typeof options?.tempBlocks?.count == 'number') ? options.tempBlocks.count : 4)
+                                    for (var i = 0; i < tempCount; i++) {
+                                        tempBlocks[i] = React.createElement('div', {
+                                            class: 'animTempBlock',
+                                            style: {
+                                                width: options?.tempBlocks?.width ?? (options?.horizontal ? '100%' : 'auto'),
+                                                height: options?.tempBlocks?.height ?? (options?.horizontal ? '26px' : '18%'),
+                                                margin: options?.tempBlocks?.margin ?? (options?.horizontal ? '0 4px' : '4px')
+                                            }
+                                        })
                                     }
-                                })
+
+                                    return React.createElement('div', {
+                                        'data-animation': this.template.value,
+                                        class: `animPreview ${ this.enabled ? 'enabled' : ''}`,
+                                        onClick: (e) => {
+                                            onclick({value: this.template.value, page: this.page});
+    
+                                            var sections = document.querySelectorAll(`[data-type="${options.type}"] .animPreview`);
+                                            for (i = 0; i < sections.length; i++) sections[i].classList.remove('enabled');
+                                            e.currentTarget.classList.add('enabled');
+                                        }
+                                    },
+                                    [
+                                        React.createElement('div', {
+                                            class: 'animPreviewTempsContainer'
+                                        },
+                                            tempBlocks
+                                        ),
+
+                                        React.createElement('div', {
+                                            class: 'animPreviewLabel'
+                                        },
+                                            this.template.label
+                                        )
+                                    ]
+                                    )
+                                }
+
                             }
 
+                            if (value == template.value) openedPage = Math.ceil((index + 1) / previewsCountOnPage) - 1;
+
                             previews.push(
-                                React.createElement('div', {
-                                    'data-animation': template.value,
-                                    class: `animPreview ${value == template.value ? 'enabled' : ''}`,
-                                    onClick: (e) => {
-                                        onclick({value: template.value, page: openedPage});
-
-                                        var sections = document.querySelectorAll(`[data-type="${options.type}"] .animPreview`);
-                                        for (i = 0; i < sections.length; i++) sections[i].classList.remove('enabled');
-                                        e.currentTarget.classList.add('enabled');
-                                    }
-                                },
-                                [
-                                    React.createElement('div', {
-                                        class: 'animPreviewTempsContainer'
+                                React.createElement(Preview,
+                                    {
+                                        enabled: value == template.value,
+                                        template: template,
+                                        page: openedPage
                                     },
-                                        tempBlocks
-                                    ),
-
-                                    React.createElement('div', {
-                                        class: 'animPreviewLabel'
-                                    },
-                                        template.label
-                                    )]
                                 )
                             )
                         })
 
-                        for (containersCount = 0; containersCount + 1 <= Math.ceil(previewsTemp.length / previewsCountOnPage); containersCount++) {
-                            swipeButtonsDefault.push(
-                                React.createElement('div',
+                        class CircleButtonPage extends React.Component {
+
+                            constructor(props) {
+                                super(props)
+                                this.index = props.index
+                                this.text = props.text
+                                this.enabled = props.enabled
+                                this.closest = props.closest
+                                this.selector = props.selector
+                                this.tabSelector = props.tabSelector
+                                this.onclick = props.onclick
+                            }
+
+                            render() {
+                                return React.createElement('div',
                                     {
-                                        class: `animPageCircleButton ${openedPage == containersCount ? 'enabled' : ''}`,
-                                        'data-page': containersCount,
+                                        class: `animPageCircleButton ${this.enabled ? 'enabled' : ''}`,
+                                        'data-page': this.index,
                                         onClick: (e) => {
-                                            for (var containerElem of e.currentTarget.closest('.animPreviewsPanel').querySelectorAll(`.animPreviewsContainer, .customKeyframeTextArea`)) containerElem.classList.remove('show');
+                                            var selectorNodes = e.currentTarget.closest(this.closest).querySelectorAll(this.selector);
+                                            var dataPage = e.currentTarget.getAttribute('data-page');
 
-                                            e.currentTarget.closest('.animPreviewsPanel').querySelectorAll(`.animPreviewsContainer`)[e.currentTarget.getAttribute('data-page')].classList.add('show');
+                                            for (var containerElem of selectorNodes) containerElem.classList.remove('show');
 
-                                            var sections = document.querySelectorAll(`[data-type="${options.type}"] .default .animPageCircleButton`);
+                                            selectorNodes[dataPage].classList.add('show');
+
+                                            var sections = document.querySelectorAll(`[data-type="${options.type}"] ${this.tabSelector} .animPageCircleButton`);
                                             for (i = 0; i < sections.length; i++) sections[i].classList.remove('enabled');
 
                                             e.currentTarget.classList.add('enabled');
 
-                                            this.settings[options.class].page = Number(e.currentTarget.getAttribute('data-page'));
+                                            this.onclick?.(e)
                                         }
                                     },
-                                    containersCount + 1
+                                    this.text
+                                )
+                            }
+                        }
+
+                        class CircleButton extends React.Component {
+
+                            constructor(props) {
+                                super(props)
+                                this.text = props.text
+                                this.enabled = props.enabled
+                                this.onclick = props.onclick
+                            }
+
+                            render() {
+                                return React.createElement('div',
+                                    {
+                                        class: `animPageCircleButton ${this.enabled ? 'enabled' : ''}`,
+                                        onClick: (e) => {
+                                            this.onclick?.(e)
+                                        }
+                                    },
+                                    this.text
+                                )
+                            }
+                        }
+
+                        for (containersCount = 0; containersCount + 1 <= Math.ceil(previewsTemp.length / previewsCountOnPage); containersCount++) {
+                            swipeButtonsDefault.push(
+                                React.createElement(CircleButtonPage,
+                                    {
+                                        index: containersCount,
+                                        text: containersCount + 1,
+                                        enabled: openedPage == containersCount,
+
+                                        closest: '.animPreviewsPanel',
+                                        selector: '.animPreviewsContainer',
+                                        tabSelector: '.default',
+                                        onclick: (e)=> {
+                                            var dataPage = e.currentTarget.getAttribute('data-page');
+                                            this.settings[options.class].page = Number(dataPage);
+                                        }
+                                    }
                                 )
                             );
 
@@ -2081,9 +2377,9 @@
 
                         if (options.custom) {
 
-                            for (var i = 0; i < 4; i++) {
+                            for (var i = 0; i < this.settings[options.class].custom.frames.length; i++) {
                                 textareas.push(
-                                    TextareaPanel(
+                                    TextareasPanel(
                                         {
                                             elementsPanel: {
                                                 containersTemp: [
@@ -2091,39 +2387,65 @@
                                                         elements: [
                                                             {
                                                                 component: 'button',
+                                                                color: 'grey',
                                                                 label: TEMPS.LABELS.PREVIEW_BUTTON_TEMPLATE,
+                                                                disabled: this.eqObjects({start: options.custom.data.frames[i].start, anim: options.custom.data.frames[i].anim}, this.defaultFrames.teplate),
                                                                 onclick: (e) => {
-                                                                    e.currentTarget.closest('.animTextareaPanel')
-                                                                    .querySelector('.animTextarea').value = `0% {\n\ttransform: translate(0, 100%);\n}\n\n100% {\n\ttransform: translate(0, 0) scale(1);\n}`;
+                                                                    var textareaStart = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.start')
+                                                                    var textareaAnim = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.anim')
+
+                                                                    textareaStart.value = this.defaultFrames.teplate.start;
+                                                                    textareaAnim.value = this.defaultFrames.teplate.anim;
                                                                 }
                                                             },
                                                             {
                                                                 component: 'button',
+                                                                color: 'grey',
                                                                 label: TEMPS.LABELS.PREVIEW_BUTTON_CLEAR,
+                                                                disabled: this.eqObjects({start: options.custom.data.frames[i].start, anim: options.custom.data.frames[i].anim}, this.defaultFrames.clear),
                                                                 onclick: (e) => {
-                                                                    var textarea = e.currentTarget.closest('.animTextareaPanel').querySelector('.animTextarea')
-                                                                    textarea.value = '';
-                                                                    textarea.focus();
+                                                                    var textareaStart = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.start')
+                                                                    var textareaAnim = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.anim')
+
+                                                                    textareaStart.value = '';
+                                                                    textareaAnim.value = '';
                                                                 }
                                                             },
                                                             {
                                                                 component: 'button',
-                                                                color: 'green',
+                                                                color: 'blurple',
                                                                 label: TEMPS.LABELS.PREVIEW_BUTTON_LOAD,
+                                                                disabled: this.eqObjects(this.settings[options.class].custom.frames[this.settings[options.class].custom.page],
+                                                                    {start: options.custom.data.frames[i].start, anim: options.custom.data.frames[i].anim}),
                                                                 onclick: (e) => {
-                                                                    e.currentTarget.closest('.animTextareaPanel')
-                                                                    .querySelector('.animTextarea').value = this.settings[options.class].custom.frames[this.settings[options.class].custom.page]
+                                                                    var textareaStart = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.start')
+                                                                    var textareaAnim = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.anim')
+
+                                                                    textareaStart.value = this.settings[options.class].custom.frames[this.settings[options.class].custom.page].start
+                                                                    textareaAnim.value = this.settings[options.class].custom.frames[this.settings[options.class].custom.page].anim
                                                                 }
                                                             },
                                                             {
                                                                 component: 'button',
-                                                                color: 'green',
+                                                                color: 'blurple',
                                                                 label: TEMPS.LABELS.PREVIEW_BUTTON_SAVE,
+                                                                disabled: this.eqObjects(this.settings[options.class].custom.frames[this.settings[options.class].custom.page],
+                                                                    {start: options.custom.data.frames[i].start, anim: options.custom.data.frames[i].anim}),
                                                                 onclick: (e) => {
-                                                                    this.settings[options.class].custom.frames[this.settings[options.class].custom.page] = e.currentTarget.closest('.animTextareaPanel')
-                                                                    .querySelector('.animTextarea').value;
+                                                                    var textareaStart = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.start')
+                                                                    var textareaAnim = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.anim')
+
+                                                                    this.settings[options.class].custom.frames[this.settings[options.class].custom.page] = 
+                                                                    {
+                                                                        start: textareaStart.value,
+                                                                        anim: textareaAnim.value
+                                                                    }
+
                                                                     PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                    this.changeStyles()
+                                                                    if(
+                                                                        this.isValidCSS(this.settings[options.class].custom.frames[this.settings[options.class].custom.page].start) &&
+                                                                        this.isValidKeyframe(this.settings[options.class].custom.frames[this.settings[options.class].custom.page].anim)
+                                                                    ) this.changeStyles();
                                                                 }
                                                             },
                                                         ]
@@ -2134,52 +2456,169 @@
                                                     marginAll: '0 8px'
                                                 }
                                             },
-                                            textarea: {
-                                                height: '290px',
-                                                placeholder: `/*\n${TEMPS.LABELS.PREVIEW_PLACEHOLDER_HINT}\n*/\n\n0% {\n\ttransform: translate(0, 100%);\n}\n\n100% {\n\ttransform: translate(0, 0) scale(1);\n}`,
-                                            },
-                                            class: `${this.settings[options.class].custom.enabled && i == this.settings[options.class].custom.page ? 'show' : ''}`,
-                                        },
-                                        options.custom.data.frames[i],
-                                        (e) => {
-                                            var textarea = e.currentTarget;
-                                            var value = e.currentTarget.value;
-                                            if (this.isValidCSS(value) || value == "") {
-                                                textarea.classList.add('valid');
-                                                textarea.classList.remove('invalid');
-                                            } else {
-                                                textarea.classList.add('invalid');
-                                                textarea.classList.remove('valid');
-                                            }
+                                            textareas: [
+                                                {
+                                                    height: '72px',
+                                                    class: 'start',
+                                                    invalid: !('invalid keyframe', this.isValidCSS(options.custom.data.frames[i].start) || options.custom.data.frames[i].start == ""),
+                                                    value: options.custom.data.frames[i].start,
+                                                    placeholder: `transform: scale(0);`,
+                                                    onchange: (e) => {
+                                                        
+                                                        var textareaStart = e.currentTarget
+                                                        var textareaAnim = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.anim')
 
-                                            options.custom?.onchange(e)
-                                        }
+                                                        if (this.isValidCSS(textareaStart.value) || textareaStart.value == "") {
+                                                            textareaStart.classList.add('valid');
+                                                            textareaStart.classList.remove('invalid');
+                                                        } else {
+                                                            textareaStart.classList.add('invalid');
+                                                            textareaStart.classList.remove('valid');
+                                                        }
+
+                                                        options.custom?.onchange?.(e)
+                                                    }
+                                                },
+                                                {
+                                                    height: '250px',
+                                                    class: 'anim',
+                                                    invalid: !(this.isValidKeyframe(options.custom.data.frames[i].anim) || options.custom.data.frames[i].anim == ""),
+                                                    value: options.custom.data.frames[i].anim,
+                                                    placeholder: `0% {\n\ttransform: translate(0, 100%);\n}\n\n100% {\n\ttransform: transform(0, 0) scale(1);\n}`,
+                                                    onchange: (e) => {
+                                                        
+                                                        var textareaStart = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea.start')
+                                                        var textareaAnim = e.currentTarget
+
+                                                        if (this.isValidKeyframe(textareaAnim.value) || textareaAnim.value == "") {
+                                                            textareaAnim.classList.add('valid');
+                                                            textareaAnim.classList.remove('invalid');
+                                                        } else {
+                                                            textareaAnim.classList.add('invalid');
+                                                            textareaAnim.classList.remove('valid');
+                                                        }
+
+                                                        options.custom?.onchange?.(e)
+                                                    }
+                                                }
+                                            ],
+                                            class: `${this.settings[options.class].custom.enabled && i == this.settings[options.class].custom.page ? 'show' : ''}`,
+                                            onchange: (e) => {
+                                                var textareaStart = e.currentTarget.closest('.animTextareasPanel.show').querySelector('.animTextarea.start')
+                                                var textareaAnim = e.currentTarget.closest('.animTextareasPanel.show').querySelector('.animTextarea.anim')
+                                                this.defaultFrames.values = {
+                                                    start: textareaStart.value,
+                                                    anim: textareaAnim.value
+                                                }
+                                                var buttons = e.currentTarget.closest('.animTextareasPanel.show').querySelectorAll('.elementsContainer > .animButton')
+
+                                                buttons[0].classList.toggle('disabled', this.eqObjects(this.defaultFrames.values, this.defaultFrames.teplate))
+                                                buttons[1].classList.toggle('disabled', this.eqObjects(this.defaultFrames.values, this.defaultFrames.clear))
+                                                buttons[2].classList.toggle('disabled', this.eqObjects(this.settings[options.class].custom.frames[this.settings[options.class].custom.page], this.defaultFrames.values))
+                                                buttons[3].classList.toggle('disabled', this.eqObjects(this.settings[options.class].custom.frames[this.settings[options.class].custom.page], this.defaultFrames.values))
+                                            },
+                                            onclick: (e) => {
+                                                var textareaStart = e.currentTarget.closest('.animTextareasPanel.show').querySelector('.animTextarea.start')
+                                                var textareaAnim = e.currentTarget.closest('.animTextareasPanel.show').querySelector('.animTextarea.anim')
+                                                this.defaultFrames.values = {
+                                                    start: textareaStart.value,
+                                                    anim: textareaAnim.value
+                                                }
+                                                var buttons = e.currentTarget.closest('.animTextareasPanel.show').querySelectorAll('.elementsContainer > .animButton')
+
+                                                buttons[0].classList.toggle('disabled', this.eqObjects(this.defaultFrames.values, this.defaultFrames.teplate))
+                                                buttons[1].classList.toggle('disabled', this.eqObjects(this.defaultFrames.values, this.defaultFrames.clear))
+                                                buttons[2].classList.toggle('disabled', this.eqObjects(this.settings[options.class].custom.frames[this.settings[options.class].custom.page], this.defaultFrames.values))
+                                                buttons[3].classList.toggle('disabled', this.eqObjects(this.settings[options.class].custom.frames[this.settings[options.class].custom.page], this.defaultFrames.values))
+                                            }
+                                        },
                                     ).render
                                 );
 
                                 swipeButtonsCustom.push(
-                                    React.createElement('div',
+                                    React.createElement(CircleButtonPage,
                                         {
-                                            class: `animPageCircleButton ${this.settings[options.class].custom.page == i ? 'enabled' : ''}`,
-                                            'data-page': i,
-                                            onClick: (e) => {
-                                                for (var containerElem of e.currentTarget.closest('.animPreviewsPanel').querySelectorAll(`.animPreviewsContainer, .animTextareaPanel`)) containerElem.classList.remove('show');
-
-                                                e.currentTarget.closest('.animPreviewsPanel').querySelectorAll(`.animTextareaPanel`)[e.currentTarget.getAttribute('data-page')].classList.add('show');
-
-                                                var sections = document.querySelectorAll(`[data-type="${options.type}"] .custom .animPageCircleButton`);
-                                                for (i = 0; i < sections.length; i++) sections[i].classList.remove('enabled');
-
-                                                e.currentTarget.classList.add('enabled');
-
-                                                this.settings[options.class].custom.page = Number(e.currentTarget.getAttribute('data-page'));
+                                            index: i,
+                                            text: i + 1,
+                                            enabled: this.settings[options.class].custom.page == i,
+    
+                                            closest: '.animPreviewsPanel',
+                                            selector: '.animTextareasPanel',
+                                            tabSelector: '.custom',
+                                            onclick: (e)=> {
+                                                var dataPage = e.currentTarget.getAttribute('data-page');
+                                                this.settings[options.class].custom.page = Number(dataPage);
                                             }
-                                        },
-                                        i + 1
+                                        }
                                     )
                                 );
-                            };
+                            }
 
+                        }
+
+                        class ActionButton extends React.Component {
+
+                            constructor(props) {
+                                super(props)
+                                this.isEditing = props.isEditing
+                                this.onclick = props.onclick
+                            }
+
+                            render() {
+                                return React.createElement('div',
+                                    {
+                                        class: `animPreviewActionButton ${this.isEditing ? 'editing' : 'selecting'}`,
+                                        onClick: this.onclick
+                                    },
+
+                                    React.createElement('div',
+                                        {
+                                            class: 'switchActionButton'
+                                        },
+                                        [
+                                            React.createElement('div', {
+                                                class: 'switchActionButtonLabel'
+                                            },
+                                                TEMPS.LABELS.PREVIEW_SELECTING
+                                            ),
+                                            React.createElement("svg", {
+                                                width: "24",
+                                                height: "24",
+                                                viewBox: "3 2 19 19"
+                                            },
+                                                React.createElement("path", {
+                                                    style: { fill: "none" },
+                                                    d: "M0 0h24v24H0z"
+                                                }),
+                                                React.createElement("path", {
+                                                    d: options.horizontal ? "M 4 18 h 17 v -3 H 4 v 3 z M 4 10 v 3 h 17 v -3 h -17 M 4 5 v 3 h 17 V 5 H 4 z" : "M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"
+                                                })
+                                            )
+                                        ]
+                                    ),
+                                    React.createElement('div',
+                                        {
+                                            class: 'switchActionButton'
+                                        },
+                                        [
+                                            React.createElement('div', {
+                                                class: 'switchActionButtonLabel'
+                                            },
+                                                TEMPS.LABELS.PREVIEW_EDITING
+                                            ),
+                                            React.createElement("svg", {
+                                                width: "24",
+                                                height: "24",
+                                                viewBox: "0 1 22 22"
+                                            },
+                                                React.createElement("path", {
+                                                    d: "M19.2929 9.8299L19.9409 9.18278C21.353 7.77064 21.353 5.47197 19.9409 4.05892C18.5287 2.64678 16.2292 2.64678 14.817 4.05892L14.1699 4.70694L19.2929 9.8299ZM12.8962 5.97688L5.18469 13.6906L10.3085 18.813L18.0201 11.0992L12.8962 5.97688ZM4.11851 20.9704L8.75906 19.8112L4.18692 15.239L3.02678 19.8796C2.95028 20.1856 3.04028 20.5105 3.26349 20.7337C3.48669 20.9569 3.8116 21.046 4.11851 20.9704Z",
+                                                })
+                                            )
+                                        ]
+                                    )
+                                )
+                            }
 
                         }
 
@@ -2193,81 +2632,38 @@
                                     {
                                         class: 'animPreviewsActions'
                                     },
-                                    React.createElement('div',
-                                        {
-                                            class: `animPreviewActionButton ${this.settings[options.class].custom.enabled ? 'editing' : 'selecting'}`,
-                                            onClick: async (e) => {
-                                                this.settings[options.class].custom.enabled = !this.settings[options.class].custom.enabled;
-                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                this.changeStyles();
+                                    React.createElement(ActionButton, {
+                                        isEditing: this.settings[options.class].custom.enabled,
+                                        onclick: async (e) => {
 
-                                                var panel = e.currentTarget.closest('.animPreviewsPanel');
-                                                var all = panel.querySelectorAll(`.animPreviewsContainer, .animTextareaPanel`);
-                                                all.forEach(elem => elem.classList.remove('show'));
+                                            this.settings[options.class].custom.enabled = !this.settings[options.class].custom.enabled;
+                                            PluginUtilities.saveSettings(this.getName(), this.settings);
+                                            if(
+                                                this.isValidCSS(this.settings[options.class].custom.frames[this.settings[options.class].custom.page].start) &&
+                                                this.isValidKeyframe(this.settings[options.class].custom.frames[this.settings[options.class].custom.page].anim)
+                                            ) this.changeStyles();
 
-                                                if (this.settings[options.class].custom.enabled) {
-                                                    e.currentTarget.classList.add('editing')
-                                                    e.currentTarget.classList.remove('selecting')
-                                                    panel.getElementsByClassName(`animTextareaPanel`)[this.settings[options.class].custom.page].classList.add('show');
-                                                    panel.getElementsByClassName('animPageButtons default')[0].classList.remove('show');
-                                                    panel.getElementsByClassName('animPageButtons custom')[0].classList.add('show');
-                                                } else {
-                                                    e.currentTarget.classList.remove('editing')
-                                                    e.currentTarget.classList.add('selecting')
-                                                    panel.getElementsByClassName(`animPreviewsContainer`)[this.settings[options.class].page].classList.add('show');
-                                                    panel.getElementsByClassName('animPageButtons default')[0].classList.add('show');
-                                                    panel.getElementsByClassName('animPageButtons custom')[0].classList.remove('show');
-                                                }
+                                            var switcher = e.currentTarget;
+                                            var panel = switcher.closest('.animPreviewsPanel');
+                                            var all = panel.querySelectorAll(`.animPreviewsContainer, .animTextareasPanel`);
+                                            all.forEach(elem => elem.classList.remove('show'));
+
+                                            if (this.settings[options.class].custom.enabled) {
+                                                switcher.classList.add('editing')
+                                                switcher.classList.remove('selecting')
+                                                if(this.settings[options.class].custom.page>=0) panel.getElementsByClassName(`animTextareasPanel`)[this.settings[options.class].custom.page].classList.add('show');
+                                                panel.getElementsByClassName('animPageButtons default')[0].classList.remove('show');
+                                                panel.getElementsByClassName('animPageButtons custom')[0].classList.add('show');
+                                            } else {
+                                                switcher.classList.remove('editing')
+                                                switcher.classList.add('selecting')
+                                                if(this.settings[options.class].page>=0) panel.getElementsByClassName(`animPreviewsContainer`)[this.settings[options.class].page].classList.add('show');
+                                                panel.getElementsByClassName('animPageButtons default')[0].classList.add('show');
+                                                panel.getElementsByClassName('animPageButtons custom')[0].classList.remove('show');
                                             }
-                                        },
 
-                                        React.createElement('div',
-                                            {
-                                                class: 'switchActionButton'
-                                            },
-                                            [
-                                                React.createElement('div', {
-                                                    class: 'switchActionButtonLabel'
-                                                },
-                                                    TEMPS.LABELS.PREVIEW_SELECTING
-                                                ),
-                                                React.createElement("svg", {
-                                                    width: "24",
-                                                    height: "24",
-                                                    viewBox: "3 2 19 19"
-                                                },
-                                                    React.createElement("path", {
-                                                        style: { fill: "none" },
-                                                        d: "M0 0h24v24H0z"
-                                                    }),
-                                                    React.createElement("path", {
-                                                        d: options.horizontal ? "M 4 18 h 17 v -3 H 4 v 3 z M 4 10 v 3 h 17 v -3 h -17 M 4 5 v 3 h 17 V 5 H 4 z" : "M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"
-                                                    })
-                                                )
-                                            ]
-                                        ),
-                                        React.createElement('div',
-                                            {
-                                                class: 'switchActionButton'
-                                            },
-                                            [
-                                                React.createElement('div', {
-                                                    class: 'switchActionButtonLabel'
-                                                },
-                                                    TEMPS.LABELS.PREVIEW_EDITING
-                                                ),
-                                                React.createElement("svg", {
-                                                    width: "24",
-                                                    height: "24",
-                                                    viewBox: "0 1 22 22"
-                                                },
-                                                    React.createElement("path", {
-                                                        d: "M19.2929 9.8299L19.9409 9.18278C21.353 7.77064 21.353 5.47197 19.9409 4.05892C18.5287 2.64678 16.2292 2.64678 14.817 4.05892L14.1699 4.70694L19.2929 9.8299ZM12.8962 5.97688L5.18469 13.6906L10.3085 18.813L18.0201 11.0992L12.8962 5.97688ZM4.11851 20.9704L8.75906 19.8112L4.18692 15.239L3.02678 19.8796C2.95028 20.1856 3.04028 20.5105 3.26349 20.7337C3.48669 20.9569 3.8116 21.046 4.11851 20.9704Z",
-                                                    })
-                                                )
-                                            ]
-                                        )
-                                    )
+                                        }
+                                    })
                                 ) : null,
                                 ...containers,
                                 ...textareas,
@@ -2284,7 +2680,8 @@
                                     },
                                     swipeButtonsCustom
                                 ),
-                            ])
+                            ]
+                        )
 
 
                         class Panel extends React.Component {
@@ -2380,7 +2777,7 @@
                      * SettingsField.
                      */
 
-                    var Field = (title, note, settingstype) => {
+                    var Field = (title, note, content) => {
 
                         var result = React.createElement('div',
                             {
@@ -2390,7 +2787,7 @@
                                 React.createElement('div', {class: 'animFieldDivider'}),
                                 React.createElement('div', {class: 'animFieldTitle'}, title),
                                 React.createElement('div', {class: 'animFieldNote'}, note),
-                                settingstype
+                                React.createElement('div', {class: 'animFieldContent'}, content)
                             ]
                         )
 
@@ -2411,6 +2808,7 @@
                         Tooltip.create(document.getElementById('animations-rebuild'), TEMPS.TOOLTIPS.BUTTON_ANIMATIONS_REBUILD)
 
                         Tooltip.create(document.getElementById('animations-issues'), TEMPS.TOOLTIPS.BUTTON_ANIMATIONS_ISSUES)
+                        Tooltip.create(document.getElementById('animations-server'), TEMPS.TOOLTIPS.BUTTON_ANIMATIONS_SERVER)
                         Tooltip.create(document.getElementById('animations-discussions'), TEMPS.TOOLTIPS.BUTTON_ANIMATIONS_DISCUSSIONS)
 
                         Tooltip.create(document.getElementById('lists-switch-button'), TEMPS.TOOLTIPS.BUTTON_LISTS_SWITCH)
@@ -2444,8 +2842,12 @@
                                             component: 'button',
                                             color: 'blurple',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHANGELOG,
-                                            svgPaths: [
-                                                'M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z',
+                                            svgs: [
+                                                {
+                                                    paths: [
+                                                        Animations.paths.changelogArrow
+                                                    ]
+                                                }
                                             ],
                                             id: 'animations-version-changelog',
                                             inverted: false,
@@ -2457,8 +2859,12 @@
                                             component: 'button',
                                             color: 'blurple',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK,
-                                            svgPaths: [
-                                                'M16.293 9.293L17.707 10.707L12 16.414L6.29297 10.707L7.70697 9.293L11 12.586V2H13V12.586L16.293 9.293ZM18 20V18H20V20C20 21.102 19.104 22 18 22H6C4.896 22 4 21.102 4 20V18H6V20H18Z',
+                                            svgs: [
+                                                {
+                                                    paths: [
+                                                        Animations.paths.downloadArrow
+                                                    ]
+                                                }
                                             ],
                                             id: 'animations-version-check',
                                             inverted: false,
@@ -2535,7 +2941,7 @@
                                                                         [
                                                                             TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_COMPARE(this.getVersion(), GitHubVersion),
                                                                             React.createElement(
-                                                                                'span', { style: { color: this.colors.green, 'text-transform': 'uppercase' } },
+                                                                                'span', { style: { color: Animations.colors.green, 'text-transform': 'uppercase' } },
                                                                                 TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_OLDER_NOTE
                                                                             )
                                                                         ],
@@ -2558,7 +2964,7 @@
                                                                         [
                                                                             TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_COMPARE(this.getVersion(), GitHubVersion),
                                                                             React.createElement(
-                                                                                'span', { style: { color: this.colors.red, 'text-transform': 'uppercase' } },
+                                                                                'span', { style: { color: Animations.colors.red, 'text-transform': 'uppercase' } },
                                                                                 TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_NEWER_NOTE
                                                                             )
                                                                         ],
@@ -2581,7 +2987,7 @@
                                                                         [
                                                                             TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_COMPARE(this.getVersion(), GitHubVersion),
                                                                             React.createElement(
-                                                                                'span', { style: { color: this.colors.yellow, 'text-transform': 'uppercase' } },
+                                                                                'span', { style: { color: Animations.colors.yellow, 'text-transform': 'uppercase' } },
                                                                                 TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_CONFIRM_LATEST_NOTE
                                                                             )
                                                                         ],
@@ -2610,9 +3016,13 @@
                                             color: 'blurple',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_RESET,
                                             id: 'animations-reset',
-                                            svgView: '0 0 20 20',
-                                            svgPaths: [
-                                                'M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z',
+                                            svgs: [
+                                                {
+                                                    paths: [
+                                                        Animations.paths.gear
+                                                    ],
+                                                    viewBox: '0 0 20 20'
+                                                }
                                             ],
                                             onclick: async (e) => {
 
@@ -2631,12 +3041,21 @@
                                             color: 'blurple',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_REBUILD,
                                             id: 'animations-rebuild',
-                                            svgPaths: [
-                                                'M 13 3 c -4.97 0 -9 4.03 -9 9 H 1 l 3.89 3.89 l 0.07 0.14 L 9 12 H 6 c 0 -3.87 3.13 -7 7 -7 s 7 3.13 7 7 s -3.13 7 -7 7 c -1.93 0 -3.68 -0.79 -4.94 -2.06 l -1.42 1.42 C 8.27 19.99 10.51 21 13 21 c 4.97 0 9 -4.03 9 -9 s -4.03 -9 -9 -9 z',
+                                            svgs: [
+                                                {
+                                                    paths: [
+                                                        Animations.paths.circleArrow
+                                                    ]
+                                                }
                                             ],
                                             onclick: (e) => this.changeStyles()
                                         }
                                     ],
+                                },
+                                {
+                                    elements: [
+                                        {component: 'divider'},
+                                    ]
                                 },
                                 {
                                     elements: [
@@ -2645,26 +3064,50 @@
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_ISSUES,
                                             color: 'grey',
                                             id: 'animations-issues',
-                                            svgPaths: [
-                                                'm12 .5c-6.63 0-12 5.28-12 11.792 0 5.211 3.438 9.63 8.205 11.188.6.111.82-.254.82-.567 0-.28-.01-1.022-.015-2.005-3.338.711-4.042-1.582-4.042-1.582-.546-1.361-1.335-1.725-1.335-1.725-1.087-.731.084-.716.084-.716 1.205.082 1.838 1.215 1.838 1.215 1.07 1.803 2.809 1.282 3.495.981.108-.763.417-1.282.76-1.577-2.665-.295-5.466-1.309-5.466-5.827 0-1.287.465-2.339 1.235-3.164-.135-.298-.54-1.497.105-3.121 0 0 1.005-.316 3.3 1.209.96-.262 1.98-.392 3-.398 1.02.006 2.04.136 3 .398 2.28-1.525 3.285-1.209 3.285-1.209.645 1.624.24 2.823.12 3.121.765.825 1.23 1.877 1.23 3.164 0 4.53-2.805 5.527-5.475 5.817.42.354.81 1.077.81 2.182 0 1.578-.015 2.846-.015 3.229 0 .309.21.678.825.56 4.801-1.548 8.236-5.97 8.236-11.173 0-6.512-5.373-11.792-12-11.792z',
+                                            svgs: [
+                                                {
+                                                    paths: [
+                                                        Animations.paths.githubLogo
+                                                    ]
+                                                }
                                             ],
-                                            onclick: (e) => {
-                                                window.open('https://github.com/Mopsgamer/BetterDiscord-codes/issues')
-                                            }
+                                            link: 'https://github.com/Mopsgamer/BetterDiscord-codes/issues'
                                         },
                                         {
                                             component: 'button',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_DISCUSSIONS,
                                             color: 'grey',
                                             id: 'animations-discussions',
-                                            svgPaths: [
-                                                'm12 .5c-6.63 0-12 5.28-12 11.792 0 5.211 3.438 9.63 8.205 11.188.6.111.82-.254.82-.567 0-.28-.01-1.022-.015-2.005-3.338.711-4.042-1.582-4.042-1.582-.546-1.361-1.335-1.725-1.335-1.725-1.087-.731.084-.716.084-.716 1.205.082 1.838 1.215 1.838 1.215 1.07 1.803 2.809 1.282 3.495.981.108-.763.417-1.282.76-1.577-2.665-.295-5.466-1.309-5.466-5.827 0-1.287.465-2.339 1.235-3.164-.135-.298-.54-1.497.105-3.121 0 0 1.005-.316 3.3 1.209.96-.262 1.98-.392 3-.398 1.02.006 2.04.136 3 .398 2.28-1.525 3.285-1.209 3.285-1.209.645 1.624.24 2.823.12 3.121.765.825 1.23 1.877 1.23 3.164 0 4.53-2.805 5.527-5.475 5.817.42.354.81 1.077.81 2.182 0 1.578-.015 2.846-.015 3.229 0 .309.21.678.825.56 4.801-1.548 8.236-5.97 8.236-11.173 0-6.512-5.373-11.792-12-11.792z',
+                                            svgs: [
+                                                {
+                                                    paths: [
+                                                        Animations.paths.githubLogo
+                                                    ]
+                                                }
                                             ],
-                                            onclick: (e) => {
-                                                window.open('https://github.com/Mopsgamer/BetterDiscord-codes/discussions')
-                                            }
-                                        }
+                                            link: 'https://github.com/Mopsgamer/BetterDiscord-codes/discussions'
+                                        },
+                                        {
+                                            component: 'button',
+                                            label: TEMPS.LABELS.BUTTON_ANIMATIONS_SERVER,
+                                            color: 'grey',
+                                            id: 'animations-server',
+                                            svgs: [
+                                                {
+                                                    viewBox: '0 -5 28 28',
+                                                    paths: [
+                                                        Animations.paths.discordLogo
+                                                    ]
+                                                }
+                                            ],
+                                            link: 'https://discord.gg/PWtAHjBXtG'
+                                        },
                                     ],
+                                },
+                                {
+                                    elements: [
+                                        {component: 'divider'},
+                                    ]
                                 },
                                 {
                                     elements: [
@@ -2775,736 +3218,814 @@
 
                         new Settings.SettingField(null, null, null,
 
-                            TabsPanel([
-                                {
-                                    name: TEMPS.LABELS.GROUP_LISTS,
-                                    content: [
-                                        Field(null, null,
-                                            ElementsPanel(
-                                                [
-                                                    {
-                                                        elements: [
-                                                            {
-                                                                component: 'button',
-                                                                color: 'blurple',
-                                                                label: TEMPS.LABELS.BUTTON_RESET_LISTS,
-                                                                id: 'animations-reset-lists',
-                                                                svgView: '0 0 20 20',
-                                                                svgPaths: [
-                                                                    'M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z',
-                                                                ],
-                                                                onclick: async (e) => {
-                    
-                                                                    let button = e.currentTarget;
-                                                                    button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_RESET_RESETING;
-                                                                    await this.wait(500);
-                    
-                                                                    this.settings.lists = this.defaultSettings.lists
-                                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                    this.settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
-                                                                    this.changeStyles();
-                                                                    this.closeSettings();
-                                                                },
-                                                            }
-                                                        ],
-                                                        options: {
-                                                            widthAll: '100%',
-                                                            align: 'space-between'
-                                                        }
-                                                    }
-                                                ]
-                                            ).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_NAME, TEMPS.LABELS.FIELD_LISTS_NAME_NOTE(this.defaultSettings.lists.name),
-                                            PreviewsPanel([
-                                                { label: TEMPS.LABELS.PREVIEW_IN, value: 'in' },
-                                                { label: TEMPS.LABELS.PREVIEW_OUT, value: 'out' },
-                                                { label: TEMPS.LABELS.PREVIEW_CIRCLE, value: 'circle' },
-                                                { label: TEMPS.LABELS.PREVIEW_POLYGON, value: 'polygon' },
-                                                { label: TEMPS.LABELS.PREVIEW_OPACITY, value: 'opacity' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIME, value: 'slime' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_RIGHT, value: 'brick-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_LEFT, value: 'brick-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_UP, value: 'brick-up' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_DOWN, value: 'brick-down' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_RIGHT, value: 'slide-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_LEFT, value: 'slide-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP, value: 'slide-up' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN, value: 'slide-down' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_RIGHT, value: 'slide-up-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_LEFT, value: 'slide-up-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_RIGHT, value: 'slide-down-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_LEFT, value: 'slide-down-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SKEW_RIGHT, value: 'skew-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SKEW_LEFT, value: 'skew-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_RIGHT, value: 'wide-skew-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_LEFT, value: 'wide-skew-left' },
-                                            ], {
-                                                type: 'lists-name',
-                                                class: 'lists',
-                                                custom: {
-                                                    data: this.settings.lists.custom,
-                                                }
-                                            },
-                                                this.settings.lists.name, (e) => {
-                                                    this.settings.lists.name = e.value;
-                                                    this.settings.lists.page = e.page;
-                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                    this.changeStyles()
-                                            }).render,
-                                            { noteOnTop: true }
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_SEQUENCE, TEMPS.LABELS.FIELD_LISTS_SEQUENCE_NOTE(this.defaultSettings.lists.sequence),
-                                            PreviewsPanel([
-                                                { label: TEMPS.LABELS.PREVIEW_VERTICAL_FROM_FIRST, value: 'fromFirst' },
-                                                { label: TEMPS.LABELS.PREVIEW_VERTICAL_FROM_LAST, value: 'fromLast' },
-                                            ], {
-                                                type: 'lists-sequence'
-                                            }, this.settings.lists.sequence, (e) => {
-                                                this.settings.lists.sequence = e.value;
-                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                this.changeStyles()
-                                            }).render,
-                                            { noteOnTop: true }
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_LISTS_DELAY_NOTE(this.defaultSettings.lists.delay),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.lists.delay,
-                                                            max: 0.35,
-                                                            step: 0.01,
-                                                            type: 'number',
-                                                            onchange: (e) => {
-                                                                var value = Number(e.currentTarget.value);
-            
-                                                                this.settings.lists.delay = value;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_LIMIT, TEMPS.LABELS.FIELD_LISTS_LIMIT_NOTE(this.defaultSettings.lists.limit),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.lists.limit,
-                                                            max: 100,
-                                                            step: 5,
-                                                            type: 'integer',
-                                                            onchange: (e, v) => {
-                                                                this.settings.lists.limit = v;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_LISTS_DURATION_NOTE(this.defaultSettings.lists.duration),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.lists.duration,
-                                                            max: 3,
-                                                            step: 0.1,
-                                                            type: 'number',
-                                                            onchange: (e, v) => {
-                                                                this.settings.lists.duration = v;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-                                    ]
-                                },
-                                {
-                                    name: TEMPS.LABELS.GROUP_BUTTONS,
-                                    content: [
-                                        Field(null, null,
-                                            ElementsPanel(
-                                                [
-                                                    {
-                                                        elements: [
-                                                            {
-                                                                component: 'button',
-                                                                color: 'blurple',
-                                                                label: TEMPS.LABELS.BUTTON_RESET_BUTTONS,
-                                                                id: 'animations-reset-buttons',
-                                                                svgView: '0 0 20 20',
-                                                                svgPaths: [
-                                                                    'M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z',
-                                                                ],
-                                                                onclick: async (e) => {
-                    
-                                                                    let button = e.currentTarget;
-                                                                    button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_RESET_RESETING;
-                                                                    await this.wait(500);
-                    
-                                                                    this.settings.buttons = this.defaultSettings.buttons
-                                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                    this.settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
-                                                                    this.changeStyles();
-                                                                    this.closeSettings();
-                                                                },
-                                                            }
-                                                        ],
-                                                        options: {
-                                                            widthAll: '100%',
-                                                            align: 'space-between'
-                                                        }
-                                                    }
-                                                ]
-                                            ).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_NAME, TEMPS.LABELS.FIELD_BUTTONS_NAME_NOTE(this.defaultSettings.buttons.name),
-                                            PreviewsPanel([
-                                                { label: TEMPS.LABELS.PREVIEW_IN, value: 'in' },
-                                                { label: TEMPS.LABELS.PREVIEW_OUT, value: 'out' },
-                                                { label: TEMPS.LABELS.PREVIEW_CIRCLE, value: 'circle' },
-                                                { label: TEMPS.LABELS.PREVIEW_POLYGON, value: 'polygon' },
-                                                { label: TEMPS.LABELS.PREVIEW_OPACITY, value: 'opacity' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIME, value: 'slime' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_RIGHT, value: 'brick-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_LEFT, value: 'brick-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_UP, value: 'brick-up' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_DOWN, value: 'brick-down' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_RIGHT, value: 'slide-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_LEFT, value: 'slide-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP, value: 'slide-up' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN, value: 'slide-down' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_RIGHT, value: 'slide-up-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_LEFT, value: 'slide-up-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_RIGHT, value: 'slide-down-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_LEFT, value: 'slide-down-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SKEW_RIGHT, value: 'skew-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SKEW_LEFT, value: 'skew-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_RIGHT, value: 'wide-skew-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_LEFT, value: 'wide-skew-left' },
-                                            ], {
-                                                type: 'buttons-name',
-                                                class: 'buttons',
-                                                horizontal: true,
-                                                custom: {
-                                                    data: this.settings.buttons.custom,
-                                                }
-                                            },
-                                                this.settings.buttons.name, (e) => {
-                                                    this.settings.buttons.name = e.value;
-                                                    this.settings.buttons.page = e.page;
-                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                    this.changeStyles()
-                                            }).render,
-                                            { noteOnTop: true }
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_SEQUENCE, TEMPS.LABELS.FIELD_BUTTONS_SEQUENCE_NOTE(this.defaultSettings.buttons.sequence),
-                                            PreviewsPanel([
-                                                { label: TEMPS.LABELS.PREVIEW_HORIZONTAL_FROM_FIRST, value: 'fromFirst' },
-                                                { label: TEMPS.LABELS.PREVIEW_HORIZONTAL_FROM_LAST, value: 'fromLast' },
-                                            ], {
-                                                type: 'buttons-sequence',
-                                                horizontal: true
-                                            }, this.settings.buttons.sequence, (e) => {
-                                                this.settings.buttons.sequence = e.value;
-                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                this.changeStyles()
-                                            }).render,
-                                            { noteOnTop: true }
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_BUTTONS_DELAY_NOTE(this.defaultSettings.buttons.delay),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.buttons.delay,
-                                                            max: 0.5,
-                                                            step: 0.01,
-                                                            type: 'number',
-                                                            onchange: (e, v) => {
-                                                                this.settings.buttons.delay = v;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_BUTTONS_DURATION_NOTE(this.defaultSettings.buttons.duration),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.buttons.duration,
-                                                            max: 3,
-                                                            step: 0.1,
-                                                            type: 'number',
-                                                            onchange: (e, v) => {
-                                                                this.settings.buttons.duration = v;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-                                    ]
-                                },
-                                {
-                                    name: TEMPS.LABELS.GROUP_MESSAGES,
-                                    content: [
-                                        Field(null, null,
-                                            ElementsPanel(
-                                                [
-                                                    {
-                                                        elements: [
-                                                            {
-                                                                component: 'button',
-                                                                color: 'blurple',
-                                                                label: TEMPS.LABELS.BUTTON_RESET_MESSAGES,
-                                                                id: 'animations-reset-messages',
-                                                                svgView: '0 0 20 20',
-                                                                svgPaths: [
-                                                                    'M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z',
-                                                                ],
-                                                                onclick: async (e) => {
-                    
-                                                                    let button = e.currentTarget;
-                                                                    button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_RESET_RESETING;
-                                                                    await this.wait(500);
-                    
-                                                                    this.settings.messages = this.defaultSettings.messages
-                                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                    this.settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
-                                                                    this.changeStyles();
-                                                                    this.closeSettings();
-                                                                },
-                                                            }
-                                                        ],
-                                                        options: {
-                                                            widthAll: '100%',
-                                                            align: 'space-between'
-                                                        }
-                                                    }
-                                                ]
-                                            ).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_NAME, TEMPS.LABELS.FIELD_MESSAGES_NAME_NOTE(this.defaultSettings.messages.name),
-                                            PreviewsPanel([
-                                                { label: TEMPS.LABELS.PREVIEW_IN, value: 'in' },
-                                                { label: TEMPS.LABELS.PREVIEW_OUT, value: 'out' },
-                                                { label: TEMPS.LABELS.PREVIEW_CIRCLE, value: 'circle' },
-                                                { label: TEMPS.LABELS.PREVIEW_POLYGON, value: 'polygon' },
-                                                { label: TEMPS.LABELS.PREVIEW_OPACITY, value: 'opacity' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIME, value: 'slime' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_RIGHT, value: 'brick-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_LEFT, value: 'brick-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_UP, value: 'brick-up' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_DOWN, value: 'brick-down' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_RIGHT, value: 'slide-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_LEFT, value: 'slide-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP, value: 'slide-up' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN, value: 'slide-down' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_RIGHT, value: 'slide-up-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_LEFT, value: 'slide-up-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_RIGHT, value: 'slide-down-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_LEFT, value: 'slide-down-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SKEW_RIGHT, value: 'skew-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SKEW_LEFT, value: 'skew-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_RIGHT, value: 'wide-skew-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_LEFT, value: 'wide-skew-left' },
-                                            ], {
-                                                type: 'messages-name',
-                                                class: 'messages',
-                                                custom: {
-                                                    data: this.settings.messages.custom,
-                                                }
-                                            },
-                                                this.settings.messages.name, (e) => {
-                                                    this.settings.messages.name = e.value;
-                                                    this.settings.messages.page = e.page;
-                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                    this.changeStyles()
-                                            }).render,
-                                            { noteOnTop: true }
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_MESSAGES_DELAY_NOTE(this.defaultSettings.messages.delay),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.messages.delay,
-                                                            max: 0.5,
-                                                            step: 0.01,
-                                                            type: 'number',
-                                                            onchange: (e, v) => {
-                                                                this.settings.messages.delay = v;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_LIMIT, TEMPS.LABELS.FIELD_MESSAGES_LIMIT_NOTE(this.defaultSettings.messages.limit),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.messages.limit,
-                                                            max: 100,
-                                                            step: 1,
-                                                            type: 'integer',
-                                                            onchange: (e, v) => {
-                                                                this.settings.messages.limit = v;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_MESSAGES_DURATION_NOTE(this.defaultSettings.messages.duration),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.messages.duration,
-                                                            max: 3,
-                                                            step: 0.01,
-                                                            type: 'number',
-                                                            onchange: (e, v) => {
-                                                                this.settings.messages.duration = v;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-                                    ]
-                                },
-                                {
-                                    name: TEMPS.LABELS.GROUP_POPOUTS,
-                                    content: [
-                                        Field(null, null,
-                                            ElementsPanel(
-                                                [
-                                                    {
-                                                        elements: [
-                                                            {
-                                                                component: 'button',
-                                                                color: 'blurple',
-                                                                label: TEMPS.LABELS.BUTTON_RESET_POPOUTS,
-                                                                id: 'animations-reset-popouts',
-                                                                svgView: '0 0 20 20',
-                                                                svgPaths: [
-                                                                    'M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z',
-                                                                ],
-                                                                onclick: async (e) => {
-                    
-                                                                    let button = e.currentTarget;
-                                                                    button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_RESET_RESETING;
-                                                                    await this.wait(500);
-                    
-                                                                    this.settings.popouts = this.defaultSettings.popouts
-                                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                    this.settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
-                                                                    this.changeStyles();
-                                                                    this.closeSettings();
-                                                                },
-                                                            }
-                                                        ],
-                                                        options: {
-                                                            widthAll: '100%',
-                                                            align: 'space-between'
-                                                        }
-                                                    }
-                                                ]
-                                            ).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_NAME, TEMPS.LABELS.FIELD_POPOUTS_NAME_NOTE(this.defaultSettings.popouts.name),
-                                            PreviewsPanel([
-                                                { label: TEMPS.LABELS.PREVIEW_IN, value: 'in' },
-                                                { label: TEMPS.LABELS.PREVIEW_OUT, value: 'out' },
-                                                { label: TEMPS.LABELS.PREVIEW_CIRCLE, value: 'circle' },
-                                                { label: TEMPS.LABELS.PREVIEW_POLYGON, value: 'polygon' },
-                                                { label: TEMPS.LABELS.PREVIEW_OPACITY, value: 'opacity' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIME, value: 'slime' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_RIGHT, value: 'brick-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_LEFT, value: 'brick-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_UP, value: 'brick-up' },
-                                                { label: TEMPS.LABELS.PREVIEW_BRICK_DOWN, value: 'brick-down' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_RIGHT, value: 'slide-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_LEFT, value: 'slide-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP, value: 'slide-up' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN, value: 'slide-down' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_RIGHT, value: 'slide-up-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_LEFT, value: 'slide-up-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_RIGHT, value: 'slide-down-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_LEFT, value: 'slide-down-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_SKEW_RIGHT, value: 'skew-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_SKEW_LEFT, value: 'skew-left' },
-                                                { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_RIGHT, value: 'wide-skew-right' },
-                                                { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_LEFT, value: 'wide-skew-left' },
-                                            ], {
-                                                type: 'popouts-name',
-                                                class: 'popouts',
-                                                horizontal: false,
-                                                tempBlocks: {
-                                                    count: 1,
-                                                    height: '36%'
-                                                },
-                                                custom: {
-                                                    data: this.settings.popouts.custom,
-                                                }
-                                            },
-                                                this.settings.popouts.name, (e) => {
-                                                    this.settings.popouts.name = e.value;
-                                                    this.settings.popouts.page = e.page;
-                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                    this.changeStyles()
-                                            }).render,
-                                            { noteOnTop: true }
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_POPOUTS_DURATION_NOTE(this.defaultSettings.popouts.duration),
-                                            ElementsPanel([
-                                                {
-                                                    elements: [
-                                                        {
-                                                            component: 'input',
-                                                            value: this.settings.popouts.duration,
-                                                            max: 3,
-                                                            step: 0.01,
-                                                            type: 'number',
-                                                            onchange: (e, v) => {
-                                                                this.settings.popouts.duration = v;
-                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                this.changeStyles()
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            ]).render
-                                        ).render,
-                                    ]
-                                },
-                                {
-                                    name: TEMPS.LABELS.GROUP_ADVANCED,
-                                    content: [
-                                        Field(TEMPS.LABELS.FIELD_LISTS_SELECTORS, TEMPS.LABELS.FIELD_LISTS_SELECTORS_NOTE,
-                                            TextareaPanel({
-                                                elementsPanel: {
-                                                    containersTemp: [
+                            TabsPanel(
+                                [
+                                    {
+                                        name: TEMPS.LABELS.GROUP_LISTS,
+                                        content: [
+                                            Field(null, null,
+                                                ElementsPanel(
+                                                    [
                                                         {
                                                             elements: [
                                                                 {
                                                                     component: 'button',
-                                                                    label: TEMPS.LABELS.BUTTON_SELECTORS_LISTS_DEFAULT,
-                                                                    id: 'lists-selectors-default',
-                                                                    svgPaths: [
-                                                                        'M 13 3 c -4.97 0 -9 4.03 -9 9 H 1 l 3.89 3.89 l 0.07 0.14 L 9 12 H 6 c 0 -3.87 3.13 -7 7 -7 s 7 3.13 7 7 s -3.13 7 -7 7 c -1.93 0 -3.68 -0.79 -4.94 -2.06 l -1.42 1.42 C 8.27 19.99 10.51 21 13 21 c 4.97 0 9 -4.03 9 -9 s -4.03 -9 -9 -9 z',
+                                                                    color: 'blurple',
+                                                                    label: TEMPS.LABELS.BUTTON_RESET_LISTS,
+                                                                    id: 'animations-reset-lists',
+                                                                    svgs: [
+                                                                        {
+                                                                            paths: [
+                                                                                Animations.paths.gear
+                                                                            ],
+                                                                            viewBox: '0 0 20 20'
+                                                                        }
                                                                     ],
-                                                                    onclick: (e) => {
-                                                                        var textarea = e.currentTarget.closest('.animTextareaPanel').querySelector('.animTextarea')
-                                                                        textarea.value = Animations.selectorsLists.join(',\n\n')
-                                                                        textarea.style.color = '';
-            
-                                                                        this.settings.lists.selectors = '';
+                                                                    onclick: async (e) => {
+
+                                                                        let button = e.currentTarget;
+                                                                        button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_RESET_RESETING;
+                                                                        await this.wait(500);
+
+                                                                        this.settings.lists = this.defaultSettings.lists
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                    }
-                                                                },
-                                                                {
-                                                                    component: 'button',
-                                                                    label: TEMPS.LABELS.BUTTON_SELECTORS_LISTS_CLEAR,
-                                                                    id: 'lists-selectors-clear',
-                                                                    onclick: (e) => {
-                                                                        var textarea = e.currentTarget.closest('.animTextareaPanel').querySelector('.animTextarea')
-                                                                        textarea.value = '';
-                                                                        textarea.focus();
-                                                                    }
-                                                                },
-                                                            ]
-                                                        }
-                                                    ],
-                                                    options: {
-                                                        widthAll: '100%'
-                                                    }
-                                                }
-                                            },
-                                            this.settings.lists.selectors ? this.settings.lists.selectors : Animations.selectorsLists.join(',\n\n'),
-                                            (e) => {
-                                                var textarea = e.currentTarget;
-                                                var value = textarea.value;
-            
-                                                if(value=='' || this.isValidSelector(value)) {
-                                                    this.settings.lists.selectors = (value==Animations.selectorsLists?'':value)
-                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                    this.changeStyles()
-                                                    textarea.style.color = ''
-                                                } else {
-                                                    textarea.style.color = this.colors.red
-                                                }
-                                            }
-                                            ).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_BUTTONS_SELECTORS, TEMPS.LABELS.FIELD_BUTTONS_SELECTORS_NOTE,
-                                            TextareaPanel({
-                                                elementsPanel: {
-                                                    containersTemp: [
-                                                        {
-                                                            elements: [
-                                                                {
-                                                                    component: 'button',
-                                                                    label: TEMPS.LABELS.BUTTON_SELECTORS_BUTTONS_DEFAULT,
-                                                                    id: 'buttons-selectors-default',
-                                                                    svgPaths: [
-                                                                        'M 13 3 c -4.97 0 -9 4.03 -9 9 H 1 l 3.89 3.89 l 0.07 0.14 L 9 12 H 6 c 0 -3.87 3.13 -7 7 -7 s 7 3.13 7 7 s -3.13 7 -7 7 c -1.93 0 -3.68 -0.79 -4.94 -2.06 l -1.42 1.42 C 8.27 19.99 10.51 21 13 21 c 4.97 0 9 -4.03 9 -9 s -4.03 -9 -9 -9 z',
-                                                                    ],
-                                                                    onclick: (e) => {
-                                                                        var textarea = e.currentTarget.closest('.animTextareaPanel').querySelector('.animTextarea')
-                                                                        textarea.value = Animations.selectorsButtons.join(',\n\n')
-                                                                        textarea.style.color = '';
-            
-                                                                        this.settings.lists.selectors = '';
-                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                    }
-                                                                },
-                                                                {
-                                                                    component: 'button',
-                                                                    label: TEMPS.LABELS.BUTTON_SELECTORS_BUTTONS_CLEAR,
-                                                                    id: 'buttons-selectors-clear',
-                                                                    onclick: (e) => {
-                                                                        var textarea = e.currentTarget.closest('.animTextareaPanel').querySelector('.animTextarea')
-                                                                        textarea.value = '';
-                                                                        textarea.focus();
-                                                                    }
+                                                                        this.settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
+                                                                        this.changeStyles();
+                                                                        this.closeSettings();
+                                                                    },
                                                                 }
-                                                            ]
+                                                            ],
+                                                            options: {
+                                                                widthAll: '100%',
+                                                                align: 'space-between'
+                                                            }
                                                         }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_NAME, TEMPS.LABELS.FIELD_LISTS_NAME_NOTE(this.defaultSettings.lists.name),
+                                                PreviewsPanel(
+                                                    [
+                                                        { label: TEMPS.LABELS.PREVIEW_IN, value: 'in' },
+                                                        { label: TEMPS.LABELS.PREVIEW_OUT, value: 'out' },
+                                                        { label: TEMPS.LABELS.PREVIEW_CIRCLE, value: 'circle' },
+                                                        { label: TEMPS.LABELS.PREVIEW_POLYGON, value: 'polygon' },
+                                                        { label: TEMPS.LABELS.PREVIEW_OPACITY, value: 'opacity' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIME, value: 'slime' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_RIGHT, value: 'brick-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_LEFT, value: 'brick-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_UP, value: 'brick-up' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_DOWN, value: 'brick-down' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_RIGHT, value: 'slide-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_LEFT, value: 'slide-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP, value: 'slide-up' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN, value: 'slide-down' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_RIGHT, value: 'slide-up-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_LEFT, value: 'slide-up-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_RIGHT, value: 'slide-down-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_LEFT, value: 'slide-down-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SKEW_RIGHT, value: 'skew-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SKEW_LEFT, value: 'skew-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_RIGHT, value: 'wide-skew-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_LEFT, value: 'wide-skew-left' },
                                                     ],
-                                                    options: {
-                                                        widthAll: '100%'
-                                                    }
-                                                }
-                                            },
-                                            this.settings.buttons.selectors ? this.settings.buttons.selectors : Animations.selectorsButtons.join(',\n\n'),
-                                            (e) => {
-                                                var textarea = e.currentTarget;
-                                                var value = textarea.value;
-            
-                                                if(value=='' || this.isValidSelector(value)) {
-                                                    this.settings.buttons.selectors = (value==Animations.selectorsButtons?'':value)
-                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                    this.changeStyles()
-                                                    textarea.style.color = ''
-                                                } else {
-                                                    textarea.style.color = this.colors.red
-                                                }
-                                            }
-                                            ).render
-                                        ).render,
-            
-                                        Field(TEMPS.LABELS.FIELD_POPOUTS_SELECTORS, TEMPS.LABELS.FIELD_POPOUTS_SELECTORS_NOTE,
-                                            TextareaPanel({
-                                                elementsPanel: {
-                                                    containersTemp: [
-                                                        {
-                                                            elements: [
-                                                                {
-                                                                    component: 'button',
-                                                                    label: TEMPS.LABELS.BUTTON_SELECTORS_POPOUTS_DEFAULT,
-                                                                    id: 'popouts-selectors-default',
-                                                                    svgPaths: [
-                                                                        'M 13 3 c -4.97 0 -9 4.03 -9 9 H 1 l 3.89 3.89 l 0.07 0.14 L 9 12 H 6 c 0 -3.87 3.13 -7 7 -7 s 7 3.13 7 7 s -3.13 7 -7 7 c -1.93 0 -3.68 -0.79 -4.94 -2.06 l -1.42 1.42 C 8.27 19.99 10.51 21 13 21 c 4.97 0 9 -4.03 9 -9 s -4.03 -9 -9 -9 z',
-                                                                    ],
-                                                                    onclick: (e) => {
-                                                                        var textarea = e.currentTarget.closest('.animTextareaPanel').querySelector('.animTextarea')
-                                                                        textarea.value = Animations.selectorsPopouts.join(',\n\n')
-                                                                        textarea.style.color = '';
-            
-                                                                        this.settings.lists.selectors = '';
-                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                    }
-                                                                },
-                                                                {
-                                                                    component: 'button',
-                                                                    label: TEMPS.LABELS.BUTTON_SELECTORS_POPOUTS_CLEAR,
-                                                                    id: 'popouts-selectors-clear',
-                                                                    onclick: (e) => {
-                                                                        var textarea = e.currentTarget.closest('.animTextareaPanel').querySelector('.animTextarea')
-                                                                        textarea.value = '';
-                                                                        textarea.focus();
-                                                                    }
-                                                                }
-                                                            ]
+                                                    {
+                                                        type: 'lists-name',
+                                                        class: 'lists',
+                                                        custom: {
+                                                            data: this.settings.lists.custom,
                                                         }
-                                                    ],
-                                                    options: {
-                                                        widthAll: '100%'
                                                     },
-                                                },
-                                                textarea: {
-                                                    height: '92px'
-                                                },
-                                            },
-                                            this.settings.popouts.selectors ? this.settings.popouts.selectors : Animations.selectorsPopouts.join(',\n\n'),
-                                            (e) => {
-                                                var textarea = e.currentTarget;
-                                                var value = textarea.value;
-            
-                                                if(value=='' || this.isValidSelector(value)) {
-                                                    this.settings.popouts.selectors = (value==Animations.selectorsPopouts?'':value)
-                                                    PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                    this.changeStyles()
-                                                    textarea.style.color = ''
-                                                } else {
-                                                    textarea.style.color = this.colors.red
-                                                }
-                                            },
-                                            ).render
-                                        ).render,
-                                    ]
-                                },
-                            ]).class
+                                                    this.settings.lists.name,
+                                                    (e) => {
+                                                        this.settings.lists.name = e.value;
+                                                        this.settings.lists.page = e.page;
+                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                        this.changeStyles()
+                                                    }).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_SEQUENCE, TEMPS.LABELS.FIELD_LISTS_SEQUENCE_NOTE(this.defaultSettings.lists.sequence),
+                                                PreviewsPanel(
+                                                    [
+                                                        { label: TEMPS.LABELS.PREVIEW_VERTICAL_FROM_FIRST, value: 'fromFirst' },
+                                                        { label: TEMPS.LABELS.PREVIEW_VERTICAL_FROM_LAST, value: 'fromLast' },
+                                                    ],
+                                                    {
+                                                        type: 'lists-sequence'
+                                                    },
+                                                    this.settings.lists.sequence,
+                                                    (e) => {
+                                                        this.settings.lists.sequence = e.value;
+                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                        this.changeStyles()
+                                                    }
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_LISTS_DELAY_NOTE(this.defaultSettings.lists.delay),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.lists.delay,
+                                                                    max: 0.35,
+                                                                    step: 0.01,
+                                                                    type: 'number',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.lists.delay = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_LIMIT, TEMPS.LABELS.FIELD_LISTS_LIMIT_NOTE(this.defaultSettings.lists.limit),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.lists.limit,
+                                                                    max: 100,
+                                                                    step: 5,
+                                                                    type: 'integer',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.lists.limit = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_LISTS_DURATION_NOTE(this.defaultSettings.lists.duration),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.lists.duration,
+                                                                    max: 3,
+                                                                    step: 0.1,
+                                                                    type: 'number',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.lists.duration = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+                                        ]
+                                    },
+                                    {
+                                        name: TEMPS.LABELS.GROUP_BUTTONS,
+                                        content: [
+                                            Field(null, null,
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'button',
+                                                                    color: 'blurple',
+                                                                    label: TEMPS.LABELS.BUTTON_RESET_BUTTONS,
+                                                                    id: 'animations-reset-buttons',
+                                                                    svgs: [
+                                                                        {
+                                                                            paths: [
+                                                                                Animations.paths.gear
+                                                                            ],
+                                                                            viewBox: '0 0 20 20'
+                                                                        }
+                                                                    ],
+                                                                    onclick: async (e) => {
+
+                                                                        let button = e.currentTarget;
+                                                                        button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_RESET_RESETING;
+                                                                        await this.wait(500);
+
+                                                                        this.settings.buttons = this.defaultSettings.buttons
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
+                                                                        this.changeStyles();
+                                                                        this.closeSettings();
+                                                                    },
+                                                                }
+                                                            ],
+                                                            options: {
+                                                                widthAll: '100%',
+                                                                align: 'space-between'
+                                                            }
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_NAME, TEMPS.LABELS.FIELD_BUTTONS_NAME_NOTE(this.defaultSettings.buttons.name),
+                                                PreviewsPanel(
+                                                    [
+                                                        { label: TEMPS.LABELS.PREVIEW_IN, value: 'in' },
+                                                        { label: TEMPS.LABELS.PREVIEW_OUT, value: 'out' },
+                                                        { label: TEMPS.LABELS.PREVIEW_CIRCLE, value: 'circle' },
+                                                        { label: TEMPS.LABELS.PREVIEW_POLYGON, value: 'polygon' },
+                                                        { label: TEMPS.LABELS.PREVIEW_OPACITY, value: 'opacity' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIME, value: 'slime' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_RIGHT, value: 'brick-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_LEFT, value: 'brick-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_UP, value: 'brick-up' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_DOWN, value: 'brick-down' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_RIGHT, value: 'slide-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_LEFT, value: 'slide-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP, value: 'slide-up' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN, value: 'slide-down' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_RIGHT, value: 'slide-up-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_LEFT, value: 'slide-up-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_RIGHT, value: 'slide-down-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_LEFT, value: 'slide-down-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SKEW_RIGHT, value: 'skew-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SKEW_LEFT, value: 'skew-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_RIGHT, value: 'wide-skew-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_LEFT, value: 'wide-skew-left' },
+                                                    ],
+                                                    {
+                                                        type: 'buttons-name',
+                                                        class: 'buttons',
+                                                        horizontal: true,
+                                                        custom: {
+                                                            data: this.settings.buttons.custom,
+                                                        }
+                                                    },
+                                                    this.settings.buttons.name,
+                                                    (e) => {
+                                                        this.settings.buttons.name = e.value;
+                                                        this.settings.buttons.page = e.page;
+                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                        this.changeStyles()
+                                                    }
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_SEQUENCE, TEMPS.LABELS.FIELD_BUTTONS_SEQUENCE_NOTE(this.defaultSettings.buttons.sequence),
+                                                PreviewsPanel(
+                                                    [
+                                                        { label: TEMPS.LABELS.PREVIEW_HORIZONTAL_FROM_FIRST, value: 'fromFirst' },
+                                                        { label: TEMPS.LABELS.PREVIEW_HORIZONTAL_FROM_LAST, value: 'fromLast' },
+                                                    ],
+                                                    {
+                                                        type: 'buttons-sequence',
+                                                        horizontal: true
+                                                    },
+                                                    this.settings.buttons.sequence,
+                                                    (e) => {
+                                                        this.settings.buttons.sequence = e.value;
+                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                        this.changeStyles()
+                                                    }
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_BUTTONS_DELAY_NOTE(this.defaultSettings.buttons.delay),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.buttons.delay,
+                                                                    max: 0.5,
+                                                                    step: 0.01,
+                                                                    type: 'number',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.buttons.delay = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_BUTTONS_DURATION_NOTE(this.defaultSettings.buttons.duration),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.buttons.duration,
+                                                                    max: 3,
+                                                                    step: 0.1,
+                                                                    type: 'number',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.buttons.duration = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+                                        ]
+                                    },
+                                    {
+                                        name: TEMPS.LABELS.GROUP_MESSAGES,
+                                        content: [
+                                            Field(null, null,
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'button',
+                                                                    color: 'blurple',
+                                                                    label: TEMPS.LABELS.BUTTON_RESET_MESSAGES,
+                                                                    id: 'animations-reset-messages',
+                                                                    svgs: [
+                                                                        {
+                                                                            paths: [
+                                                                                Animations.paths.gear
+                                                                            ],
+                                                                            viewBox: '0 0 20 20'
+                                                                        }
+                                                                    ],
+                                                                    onclick: async (e) => {
+
+                                                                        let button = e.currentTarget;
+                                                                        button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_RESET_RESETING;
+                                                                        await this.wait(500);
+
+                                                                        this.settings.messages = this.defaultSettings.messages
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
+                                                                        this.changeStyles();
+                                                                        this.closeSettings();
+                                                                    },
+                                                                }
+                                                            ],
+                                                            options: {
+                                                                widthAll: '100%',
+                                                                align: 'space-between'
+                                                            }
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_NAME, TEMPS.LABELS.FIELD_MESSAGES_NAME_NOTE(this.defaultSettings.messages.name),
+                                                PreviewsPanel(
+                                                    [
+                                                        { label: TEMPS.LABELS.PREVIEW_IN, value: 'in' },
+                                                        { label: TEMPS.LABELS.PREVIEW_OUT, value: 'out' },
+                                                        { label: TEMPS.LABELS.PREVIEW_CIRCLE, value: 'circle' },
+                                                        { label: TEMPS.LABELS.PREVIEW_POLYGON, value: 'polygon' },
+                                                        { label: TEMPS.LABELS.PREVIEW_OPACITY, value: 'opacity' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIME, value: 'slime' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_RIGHT, value: 'brick-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_LEFT, value: 'brick-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_UP, value: 'brick-up' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_DOWN, value: 'brick-down' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_RIGHT, value: 'slide-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_LEFT, value: 'slide-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP, value: 'slide-up' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN, value: 'slide-down' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_RIGHT, value: 'slide-up-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_LEFT, value: 'slide-up-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_RIGHT, value: 'slide-down-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_LEFT, value: 'slide-down-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SKEW_RIGHT, value: 'skew-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SKEW_LEFT, value: 'skew-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_RIGHT, value: 'wide-skew-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_LEFT, value: 'wide-skew-left' },
+                                                    ],
+                                                    {
+                                                        type: 'messages-name',
+                                                        class: 'messages',
+                                                        custom: {
+                                                            data: this.settings.messages.custom,
+                                                        }
+                                                    },
+                                                    this.settings.messages.name,
+                                                    (e) => {
+                                                        this.settings.messages.name = e.value;
+                                                        this.settings.messages.page = e.page;
+                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                        this.changeStyles()
+                                                    }
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_MESSAGES_DELAY_NOTE(this.defaultSettings.messages.delay),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.messages.delay,
+                                                                    max: 0.5,
+                                                                    step: 0.01,
+                                                                    type: 'number',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.messages.delay = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_LIMIT, TEMPS.LABELS.FIELD_MESSAGES_LIMIT_NOTE(this.defaultSettings.messages.limit),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.messages.limit,
+                                                                    max: 100,
+                                                                    step: 1,
+                                                                    type: 'integer',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.messages.limit = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_MESSAGES_DURATION_NOTE(this.defaultSettings.messages.duration),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.messages.duration,
+                                                                    max: 3,
+                                                                    step: 0.01,
+                                                                    type: 'number',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.messages.duration = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+                                        ]
+                                    },
+                                    {
+                                        name: TEMPS.LABELS.GROUP_POPOUTS,
+                                        content: [
+                                            Field(null, null,
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'button',
+                                                                    color: 'blurple',
+                                                                    label: TEMPS.LABELS.BUTTON_RESET_POPOUTS,
+                                                                    id: 'animations-reset-popouts',
+                                                                    svgs: [
+                                                                        {
+                                                                            paths: [
+                                                                                Animations.paths.gear
+                                                                            ],
+                                                                            viewBox: '0 0 20 20'
+                                                                        }
+                                                                    ],
+                                                                    onclick: async (e) => {
+
+                                                                        let button = e.currentTarget;
+                                                                        button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_RESET_RESETING;
+                                                                        await this.wait(500);
+
+                                                                        this.settings.popouts = this.defaultSettings.popouts
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.settings = PluginUtilities.loadSettings(this.getName(), this.defaultSettings);
+                                                                        this.changeStyles();
+                                                                        this.closeSettings();
+                                                                    },
+                                                                }
+                                                            ],
+                                                            options: {
+                                                                widthAll: '100%',
+                                                                align: 'space-between'
+                                                            }
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_NAME, TEMPS.LABELS.FIELD_POPOUTS_NAME_NOTE(this.defaultSettings.popouts.name),
+                                                PreviewsPanel(
+                                                    [
+                                                        { label: TEMPS.LABELS.PREVIEW_IN, value: 'in' },
+                                                        { label: TEMPS.LABELS.PREVIEW_OUT, value: 'out' },
+                                                        { label: TEMPS.LABELS.PREVIEW_CIRCLE, value: 'circle' },
+                                                        { label: TEMPS.LABELS.PREVIEW_POLYGON, value: 'polygon' },
+                                                        { label: TEMPS.LABELS.PREVIEW_OPACITY, value: 'opacity' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIME, value: 'slime' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_RIGHT, value: 'brick-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_LEFT, value: 'brick-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_UP, value: 'brick-up' },
+                                                        { label: TEMPS.LABELS.PREVIEW_BRICK_DOWN, value: 'brick-down' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_RIGHT, value: 'slide-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_LEFT, value: 'slide-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP, value: 'slide-up' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN, value: 'slide-down' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_RIGHT, value: 'slide-up-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_UP_LEFT, value: 'slide-up-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_RIGHT, value: 'slide-down-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SLIDE_DOWN_LEFT, value: 'slide-down-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SKEW_RIGHT, value: 'skew-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_SKEW_LEFT, value: 'skew-left' },
+                                                        { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_RIGHT, value: 'wide-skew-right' },
+                                                        { label: TEMPS.LABELS.PREVIEW_WIDE_SKEW_LEFT, value: 'wide-skew-left' },
+                                                    ],
+                                                    {
+                                                        type: 'popouts-name',
+                                                        class: 'popouts',
+                                                        horizontal: false,
+                                                        tempBlocks: {
+                                                            count: 1,
+                                                            height: '36%'
+                                                        },
+                                                        custom: {
+                                                            data: this.settings.popouts.custom,
+                                                        }
+                                                    },
+                                                    this.settings.popouts.name,
+                                                    (e) => {
+                                                        this.settings.popouts.name = e.value;
+                                                        this.settings.popouts.page = e.page;
+                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                        this.changeStyles()
+                                                    }
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_POPOUTS_DURATION_NOTE(this.defaultSettings.popouts.duration),
+                                                ElementsPanel(
+                                                    [
+                                                        {
+                                                            elements: [
+                                                                {
+                                                                    component: 'input',
+                                                                    value: this.settings.popouts.duration,
+                                                                    max: 3,
+                                                                    step: 0.01,
+                                                                    type: 'number',
+                                                                    onchange: (e, v) => {
+                                                                        this.settings.popouts.duration = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                ).render
+                                            ).render,
+                                        ]
+                                    },
+                                    {
+                                        name: TEMPS.LABELS.GROUP_ADVANCED,
+                                        content: [
+                                            Field(TEMPS.LABELS.FIELD_LISTS_SELECTORS, TEMPS.LABELS.FIELD_LISTS_SELECTORS_NOTE,
+                                                TextareasPanel(
+                                                    {
+                                                        elementsPanel: {
+                                                            containersTemp: [
+                                                                {
+                                                                    elements: [
+                                                                        {
+                                                                            component: 'button',
+                                                                            label: TEMPS.LABELS.BUTTON_SELECTORS_LISTS_DEFAULT,
+                                                                            id: 'lists-selectors-default',
+                                                                            svgs: [
+                                                                                {
+                                                                                    paths: [
+                                                                                        Animations.paths.circleArrow
+                                                                                    ]
+                                                                                }
+                                                                            ],
+                                                                            onclick: (e) => {
+                                                                                var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
+                                                                                textarea.value = Animations.selectorsLists.join(',\n\n')
+                                                                                textarea.style.color = '';
+
+                                                                                this.settings.lists.selectors = '';
+                                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            component: 'button',
+                                                                            label: TEMPS.LABELS.BUTTON_SELECTORS_LISTS_CLEAR,
+                                                                            id: 'lists-selectors-clear',
+                                                                            onclick: (e) => {
+                                                                                var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
+                                                                                textarea.value = '';
+                                                                                textarea.focus();
+                                                                            }
+                                                                        },
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            options: {
+                                                                widthAll: '100%'
+                                                            }
+                                                        },
+                                                        textareas: [
+                                                            {
+                                                                value: this.settings.lists.selectors ? this.settings.lists.selectors : Animations.selectorsLists.join(',\n\n')
+                                                            }
+                                                        ],
+                                                    },
+                                                    (e) => {
+                                                        var textarea = e.currentTarget;
+                                                        var value = textarea.value;
+
+                                                        if (value == '' || this.isValidSelector(value)) {
+                                                            this.settings.lists.selectors = (value == Animations.selectorsLists ? '' : value)
+                                                            PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                            this.changeStyles()
+                                                            textarea.style.color = ''
+                                                        } else {
+                                                            textarea.style.color = Animations.colors.red
+                                                        }
+                                                    }
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_BUTTONS_SELECTORS, TEMPS.LABELS.FIELD_BUTTONS_SELECTORS_NOTE,
+                                                TextareasPanel(
+                                                    {
+                                                        elementsPanel: {
+                                                            containersTemp: [
+                                                                {
+                                                                    elements: [
+                                                                        {
+                                                                            component: 'button',
+                                                                            label: TEMPS.LABELS.BUTTON_SELECTORS_BUTTONS_DEFAULT,
+                                                                            id: 'buttons-selectors-default',
+                                                                            svgs: [
+                                                                                {
+                                                                                    paths: [
+                                                                                        Animations.paths.circleArrow
+                                                                                    ]
+                                                                                }
+                                                                            ],
+                                                                            onclick: (e) => {
+                                                                                var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
+                                                                                textarea.value = Animations.selectorsButtons.join(',\n\n')
+                                                                                textarea.style.color = '';
+
+                                                                                this.settings.lists.selectors = '';
+                                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            component: 'button',
+                                                                            label: TEMPS.LABELS.BUTTON_SELECTORS_BUTTONS_CLEAR,
+                                                                            id: 'buttons-selectors-clear',
+                                                                            onclick: (e) => {
+                                                                                var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
+                                                                                textarea.value = '';
+                                                                                textarea.focus();
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            options: {
+                                                                widthAll: '100%'
+                                                            }
+                                                        },
+                                                        textareas: [
+                                                            {
+                                                                value: this.settings.buttons.selectors ? this.settings.buttons.selectors : Animations.selectorsButtons.join(',\n\n')
+                                                            }
+                                                        ],
+                                                    },
+                                                    (e) => {
+                                                        var textarea = e.currentTarget;
+                                                        var value = textarea.value;
+
+                                                        if (value == '' || this.isValidSelector(value)) {
+                                                            this.settings.buttons.selectors = (value == Animations.selectorsButtons ? '' : value)
+                                                            PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                            this.changeStyles()
+                                                            textarea.style.color = ''
+                                                        } else {
+                                                            textarea.style.color = Animations.colors.red
+                                                        }
+                                                    }
+                                                ).render
+                                            ).render,
+
+                                            Field(TEMPS.LABELS.FIELD_POPOUTS_SELECTORS, TEMPS.LABELS.FIELD_POPOUTS_SELECTORS_NOTE,
+                                                TextareasPanel(
+                                                    {
+                                                        elementsPanel: {
+                                                            containersTemp: [
+                                                                {
+                                                                    elements: [
+                                                                        {
+                                                                            component: 'button',
+                                                                            label: TEMPS.LABELS.BUTTON_SELECTORS_POPOUTS_DEFAULT,
+                                                                            id: 'popouts-selectors-default',
+                                                                            svgs: [
+                                                                                {
+                                                                                    paths: [
+                                                                                        Animations.paths.circleArrow
+                                                                                    ]
+                                                                                }
+                                                                            ],
+                                                                            onclick: (e) => {
+                                                                                var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
+                                                                                textarea.value = Animations.selectorsPopouts.join(',\n\n')
+                                                                                textarea.style.color = '';
+
+                                                                                this.settings.lists.selectors = '';
+                                                                                PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                            }
+                                                                        },
+                                                                        {
+                                                                            component: 'button',
+                                                                            label: TEMPS.LABELS.BUTTON_SELECTORS_POPOUTS_CLEAR,
+                                                                            id: 'popouts-selectors-clear',
+                                                                            onclick: (e) => {
+                                                                                var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
+                                                                                textarea.value = '';
+                                                                                textarea.focus();
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            options: {
+                                                                widthAll: '100%'
+                                                            },
+                                                        },
+                                                        textareas: [
+                                                            {
+                                                                height: '92px',
+                                                                value: this.settings.popouts.selectors ? this.settings.popouts.selectors : Animations.selectorsPopouts.join(',\n\n')
+                                                            }
+                                                        ],
+                                                    },
+                                                    (e) => {
+                                                        var textarea = e.currentTarget;
+                                                        var value = textarea.value;
+
+                                                        if (value == '' || this.isValidSelector(value)) {
+                                                            this.settings.popouts.selectors = (value == Animations.selectorsPopouts ? '' : value)
+                                                            PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                            this.changeStyles()
+                                                            textarea.style.color = ''
+                                                        } else {
+                                                            textarea.style.color = Animations.colors.red
+                                                        }
+                                                    },
+                                                ).render
+                                            ).render,
+                                        ]
+                                    },
+                                ]
+                            ).class
                         ),
                     )
 
@@ -3526,13 +4047,6 @@
                         margin: 20px 0;
                     }
 
-                    .animFieldNote {
-                        color: var(--header-secondary);
-                        font-size: 14px;
-                        line-height: 20px;
-                        font-weight: 400;
-                    }
-
                     .animFieldTitle {
                         color: var(--header-secondary);
                         margin-bottom: 8px;
@@ -3540,6 +4054,29 @@
                         line-height: 16px;
                         font-weight: 600;
                         text-transform: uppercase;
+                    }
+
+                    .animFieldNote {
+                        color: var(--header-secondary);
+                        margin-bottom: 8px;
+                        font-size: 14px;
+                        line-height: 20px;
+                        font-weight: 400;
+                    }
+
+                    .animContent {
+                        height: 0;
+                        width: 100%;
+                        overflow: hidden;
+                        opacity: 0;
+                        transition: 0.5s opacity;
+                    }
+
+                    .animContent.show {
+                        display: block;
+                        height: fit-content;
+                        margin-top: 20px;
+                        opacity: 1;
                     }
 
                     .animTab {
@@ -3555,12 +4092,11 @@
 
                     .animTab.selected, .animTab:hover {
                         padding-bottom: 6px;
-                        border-bottom: 2px solid white;
+                        border-bottom: 2px solid var(--header-primary);
                     }
 
                     .animTabsContainer {
                         border-bottom: 1px solid transparent;
-                        background-color: #36393f;
                         justify-content: space-around;
                         display: flex;
                         position: sticky;
@@ -3568,22 +4104,19 @@
                         top: 0;
                     }
 
-                    .animContent {
-                        display: none;
-                        width: 100%;
-                        height: fit-content;
-                        margin-top: 20px;
+                    .theme-dark .animTabsContainer {
+                        background-color: ${Animations.colors.gray};
                     }
 
-                    .animContent.show {
-                        display: block;
+                    .theme-light .animTabsContainer {
+                        background-color: #fff;
                     }
 
                     .animPreviewsPanel {
                         overflow: hidden;
                     }
 
-                    .animPreviewsContainer, .animPreviewsPanel .animTextareaPanel {
+                    .animPreviewsContainer, .animPreviewsPanel .animTextareasPanel {
                         display: flex;
                         flex-wrap: wrap;
                         justify-content: space-evenly; 
@@ -3598,7 +4131,7 @@
                         transition: 0.5s opacity;
                     }
 
-                    .animPreviewsPanel .animTextareaPanel {
+                    .animPreviewsPanel .animTextareasPanel {
                         padding: 0 18px;
                     }
 
@@ -3611,14 +4144,18 @@
                         font-family: Consolas, monospace;
                     }
 
+                    .animTextarea.invalid {
+                        color: ${Animations.colors.red};
+                    }
+
                     .animTextarea::placeholder {
                         font-family: Consolas, monopoly;
                     }
 
-                    .animPreviewsContainer.show, .animPreviewsPanel .animTextareaPanel.show {
+                    .animPreviewsContainer.show, .animPreviewsPanel .animTextareasPanel.show {
                         opacity: 1;
                         border: 1px solid var(--background-tertiary);
-                        height: 378px;
+                        height: 420px;
                     }
 
                     .animPreviewsContainer.compact {
@@ -3753,7 +4290,7 @@
                         display: inline-flex;
                         box-sizing: border-box;
                         width: 120px;
-                        height: 165px;
+                        height: 185px;
                         padding: 5px;
                         transition: 0.2s;
                         flex-direction: column;
@@ -3860,100 +4397,114 @@
                         margin-right: 0 !important;
                     }
                     
-                    button.blurple.filled {
+                    .animButton.blurple.filled {
                         color: white;
                         background-color: var(--brand-experiment);
                     }
-                    button.blurple.filled:hover {
+                    .animButton.blurple.filled:hover:not(.disabled) {
                         background-color: var(--brand-experiment-560);
                     }
-                    button.blurple.inverted {
+                    .animButton.blurple.inverted {
                         color: var(--brand-experiment);
                         border: 1px solid var(--brand-experiment);
                     }
-                    button.blurple.inverted:hover {
+                    .animButton.blurple.inverted:hover:not(.disabled) {
                         color: var(--brand-experiment-560);
                         border: 1px solid var(--brand-experiment-560);
                     }
                     
-                    button.white.filled {
+                    .animButton.white.filled {
                         color: var(--brand-experiment);
                         background-color: #fff;
                     }
-                    button.white.filled:hover {
+                    .animButton.white.filled:hover:not(.disabled) {
                         background-color: var(--brand-experiment-100);
                     }
-                    button.white.inverted {
+                    .animButton.white.inverted {
                         color: #fff;
                         border: 1px solid #fff;
                     }
-                    button.white.inverted:hover {
+                    .animButton.white.inverted:hover:not(.disabled) {
                         color: var(--brand-experiment-100);
                         border: 1px solid var(--brand-experiment-100);
                     }
 
-                    button.grey.filled {
+                    .animButton.grey.filled {
                         color: white;
                         background-color: #4f545c;
                     }
-                    button.grey.filled:hover {
+                    .animButton.grey.filled:hover:not(.disabled) {
                         background-color: #5d6269;
                     }
-                    button.grey.inverted {
+                    .animButton.grey.inverted {
                         color: #4f545c;
                         border: 1px solid #4f545c;
                     }
-                    button.grey.inverted:hover {
+                    .animButton.grey.inverted:hover:not(.disabled) {
                         color: #5d6269;
                         border: 1px solid #5d6269;
                     }
 
-                    button.red.filled {
+                    .animButton.red.filled {
                         color: white;
                         background-color: hsl(359,calc(var(--saturation-factor, 1)*82.6%),59.4%);
                     }
-                    button.red.filled:hover {
+                    .animButton.red.filled:hover:not(.disabled) {
                         background-color: hsl(359,calc(var(--saturation-factor, 1)*56.7%),48%);
                     }
-                    button.red.inverted {
+                    .animButton.red.inverted {
                         color: hsl(359,calc(var(--saturation-factor, 1)*82.6%),59.4%);
                         border: 1px solid hsl(359,calc(var(--saturation-factor, 1)*82.6%),59.4%);
                     }
-                    button.red.inverted:hover {
+                    .animButton.red.inverted:hover:not(.disabled) {
                         color: hsl(359,calc(var(--saturation-factor, 1)*56.7%),48%);
                         border: 1px solid hsl(359,calc(var(--saturation-factor, 1)*56.7%),48%);
                     }
 
-                    button.yellow.filled {
+                    .animButton.yellow.filled {
                         color: white;
                         background-color: hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
                     }
-                    button.yellow.filled:hover {
+                    .animButton.yellow.filled:hover:not(.disabled) {
                         background-color: hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
                     }
-                    button.yellow.inverted {
+                    .animButton.yellow.inverted {
                         color: hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
                         border: 1px solid hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
                     }
-                    button.yellow.inverted:hover {
+                    .animButton.yellow.inverted:hover:not(.disabled) {
                         color: hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
                         border: 1px solid hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
                     }
 
-                    button.green.filled {
+                    .animButton.green.filled {
                         color: white;
                         background-color: hsl(139,calc(var(--saturation-factor, 1)*47.3%),43.9%);
                     }
-                    button.green.filled:hover {
+                    .animButton.green.filled:hover:not(.disabled) {
                         background-color: hsl(139,calc(var(--saturation-factor, 1)*47.1%),33.3%);
                     }
-                    button.green.inverted {
+                    .animButton.green.inverted {
                         color: hsl(139,calc(var(--saturation-factor, 1)*47.3%),43.9%);
                         border: 1px solid hsl(139,calc(var(--saturation-factor, 1)*47.3%),43.9%);
                     }
-                    button.green.inverted:hover {
+                    .animButton.green.inverted:hover:not(.disabled) {
                         color: hsl(139,calc(var(--saturation-factor, 1)*47.1%),33.3%);
                         border: 1px solid hsl(139,calc(var(--saturation-factor, 1)*47.1%),33.3%);
+                    }
+
+                    .animButton.underline {
+                        font-weight: bold;
+                        background: transparent;
+                        color: white;
+                    }
+                    .animButton.underline:hover:not(.disabled) {
+                        text-decoration: underline;
+                    }
+
+                    [class*=anim].disabled {
+                        opacity: 66.66%;
+                        cursor: not-allowed;
                     }
                     `
 
