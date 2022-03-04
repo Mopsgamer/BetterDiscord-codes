@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.2.11.1
+ * @version 1.2.12
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,15 +21,15 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.2.11.1',
+            version: '1.2.12',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
         },
         changelog: [
-            { "title": "New Stuff", "items": ["The editor now has a field for editing start styles.", "Discord server."] },
-            { "title": "Improvements", "type": "improved", "items": ["A couple of improvements for buttons in settings - link icons, disabling during editing.", "Smooth transitions between tabs.", "Dividers between buttons."] },
-            { "title": "Fixes", "type": "fixed", "items": ["Optimized editor."] }
+            { "title": "New Stuff", "items": ["Reset buttons are near the inputs."] },
+            { "title": "Improvements", "type": "improved", "items": ["Switch buttons have been moved and now have a switcher icon.", "Now the settings panel closes after the update."] },
+            { "title": "Fixes", "type": "fixed", "items": ["Small fix for the update button."] }
         ],
         main: 'index.js',
     };
@@ -208,6 +208,8 @@
                     githubLogo: 'm12 .5c-6.63 0-12 5.28-12 11.792 0 5.211 3.438 9.63 8.205 11.188.6.111.82-.254.82-.567 0-.28-.01-1.022-.015-2.005-3.338.711-4.042-1.582-4.042-1.582-.546-1.361-1.335-1.725-1.335-1.725-1.087-.731.084-.716.084-.716 1.205.082 1.838 1.215 1.838 1.215 1.07 1.803 2.809 1.282 3.495.981.108-.763.417-1.282.76-1.577-2.665-.295-5.466-1.309-5.466-5.827 0-1.287.465-2.339 1.235-3.164-.135-.298-.54-1.497.105-3.121 0 0 1.005-.316 3.3 1.209.96-.262 1.98-.392 3-.398 1.02.006 2.04.136 3 .398 2.28-1.525 3.285-1.209 '
                     +'3.285-1.209.645 1.624.24 2.823.12 3.121.765.825 1.23 1.877 1.23 3.164 0 4.53-2.805 5.527-5.475 5.817.42.354.81 1.077.81 2.182 0 1.578-.015 2.846-.015 3.229 0 .309.21.678.825.56 4.801-1.548 8.236-5.97 8.236-11.173 0-6.512-5.373-11.792-12-11.792z',
         
+                    switcherRight: 'M 0 5 V 9 C 0 12 2 14 5 14 H 19 C 22 14 24 12 24 9 V 5 C 24 2 22 0 19 0 H 5 C 2 0 0 2 0 5 L 2 7 V 6 C 2 4 4 2 6 2 H 18 C 20 2 22 4 22 6 V 8 C 22 10 20 12 18 12 H 6 C 4 12 2 10 2 8 V 7 Z M 17 7 H 21 C 21 4 19 3 17 3 C 15 3 13 4 13 7 C 13 10 15 11 17 11 C 19 11 21 10 21 7 Z',
+                    switcherLeft: 'M 0 5 V 9 C 0 12 2 14 5 14 H 19 C 22 14 24 12 24 9 V 5 C 24 2 22 0 19 0 H 5 C 2 0 0 2 0 5 L 2 7 V 6 C 2 4 4 2 6 2 H 18 C 20 2 22 4 22 6 V 8 C 22 10 20 12 18 12 H 6 C 4 12 2 10 2 8 V 7 Z M 7 7 H 11 C 11 4 9 3 7 3 C 5 3 3 4 3 7 C 3 10 5 11 7 11 C 9 11 11 10 11 7 Z',
                     gear: 'M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z',
                     circleArrow: 'M 13 3 c -4.97 0 -9 4.03 -9 9 H 1 l 3.89 3.89 l 0.07 0.14 L 9 12 H 6 c 0 -3.87 3.13 -7 7 -7 s 7 3.13 7 7 s -3.13 7 -7 7 c -1.93 0 -3.68 -0.79 -4.94 -2.06 l -1.42 1.42 C 8.27 19.99 10.51 21 13 21 c 4.97 0 9 -4.03 9 -9 s -4.03 -9 -9 -9 z',
                     changelogArrow: 'M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z',
@@ -223,7 +225,7 @@
                     `.${WebpackModules.getByProps('channelName', 'icon').wrapper}`,
                     /*threads button > list*/
                     `.${WebpackModules.getByProps('container', 'bullet').container}`,
-                    /*search*/
+                    /*seWebpackarch*/
                     `.${WebpackModules.getByProps('searchResultGroup').searchResultGroup}`,
                     /*members*/
                     `.${WebpackModules.getByProps('botTag', 'member').member}:not([class*=placeholder])`,
@@ -297,27 +299,30 @@
                 ]
 
                 static modules = {
-                    Button: WebpackModules.getByProps('button', 'sizeIcon').button,
-                    ButtonSizeSmall: WebpackModules.getByProps('button', 'sizeIcon').sizeSmall,
-                    ButtonText: WebpackModules.getByProps('buttonText', 'giftIcon').buttonText,
-                    ContentThin: WebpackModules.getByProps('content', 'thin').content,
-                    ContainerDefault: WebpackModules.getByProps('containerDefault').containerDefault,
-                    ContainerDefaultSpaceBeforeCategory: WebpackModules.getByProps('containerDefault', 'spaceBeforeCategory').containerDefault,
-                    ContainerSpine: WebpackModules.getByProps('container', 'spine').container,
-                    ChatContent: WebpackModules.getByProps('chatContent').chatContent,
-                    DividerReplying: WebpackModules.getByProps('divider', 'replying').divider,
-                    InputDefault: WebpackModules.getByProps('inputDefault', 'focused').inputDefault,
-                    IsSending: WebpackModules.getByProps('isSending').isSending,
-                    IsFailed: WebpackModules.getByProps('isFailed').isFailed,
-                    Message: WebpackModules.getByProps('message').message,
-                    MessageListItem: WebpackModules.getByProps('messageListItem').messageListItem,
-                    Side: WebpackModules.getByProps('side').side,
-                    ScrollbarDefault: WebpackModules.getByProps('scrollbarDefault').scrollbarDefault,
-                    TextArea: WebpackModules.getByProps('textArea').textArea,
-                    Offline: WebpackModules.getByProps('offline').offline,
-                    GuildsSidebar: WebpackModules.getByProps('guilds', 'sidebar').guilds,
-                    WrapperTypeThread: WebpackModules.getByProps('wrapper', 'typeThread').wrapper,
-                    VideoLead: WebpackModules.getByProps('video', 'lead').video
+                    Button: WebpackModules.getByProps('button', 'sizeIcon')?.button,
+                    ButtonSizeSmall: WebpackModules.getByProps('button', 'sizeIcon')?.sizeSmall,
+                    ButtonText: WebpackModules.getByProps('buttonText', 'giftIcon')?.buttonText,
+                    ButtonContents: WebpackModules.getByProps('button', 'contents').contents,
+                    ContentThin: WebpackModules.getByProps('content', 'thin')?.content,
+                    ContainerDefault: WebpackModules.getByProps('containerDefault')?.containerDefault,
+                    ContainerDefaultSpaceBeforeCategory: WebpackModules.getByProps('containerDefault', 'spaceBeforeCategory')?.containerDefault,
+                    ContainerSpine: WebpackModules.getByProps('container', 'spine')?.container,
+                    Card: WebpackModules.getByProps('cardBrand')?.card,
+                    CodeRedemptionRedirect: WebpackModules.getByProps('codeRedemptionRedirect')?.codeRedemptionRedirect ?? 'codeRedemptionRedirect-2hYMSQ',
+                    ChatContent: WebpackModules.getByProps('chatContent')?.chatContent,
+                    DividerReplying: WebpackModules.getByProps('divider', 'replying')?.divider,
+                    InputDefault: WebpackModules.getByProps('inputDefault', 'focused')?.inputDefault,
+                    IsSending: WebpackModules.getByProps('isSending')?.isSending,
+                    IsFailed: WebpackModules.getByProps('isFailed')?.isFailed,
+                    Message: WebpackModules.getByProps('message')?.message,
+                    MessageListItem: WebpackModules.getByProps('messageListItem')?.messageListItem,
+                    Side: WebpackModules.getByProps('side')?.side,
+                    ScrollbarDefault: WebpackModules.getByProps('scrollbarDefault')?.scrollbarDefault,
+                    TextArea: WebpackModules.getByProps('textArea')?.textArea,
+                    Offline: WebpackModules.getByProps('offline')?.offline,
+                    GuildsSidebar: WebpackModules.getByProps('guilds', 'sidebar')?.guilds,
+                    WrapperTypeThread: WebpackModules.getByProps('wrapper', 'typeThread')?.wrapper,
+                    VideoLead: WebpackModules.getByProps('video', 'lead')?.video
                 }
 
                 get countStyles() {
@@ -1888,8 +1893,8 @@
                                         super(props)
                                         this.paths = props.paths ?? []
                                         this.color = props.color ?? '#fff'
-                                        this.width = props.width ?? '18px'
-                                        this.height = props.height ?? '18px'
+                                        this.width = props.width ?? '16px'
+                                        this.height = props.height ?? '16px'
                                         this.align = props.align ?? false
                                         this.viewBox = props.viewBox ?? '0 0 24 24'
                                     }
@@ -1946,7 +1951,7 @@
                                                 style: {
                                                     'max-width': 'none'
                                                 },
-                                                class: `${Animations.modules.ButtonText}`,
+                                                class: `${Animations.modules.ButtonText} ${Animations.modules.ButtonContents}`,
                                             },
                                                 button.label
                                             ),
@@ -2236,7 +2241,7 @@
 
                                     return React.createElement('div', {
                                         'data-animation': this.template.value,
-                                        class: `animPreview ${ this.enabled ? 'enabled' : ''}`,
+                                        class: `animPreview ${Animations.modules.CodeRedemptionRedirect} ${Animations.modules.Card} ${ this.enabled ? 'enabled' : ''}`,
                                         onClick: (e) => {
                                             onclick({value: this.template.value, page: this.page});
     
@@ -2292,7 +2297,7 @@
                             render() {
                                 return React.createElement('div',
                                     {
-                                        class: `animPageCircleButton ${this.enabled ? 'enabled' : ''}`,
+                                        class: `animPageCircleButton ${Animations.modules.CodeRedemptionRedirect} ${Animations.modules.Card} ${this.enabled ? 'enabled' : ''}`,
                                         'data-page': this.index,
                                         onClick: (e) => {
                                             var selectorNodes = e.currentTarget.closest(this.closest).querySelectorAll(this.selector);
@@ -2327,7 +2332,7 @@
                             render() {
                                 return React.createElement('div',
                                     {
-                                        class: `animPageCircleButton ${this.enabled ? 'enabled' : ''}`,
+                                        class: `animPageCircleButton ${Animations.modules.CodeRedemptionRedirect} ${Animations.modules.Card} ${this.enabled ? 'enabled' : ''}`,
                                         onClick: (e) => {
                                             this.onclick?.(e)
                                         }
@@ -2567,13 +2572,13 @@
                             render() {
                                 return React.createElement('div',
                                     {
-                                        class: `animPreviewActionButton ${this.isEditing ? 'editing' : 'selecting'}`,
+                                        class: `animPreviewActionButton ${Animations.modules.CodeRedemptionRedirect} ${Animations.modules.Card} ${this.isEditing ? 'editing' : 'selecting'}`,
                                         onClick: this.onclick
                                     },
 
                                     React.createElement('div',
                                         {
-                                            class: 'switchActionButton'
+                                            class: `switchActionButton`
                                         },
                                         [
                                             React.createElement('div', {
@@ -2598,7 +2603,7 @@
                                     ),
                                     React.createElement('div',
                                         {
-                                            class: 'switchActionButton'
+                                            class: `switchActionButton`
                                         },
                                         [
                                             React.createElement('div', {
@@ -2701,15 +2706,24 @@
 
                         var tabsNodes = [];
                         var contentNodes = [];
+                        var index = 0;
 
-                        tabsTemp.forEach((tab, index)=>{
+                        tabsTemp.forEach((tabTemp)=>{
+
+                            if(tabTemp?.component == 'divider') {
+                                tabsNodes.push(React.createElement('div', {class: `animTabDivider`}))
+                                return;
+                            }
+
                             tabsNodes.push(
                                 React.createElement('div',
                                     {
                                         'data-index': index,
-                                        class: `animTab`,
+                                        class: `animTab ${tabTemp.disabled ? 'disabled' : ''}`,
                                         onClick: (e)=>{
+                                            if(tabTemp.disabled) return;
                                             var tab = e.currentTarget;
+                                            var index = Number(tab.getAttribute('data-index'));
                                             var panel = tab.closest('.animTabsPanel');
 
                                             panel.querySelectorAll(`.animTab:not([data-index="${index}"])`).forEach(
@@ -2726,18 +2740,21 @@
                                             panel.querySelector(`.animContent[data-index="${index}"]`).classList.toggle('show')
                                         }
                                     },
-                                    tab.name
+                                    tabTemp.name
                                 )
                             )
+
                             contentNodes.push(
                                 React.createElement('div',
                                     {
                                         'data-index': index,
                                         class: `animContent`
                                     },
-                                    tab.content
+                                    Array.isArray(tabTemp.content) ? tabTemp.content : []
                                 )
                             )
+
+                            index++
                         })
 
                         var result = React.createElement('div', {
@@ -2745,7 +2762,7 @@
                                 margin: options.margin ?? null,
                                 padding: options.padding ?? null
                             },
-                            class: `animTabsPanel ${options.class}`
+                            class: `animTabsPanel ${options.class ?? ''}`
                         },
                             [
                                 React.createElement('div',
@@ -2842,13 +2859,7 @@
                                             component: 'button',
                                             color: 'blurple',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHANGELOG,
-                                            svgs: [
-                                                {
-                                                    paths: [
-                                                        Animations.paths.changelogArrow
-                                                    ]
-                                                }
-                                            ],
+                                            svgs: [{paths: [Animations.paths.changelogArrow]}],
                                             id: 'animations-version-changelog',
                                             inverted: false,
                                             onclick: (e) => {
@@ -2859,19 +2870,15 @@
                                             component: 'button',
                                             color: 'blurple',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK,
-                                            svgs: [
-                                                {
-                                                    paths: [
-                                                        Animations.paths.downloadArrow
-                                                    ]
-                                                }
-                                            ],
+                                            svgs: [{paths: [Animations.paths.downloadArrow]}],
                                             id: 'animations-version-check',
                                             inverted: false,
                                             onclick: (e) => {
                                                 let button = e.currentTarget;
 
                                                 button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_SEARCHING;
+                                                button.classList.remove('blurple', 'grey', 'red', 'yellow', 'green', 'white')
+                                                button.classList.add('blurple')
 
                                                 const Http = new XMLHttpRequest();
                                                 Http.open("GET", 'https://api.github.com/repos/Mopsgamer/BetterDiscord-codes/contents/plugins/Animations/Animations.plugin.js');
@@ -2880,7 +2887,7 @@
                                                 Http.timeout = 5000;
                                                 Http.ontimeout = function (e) {
                                                     button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_TIMEOUT;
-                                                    button.classList.remove('blurple')
+                                                    button.classList.remove('blurple', 'grey', 'red', 'yellow', 'green', 'white')
                                                     button.classList.add('red')
                                                 };
 
@@ -2889,7 +2896,7 @@
 
                                                     if (!Http.responseText) {
                                                         button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_ERROR;
-                                                        button.classList.remove('blurple')
+                                                        button.classList.remove('blurple', 'grey', 'red', 'yellow', 'green', 'white')
                                                         button.classList.add('red')
                                                         return
                                                     }
@@ -2919,6 +2926,7 @@
                                                     }
 
                                                     var UpdatePlugin = () => {
+                                                        this.closeSettings()
                                                         return new Promise((rs, rj)=>{
                                                             try {
                                                                 var fs = require('fs');
@@ -2933,7 +2941,7 @@
                                                     switch (newerVersion(GitHubVersion, this.getVersion())) {
                                                         case GitHubVersion:
                                                             button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_OLDER(GitHubVersion)
-                                                            button.classList.remove('blurple')
+                                                            button.classList.remove('blurple', 'grey', 'red', 'yellow', 'green', 'white')
                                                             button.classList.add('green')
                                                             button.addEventListener('click',
                                                                 () => {
@@ -2956,7 +2964,7 @@
                                                             break;
                                                         case this.getVersion():
                                                             button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_NEWER(this.getVersion())
-                                                            button.classList.remove('blurple')
+                                                            button.classList.remove('blurple', 'grey', 'red', 'yellow', 'green', 'white')
                                                             button.classList.add('grey')
                                                             button.addEventListener('click',
                                                                 () => {
@@ -2979,7 +2987,7 @@
                                                             break;
                                                         case false:
                                                             button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_ANIMATIONS_VERSION_CHECK_LATEST(this.getVersion())
-                                                            button.classList.remove('blurple')
+                                                            button.classList.remove('blurple', 'grey', 'red', 'yellow', 'green', 'white')
                                                             button.classList.add('grey')
                                                             button.addEventListener('click',
                                                                 () => {
@@ -3016,14 +3024,7 @@
                                             color: 'blurple',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_RESET,
                                             id: 'animations-reset',
-                                            svgs: [
-                                                {
-                                                    paths: [
-                                                        Animations.paths.gear
-                                                    ],
-                                                    viewBox: '0 0 20 20'
-                                                }
-                                            ],
+                                            svgs: [{paths: [Animations.paths.gear],viewBox: '0 0 20 20'}],
                                             onclick: async (e) => {
 
                                                 let button = e.currentTarget;
@@ -3041,13 +3042,7 @@
                                             color: 'blurple',
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_REBUILD,
                                             id: 'animations-rebuild',
-                                            svgs: [
-                                                {
-                                                    paths: [
-                                                        Animations.paths.circleArrow
-                                                    ]
-                                                }
-                                            ],
+                                            svgs: [{paths: [Animations.paths.circleArrow]}],
                                             onclick: (e) => this.changeStyles()
                                         }
                                     ],
@@ -3064,13 +3059,7 @@
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_ISSUES,
                                             color: 'grey',
                                             id: 'animations-issues',
-                                            svgs: [
-                                                {
-                                                    paths: [
-                                                        Animations.paths.githubLogo
-                                                    ]
-                                                }
-                                            ],
+                                            svgs: [{paths:[Animations.paths.githubLogo]}],
                                             link: 'https://github.com/Mopsgamer/BetterDiscord-codes/issues'
                                         },
                                         {
@@ -3078,13 +3067,7 @@
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_DISCUSSIONS,
                                             color: 'grey',
                                             id: 'animations-discussions',
-                                            svgs: [
-                                                {
-                                                    paths: [
-                                                        Animations.paths.githubLogo
-                                                    ]
-                                                }
-                                            ],
+                                            svgs: [{paths: [Animations.paths.githubLogo]}],
                                             link: 'https://github.com/Mopsgamer/BetterDiscord-codes/discussions'
                                         },
                                         {
@@ -3092,123 +3075,11 @@
                                             label: TEMPS.LABELS.BUTTON_ANIMATIONS_SERVER,
                                             color: 'grey',
                                             id: 'animations-server',
-                                            svgs: [
-                                                {
-                                                    viewBox: '0 -5 28 28',
-                                                    paths: [
-                                                        Animations.paths.discordLogo
-                                                    ]
-                                                }
-                                            ],
+                                            svgs: [{viewBox: '0 -5 28 28',paths: [Animations.paths.discordLogo]}],
                                             link: 'https://discord.gg/PWtAHjBXtG'
                                         },
                                     ],
                                 },
-                                {
-                                    elements: [
-                                        {component: 'divider'},
-                                    ]
-                                },
-                                {
-                                    elements: [
-                                        {
-                                            component: 'button',
-                                            color: this.settings.lists.enabled ? 'green' : 'red',
-                                            label: TEMPS.LABELS.BUTTON_LISTS_SWITCH,
-                                            id: 'lists-switch-button',
-                                            onclick: async (e) => {
-
-                                                let button = e.currentTarget
-
-                                                button.getElementsByTagName('span')[0].innerText = '...'
-
-                                                this.settings.lists.enabled = !this.settings.lists.enabled;
-                                                if (!this.settings.lists.enabled) {
-                                                    button.classList.remove('green')
-                                                    button.classList.add('red')
-                                                } else {
-                                                    button.classList.remove('red')
-                                                    button.classList.add('green')
-                                                }
-                                                await this.changeStyles();
-                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_LISTS_SWITCH;
-                                            }
-                                        },
-                                        {
-                                            component: 'button',
-                                            color: this.settings.buttons.enabled ? 'green' : 'red',
-                                            label: TEMPS.LABELS.BUTTON_BUTTONS_SWITCH,
-                                            id: 'buttons-switch-button',
-                                            onclick: async (e) => {
-
-                                                let button = e.currentTarget
-
-                                                button.getElementsByTagName('span')[0].innerText = '...'
-
-                                                this.settings.buttons.enabled = !this.settings.buttons.enabled;
-                                                if (!this.settings.buttons.enabled) {
-                                                    button.classList.remove('green')
-                                                    button.classList.add('red')
-                                                } else {
-                                                    button.classList.remove('red')
-                                                    button.classList.add('green')
-                                                }
-                                                await this.changeStyles();
-                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_BUTTONS_SWITCH;
-                                            }
-                                        },
-                                        {
-                                            component: 'button',
-                                            color: this.settings.messages.enabled ? 'green' : 'red',
-                                            label: TEMPS.LABELS.BUTTON_MESSAGES_SWITCH,
-                                            id: 'messages-switch-button',
-                                            onclick: async (e) => {
-
-                                                let button = e.currentTarget
-
-                                                button.getElementsByTagName('span')[0].innerText = '...'
-
-                                                this.settings.messages.enabled = !this.settings.messages.enabled;
-                                                if (!this.settings.messages.enabled) {
-                                                    button.classList.remove('green')
-                                                    button.classList.add('red')
-                                                } else {
-                                                    button.classList.remove('red')
-                                                    button.classList.add('green')
-                                                }
-                                                await this.changeStyles();
-                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_MESSAGES_SWITCH;
-                                            }
-                                        },
-                                        {
-                                            component: 'button',
-                                            color: this.settings.popouts.enabled ? 'green' : 'red',
-                                            label: TEMPS.LABELS.BUTTON_POPOUTS_SWITCH,
-                                            id: 'popouts-switch-button',
-                                            onclick: async (e) => {
-
-                                                let button = e.currentTarget
-
-                                                button.getElementsByTagName('span')[0].innerText = '...'
-
-                                                this.settings.popouts.enabled = !this.settings.popouts.enabled;
-                                                if (!this.settings.popouts.enabled) {
-                                                    button.classList.remove('green')
-                                                    button.classList.add('red')
-                                                } else {
-                                                    button.classList.remove('red')
-                                                    button.classList.add('green')
-                                                }
-                                                await this.changeStyles();
-                                                PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_POPOUTS_SWITCH;
-                                            }
-                                        }
-                                    ]
-                                }
                             ],
                                 {
                                     widthAll: '100%',
@@ -3230,17 +3101,37 @@
                                                             elements: [
                                                                 {
                                                                     component: 'button',
+                                                                    svgs: [{paths:[ this.settings.lists.enabled ? Animations.paths.switcherRight : Animations.paths.switcherLeft],viewBox:'0 -5 24 24'}],
+                                                                    color: this.settings.lists.enabled ? 'green' : 'red',
+                                                                    label: TEMPS.LABELS.BUTTON_LISTS_SWITCH,
+                                                                    id: 'lists-switch-button',
+                                                                    onclick: async (e) => {
+                        
+                                                                        let button = e.currentTarget
+                        
+                                                                        button.getElementsByTagName('span')[0].innerText = '...'
+                        
+                                                                        this.settings.lists.enabled = !this.settings.lists.enabled;
+                                                                        if (!this.settings.lists.enabled) {
+                                                                            button.classList.remove('green')
+                                                                            button.classList.add('red')
+                                                                            button.querySelector('path').setAttribute('d', Animations.paths.switcherLeft)
+                                                                        } else {
+                                                                            button.classList.remove('red')
+                                                                            button.classList.add('green')
+                                                                            button.querySelector('path').setAttribute('d', Animations.paths.switcherRight)
+                                                                        }
+                                                                        await this.changeStyles();
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_LISTS_SWITCH;
+                                                                    }
+                                                                },
+                                                                {
+                                                                    component: 'button',
                                                                     color: 'blurple',
                                                                     label: TEMPS.LABELS.BUTTON_RESET_LISTS,
                                                                     id: 'animations-reset-lists',
-                                                                    svgs: [
-                                                                        {
-                                                                            paths: [
-                                                                                Animations.paths.gear
-                                                                            ],
-                                                                            viewBox: '0 0 20 20'
-                                                                        }
-                                                                    ],
+                                                                    svgs: [{paths: [Animations.paths.gear],viewBox: '0 0 20 20'}],
                                                                     onclick: async (e) => {
 
                                                                         let button = e.currentTarget;
@@ -3324,7 +3215,7 @@
                                                 ).render
                                             ).render,
 
-                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_LISTS_DELAY_NOTE(this.defaultSettings.lists.delay),
+                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_LISTS_DELAY_NOTE(this.defaultSettings.lists.delay.toString().replace('.', ',')),
                                                 ElementsPanel(
                                                     [
                                                         {
@@ -3340,9 +3231,23 @@
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.lists.delay;
+                                                                        this.settings.lists.delay = this.defaultSettings.lists.delay;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
                                                                 }
                                                             ]
-                                                        }
+                                                        },
                                                     ]
                                                 ).render
                                             ).render,
@@ -3363,6 +3268,20 @@
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.lists.limit;
+                                                                        this.settings.lists.limit = this.defaultSettings.lists.limit;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
                                                                 }
                                                             ]
                                                         }
@@ -3370,7 +3289,7 @@
                                                 ).render
                                             ).render,
 
-                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_LISTS_DURATION_NOTE(this.defaultSettings.lists.duration),
+                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_LISTS_DURATION_NOTE(this.defaultSettings.lists.duration.toString().replace('.', ',')),
                                                 ElementsPanel(
                                                     [
                                                         {
@@ -3383,6 +3302,20 @@
                                                                     type: 'number',
                                                                     onchange: (e, v) => {
                                                                         this.settings.lists.duration = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.lists.duration;
+                                                                        this.settings.lists.duration = this.defaultSettings.lists.duration;
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
@@ -3404,17 +3337,37 @@
                                                             elements: [
                                                                 {
                                                                     component: 'button',
+                                                                    svgs: [{paths:[ this.settings.buttons.enabled ? Animations.paths.switcherRight : Animations.paths.switcherLeft],viewBox:'0 -5 24 24'}],
+                                                                    color: this.settings.buttons.enabled ? 'green' : 'red',
+                                                                    label: TEMPS.LABELS.BUTTON_BUTTONS_SWITCH,
+                                                                    id: 'buttons-switch-button',
+                                                                    onclick: async (e) => {
+                        
+                                                                        let button = e.currentTarget
+                        
+                                                                        button.getElementsByTagName('span')[0].innerText = '...'
+                        
+                                                                        this.settings.buttons.enabled = !this.settings.buttons.enabled;
+                                                                        if (!this.settings.buttons.enabled) {
+                                                                            button.classList.remove('green')
+                                                                            button.classList.add('red')
+                                                                            button.querySelector('path').setAttribute('d', Animations.paths.switcherLeft)
+                                                                        } else {
+                                                                            button.classList.remove('red')
+                                                                            button.classList.add('green')
+                                                                            button.querySelector('path').setAttribute('d', Animations.paths.switcherRight)
+                                                                        }
+                                                                        await this.changeStyles();
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_BUTTONS_SWITCH;
+                                                                    }
+                                                                },
+                                                                {
+                                                                    component: 'button',
                                                                     color: 'blurple',
                                                                     label: TEMPS.LABELS.BUTTON_RESET_BUTTONS,
                                                                     id: 'animations-reset-buttons',
-                                                                    svgs: [
-                                                                        {
-                                                                            paths: [
-                                                                                Animations.paths.gear
-                                                                            ],
-                                                                            viewBox: '0 0 20 20'
-                                                                        }
-                                                                    ],
+                                                                    svgs: [{paths: [Animations.paths.gear],viewBox: '0 0 20 20'}],
                                                                     onclick: async (e) => {
 
                                                                         let button = e.currentTarget;
@@ -3501,7 +3454,7 @@
                                                 ).render
                                             ).render,
 
-                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_BUTTONS_DELAY_NOTE(this.defaultSettings.buttons.delay),
+                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_BUTTONS_DELAY_NOTE(this.defaultSettings.buttons.delay.toString().replace('.', ',')),
                                                 ElementsPanel(
                                                     [
                                                         {
@@ -3517,6 +3470,20 @@
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.buttons.delay;
+                                                                        this.settings.buttons.delay = this.defaultSettings.buttons.delay;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
                                                                 }
                                                             ]
                                                         }
@@ -3524,7 +3491,7 @@
                                                 ).render
                                             ).render,
 
-                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_BUTTONS_DURATION_NOTE(this.defaultSettings.buttons.duration),
+                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_BUTTONS_DURATION_NOTE(this.defaultSettings.buttons.duration.toString().replace('.', ',')),
                                                 ElementsPanel(
                                                     [
                                                         {
@@ -3537,6 +3504,20 @@
                                                                     type: 'number',
                                                                     onchange: (e, v) => {
                                                                         this.settings.buttons.duration = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.buttons.duration;
+                                                                        this.settings.buttons.duration = this.defaultSettings.buttons.duration;
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
@@ -3558,17 +3539,37 @@
                                                             elements: [
                                                                 {
                                                                     component: 'button',
+                                                                    svgs: [{paths:[ this.settings.messages.enabled ? Animations.paths.switcherRight : Animations.paths.switcherLeft],viewBox:'0 -5 24 24'}],
+                                                                    color: this.settings.messages.enabled ? 'green' : 'red',
+                                                                    label: TEMPS.LABELS.BUTTON_MESSAGES_SWITCH,
+                                                                    id: 'messages-switch-button',
+                                                                    onclick: async (e) => {
+                        
+                                                                        let button = e.currentTarget
+                        
+                                                                        button.getElementsByTagName('span')[0].innerText = '...'
+                        
+                                                                        this.settings.messages.enabled = !this.settings.messages.enabled;
+                                                                        if (!this.settings.messages.enabled) {
+                                                                            button.classList.remove('green')
+                                                                            button.classList.add('red')
+                                                                            button.querySelector('path').setAttribute('d', Animations.paths.switcherLeft)
+                                                                        } else {
+                                                                            button.classList.remove('red')
+                                                                            button.classList.add('green')
+                                                                            button.querySelector('path').setAttribute('d', Animations.paths.switcherRight)
+                                                                        }
+                                                                        await this.changeStyles();
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_MESSAGES_SWITCH;
+                                                                    }
+                                                                },
+                                                                {
+                                                                    component: 'button',
                                                                     color: 'blurple',
                                                                     label: TEMPS.LABELS.BUTTON_RESET_MESSAGES,
                                                                     id: 'animations-reset-messages',
-                                                                    svgs: [
-                                                                        {
-                                                                            paths: [
-                                                                                Animations.paths.gear
-                                                                            ],
-                                                                            viewBox: '0 0 20 20'
-                                                                        }
-                                                                    ],
+                                                                    svgs: [{paths: [Animations.paths.gear],viewBox: '0 0 20 20'}],
                                                                     onclick: async (e) => {
 
                                                                         let button = e.currentTarget;
@@ -3635,7 +3636,7 @@
                                                 ).render
                                             ).render,
 
-                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_MESSAGES_DELAY_NOTE(this.defaultSettings.messages.delay),
+                                            Field(TEMPS.LABELS.FIELD_DELAY, TEMPS.LABELS.FIELD_MESSAGES_DELAY_NOTE(this.defaultSettings.messages.delay.toString().replace('.', ',')),
                                                 ElementsPanel(
                                                     [
                                                         {
@@ -3648,6 +3649,20 @@
                                                                     type: 'number',
                                                                     onchange: (e, v) => {
                                                                         this.settings.messages.delay = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.messages.delay;
+                                                                        this.settings.messages.delay = this.defaultSettings.messages.delay;
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
@@ -3674,6 +3689,20 @@
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.messages.limit;
+                                                                        this.settings.messages.limit = this.defaultSettings.messages.limit;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
                                                                 }
                                                             ]
                                                         }
@@ -3681,7 +3710,7 @@
                                                 ).render
                                             ).render,
 
-                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_MESSAGES_DURATION_NOTE(this.defaultSettings.messages.duration),
+                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_MESSAGES_DURATION_NOTE(this.defaultSettings.messages.duration.toString().replace('.', ',')),
                                                 ElementsPanel(
                                                     [
                                                         {
@@ -3694,6 +3723,20 @@
                                                                     type: 'number',
                                                                     onchange: (e, v) => {
                                                                         this.settings.messages.duration = v;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.messages.duration;
+                                                                        this.settings.messages.duration = this.defaultSettings.messages.duration;
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
@@ -3715,17 +3758,37 @@
                                                             elements: [
                                                                 {
                                                                     component: 'button',
+                                                                    svgs: [{paths:[ this.settings.popouts.enabled ? Animations.paths.switcherRight : Animations.paths.switcherLeft],viewBox:'0 -5 24 24'}],
+                                                                    color: this.settings.popouts.enabled ? 'green' : 'red',
+                                                                    label: TEMPS.LABELS.BUTTON_POPOUTS_SWITCH,
+                                                                    id: 'popouts-switch-button',
+                                                                    onclick: async (e) => {
+                        
+                                                                        let button = e.currentTarget
+                        
+                                                                        button.getElementsByTagName('span')[0].innerText = '...'
+                        
+                                                                        this.settings.popouts.enabled = !this.settings.popouts.enabled;
+                                                                        if (!this.settings.popouts.enabled) {
+                                                                            button.classList.remove('green')
+                                                                            button.classList.add('red')
+                                                                            button.querySelector('path').setAttribute('d', Animations.paths.switcherLeft)
+                                                                        } else {
+                                                                            button.classList.remove('red')
+                                                                            button.classList.add('green')
+                                                                            button.querySelector('path').setAttribute('d', Animations.paths.switcherRight)
+                                                                        }
+                                                                        await this.changeStyles();
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        button.getElementsByTagName('span')[0].innerText = TEMPS.LABELS.BUTTON_POPOUTS_SWITCH;
+                                                                    }
+                                                                },
+                                                                {
+                                                                    component: 'button',
                                                                     color: 'blurple',
                                                                     label: TEMPS.LABELS.BUTTON_RESET_POPOUTS,
                                                                     id: 'animations-reset-popouts',
-                                                                    svgs: [
-                                                                        {
-                                                                            paths: [
-                                                                                Animations.paths.gear
-                                                                            ],
-                                                                            viewBox: '0 0 20 20'
-                                                                        }
-                                                                    ],
+                                                                    svgs: [{paths: [Animations.paths.gear],viewBox: '0 0 20 20'}],
                                                                     onclick: async (e) => {
 
                                                                         let button = e.currentTarget;
@@ -3797,7 +3860,7 @@
                                                 ).render
                                             ).render,
 
-                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_POPOUTS_DURATION_NOTE(this.defaultSettings.popouts.duration),
+                                            Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_POPOUTS_DURATION_NOTE(this.defaultSettings.popouts.duration.toString().replace('.', ',')),
                                                 ElementsPanel(
                                                     [
                                                         {
@@ -3813,6 +3876,20 @@
                                                                         PluginUtilities.saveSettings(this.getName(), this.settings);
                                                                         this.changeStyles()
                                                                     }
+                                                                },
+                                                                {
+                                                                    component: 'button',
+                                                                    padding: '9px',
+                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
+                                                                    onclick: (e)=>{
+                                                                        var button = e.currentTarget;
+                                                                        var input = button.closest('.elementsContainer').querySelector('input');
+
+                                                                        input.value = this.defaultSettings.popouts.duration;
+                                                                        this.settings.popouts.duration = this.defaultSettings.popouts.duration;
+                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
+                                                                        this.changeStyles()
+                                                                    }
                                                                 }
                                                             ]
                                                         }
@@ -3821,6 +3898,7 @@
                                             ).render,
                                         ]
                                     },
+                                    {component: 'divider'},
                                     {
                                         name: TEMPS.LABELS.GROUP_ADVANCED,
                                         content: [
@@ -3835,13 +3913,7 @@
                                                                             component: 'button',
                                                                             label: TEMPS.LABELS.BUTTON_SELECTORS_LISTS_DEFAULT,
                                                                             id: 'lists-selectors-default',
-                                                                            svgs: [
-                                                                                {
-                                                                                    paths: [
-                                                                                        Animations.paths.circleArrow
-                                                                                    ]
-                                                                                }
-                                                                            ],
+                                                                            svgs: [{paths: [Animations.paths.circleArrow]}],
                                                                             onclick: (e) => {
                                                                                 var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
                                                                                 textarea.value = Animations.selectorsLists.join(',\n\n')
@@ -3901,13 +3973,7 @@
                                                                             component: 'button',
                                                                             label: TEMPS.LABELS.BUTTON_SELECTORS_BUTTONS_DEFAULT,
                                                                             id: 'buttons-selectors-default',
-                                                                            svgs: [
-                                                                                {
-                                                                                    paths: [
-                                                                                        Animations.paths.circleArrow
-                                                                                    ]
-                                                                                }
-                                                                            ],
+                                                                            svgs: [{paths: [Animations.paths.circleArrow]}],
                                                                             onclick: (e) => {
                                                                                 var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
                                                                                 textarea.value = Animations.selectorsButtons.join(',\n\n')
@@ -3967,13 +4033,7 @@
                                                                             component: 'button',
                                                                             label: TEMPS.LABELS.BUTTON_SELECTORS_POPOUTS_DEFAULT,
                                                                             id: 'popouts-selectors-default',
-                                                                            svgs: [
-                                                                                {
-                                                                                    paths: [
-                                                                                        Animations.paths.circleArrow
-                                                                                    ]
-                                                                                }
-                                                                            ],
+                                                                            svgs: [{paths: [Animations.paths.circleArrow]}],
                                                                             onclick: (e) => {
                                                                                 var textarea = e.currentTarget.closest('.animTextareasPanel').querySelector('.animTextarea')
                                                                                 textarea.value = Animations.selectorsPopouts.join(',\n\n')
@@ -4033,8 +4093,12 @@
                 }
 
                 start() {
-                    this.CompStyles =
+                    this.ComponentsStyles =
                     `/*components*/
+
+                    .animField {
+                        padding: 5px;
+                    }
 
                     .animFieldDivider {
                         width: 100%;
@@ -4081,36 +4145,47 @@
 
                     .animTab {
                         display: inline-block;
-                        padding: 16px 20px;
-                        width: fit-content;
-                        color: var(--header-primary);
                         box-sizing: border-box;
+                        border-radius: 3px;
+                        padding: 10px 10px;
+                        margin: 6px 6px;
+                        width: 100%;
+                        color: var(--header-primary);
+                        transition: 0.2s;
                         text-align: center;
                         font-family: Whitney, "Helvetica Neue", Helvetica, Arial, sans-serif;
                         font-size: 14px;
                     }
 
-                    .animTab.selected, .animTab:hover {
-                        padding-bottom: 6px;
-                        border-bottom: 2px solid var(--header-primary);
+                    .animTab + .animTab {
+                        margin-left: 0;
+                    }
+
+                    .animTab:hover:not(.selected):not(.disabled) {
+                        box-shadow: inset 0 0 0 1px var(--brand-experiment);
+                    }
+                    .animTab.selected {
+                        background-color: var(--brand-experiment);
+                    }
+
+                    .animTabDivider {
+                        width: 0;
+                        height: 25px;
+                        margin: auto 0;
+                        border-right: thin solid var(--background-accent);
                     }
 
                     .animTabsContainer {
-                        border-bottom: 1px solid transparent;
-                        justify-content: space-around;
+                        border-radius: 3px;
+                        background-color: var(--background-secondary-alt);
+                        justify-content: space-between;
                         display: flex;
                         position: sticky;
                         z-index: 1;
                         top: 0;
                     }
 
-                    .theme-dark .animTabsContainer {
-                        background-color: ${Animations.colors.gray};
-                    }
-
-                    .theme-light .animTabsContainer {
-                        background-color: #fff;
-                    }
+                    .animContentsContainer .animTabsContainer {z-index: 0;}
 
                     .animPreviewsPanel {
                         overflow: hidden;
@@ -4173,12 +4248,11 @@
                         min-width: 10px;
                         width: fit-content;
                         margin: 5px auto 5px auto;
+                        padding: 0;
                         color: var(--interactive-normal);
                         text-align: center;
                         text-transform: capitalize;
                         font-size: 18px;
-                        background-color: var(--background-secondary);
-                        border: 1px solid var(--background-tertiary);
                         border-radius: 3px;
                         transition: 0.2s;
                         overflow: hidden;
@@ -4252,12 +4326,9 @@
                         height: 0;
                         margin: 5px 5px;
                         padding: 5px 9px 25px 11px;
-                        color: var(--interactive-normal);
                         text-align: center;
                         font-size: 18px;
                         font-family: Consolas, monospace;
-                        background-color: var(--background-secondary);
-                        border: 1px solid var(--background-tertiary);
                         border-radius: 100px;
                         transition: 0.2s;
                     }
@@ -4275,13 +4346,12 @@
                     }
 
                     .animPageCircleButton.enabled {
-                        color: white;
                         background-color: var(--brand-experiment);
                     }
 
                     .animPreview {
-                        background-color: var(--background-secondary);
-                        border: 1px solid var(--background-tertiary);
+                        margin: 0;
+                        border: 1px solid;
                         border-radius: 3px;
                         overflow: hidden;
                     }
@@ -4510,7 +4580,7 @@
 
                     PluginUtilities.removeStyle('Animations-req');
                     setTimeout(() => {
-                        PluginUtilities.addStyle('Animations-req', this.CompStyles)
+                        PluginUtilities.addStyle('Animations-req', this.ComponentsStyles)
                         this.changeStyles()
                     }, 100);
 
