@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.2.12
+ * @version 1.3
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,15 +21,15 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.2.12',
+            version: '1.3',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
         },
         changelog: [
-            { "title": "New Stuff", "items": ["Reset buttons are near the inputs."] },
-            { "title": "Improvements", "type": "improved", "items": ["Switch buttons have been moved and now have a switcher icon.", "Now the settings panel closes after the update."] },
-            { "title": "Fixes", "type": "fixed", "items": ["Small fix for the update button."] }
+            { "title": "New Stuff", "items": ["Limits for lists have been removed."] },
+            { "title": "Improvements", "type": "improved", "items": ["Now for the lists of members, channels, and servers animation is played once."] },
+            { "title": "Fixes", "type": "fixed", "items": ["Fixed some Slide animations."] }
         ],
         main: 'index.js',
     };
@@ -105,7 +105,6 @@
                             },
                             duration: 0.4,
                             delay: 0.04,
-                            limit: 65
                         },
                         buttons: {
                             enabled: true,
@@ -225,14 +224,14 @@
                     `.${WebpackModules.getByProps('channelName', 'icon').wrapper}`,
                     /*threads button > list*/
                     `.${WebpackModules.getByProps('container', 'bullet').container}`,
-                    /*seWebpackarch*/
+                    /*search*/
                     `.${WebpackModules.getByProps('searchResultGroup').searchResultGroup}`,
                     /*members*/
-                    `.${WebpackModules.getByProps('botTag', 'member').member}:not([class*=placeholder])`,
+                    //`.${WebpackModules.getByProps('botTag', 'member').member}:not([class*=placeholder])`,
                     /*member-groups*/
-                    `h2.${WebpackModules.getByProps('membersGroup').membersGroup}`,
+                    //`h2.${WebpackModules.getByProps('membersGroup').membersGroup}`,
                     /*servers*/
-                    `#app-mount .${WebpackModules.getByProps('guilds', 'sidebar').guilds} [class*="listItem"]:not([class*="listItemWrapper"])`,
+                    //`#app-mount .${WebpackModules.getByProps('guilds', 'sidebar').guilds} [class*="listItem"]:not([class*="listItemWrapper"])`,
                     /*friends*/
                     `.${WebpackModules.getByProps('peopleListItem').peopleListItem}`,
                     /*channels*/
@@ -325,52 +324,24 @@
                     VideoLead: WebpackModules.getByProps('video', 'lead')?.video
                 }
 
-                get countStyles() {
-                    let result = '';
-
-                    ;((this.isValidSelector(this.settings.lists.selectors)&&this.settings.lists.selectors.trim()!='')?this.settings.lists.selectors.split(",").map(item => item.trim()):Animations.selectorsLists)
-                    .forEach((selector, i) => { if(!this.settings.lists.enabled) return;
-
-                        let count = this.settings.lists.limit;
-
-                        if (this.settings.lists.sequence == 'fromFirst') for (var i = 1; i < count + 1; i++) {
-                            result += `${selector}:nth-child(${i}) `
-                                + `{animation-delay: ${((i - 1) * this.settings.lists.delay).toFixed(2)}s}\n\n`
-                        }
-                        if (this.settings.lists.sequence == 'fromLast') for (var i = 1; i < count + 1; i++) {
-                            result += `${selector}:nth-last-child(${i}) `
-                                + `{animation-delay: ${((i - 1) * this.settings.lists.delay).toFixed(2)}s}\n\n`
-                        }
-                    
-                    })
-
-                    ;((this.isValidSelector(this.settings.buttons.selectors)&&this.settings.buttons.selectors.trim()!='')?this.settings.buttons.selectors.split(",").map(item => item.trim()):Animations.selectorsButtons)
-                    .forEach(selector => { if(!this.settings.buttons.enabled) return;
-
-                        let count = 20;
-
-                        if (this.settings.buttons.sequence == 'fromFirst') for (var i = 1; i < count + 1; i++) {
-                            result += `${selector}:nth-child(${i}) `
-                                + `{animation-delay: ${((i - 1) * this.settings.buttons.delay).toFixed(2)}s}\n\n`
-                        }
-                        if (this.settings.buttons.sequence == 'fromLast') for (var i = 1; i < count + 1; i++) {
-                            result += `${selector}:nth-last-child(${i}) `
-                                + `{animation-delay: ${((i - 1) * this.settings.buttons.delay).toFixed(2)}s}\n\n`
-                        }
-
-                    })
-
-                    return result;
-
-                }
-
-
-
-                threadsWithChannels = (removeAnimations = false) => {
+                animateChannels = (removeAnimations = false) => {
 
                         if (!this.settings.lists.enabled) return;
                         var channelsListElements = document.querySelectorAll(`#channels .${Animations.modules.ContentThin} > [class]`);
-                        var count = document.querySelectorAll(`#channels .${Animations.modules.ContentThin} > [class]`)?.length ?? 40;
+                        var count = channelsListElements?.length ?? 40;
+
+                        if(channelsListElements?.length==1) return setTimeout(()=>this.animateChannels(), 100);
+
+                        PluginUtilities.addStyle(`${this.getName()}-channelslist`,
+                        `/*channels*/
+                            .${Animations.modules.ContainerDefaultSpaceBeforeCategory},
+                            .${Animations.modules.ContainerDefault}
+                            {
+                                ${this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start : `transform: scale(0);`}
+                                animation-fill-mode: forwards;
+                                animation-duration: ${this.settings.lists.duration}s;
+                            }
+                        `)
 
                         for (var i = 0, threadsCount = 0; i < count; i++) {
                             let children = channelsListElements[(this.settings.lists.sequence == "fromFirst" ? i : count - i - 1)];
@@ -415,6 +386,98 @@
                             }
 
                         }
+
+                    setTimeout(()=>PluginUtilities.removeStyle(`${this.getName()}-channelslist`), (count * this.settings.lists.delay)+this.settings.lists.duration)
+
+                }
+
+                animateMembers = (removeAnimations = false) => {
+
+                    if (!this.settings.lists.enabled) return;
+
+                    var membersListElements = document.querySelectorAll(`.${WebpackModules.getByProps('botTag', 'member').member}:not([class*=placeholder]), h2.${WebpackModules.getByProps('membersGroup').membersGroup}`);
+                    var count = membersListElements?.length ?? 40;
+
+                    if(membersListElements?.length==1) return setTimeout(()=>this.animateMembers(), 100);
+
+                    PluginUtilities.addStyle(`${this.getName()}-memberlist`,
+                    `/*members*/
+                        .${WebpackModules.getByProps('botTag', 'member').member}:not([class*=placeholder]),
+                        /*member-groups*/
+                        h2.${WebpackModules.getByProps('membersGroup').membersGroup}
+                        {
+                            ${this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start : `transform: scale(0);`}
+                            animation-fill-mode: forwards;
+                            animation-duration: ${this.settings.lists.duration}s;
+                        }
+
+                        /* members offline */
+                        .${Animations.modules.Offline}
+                        {
+                            animation-name: ${this.settings.lists.name}_offline !important;
+                        }
+                    `)
+
+                    for (var i = 0; i < count; i++) {
+                        let children = membersListElements[(this.settings.lists.sequence == "fromFirst" ? i : count - i - 1)];
+                        if (!children) return;
+
+                        if (removeAnimations) {
+                            children.style.transform = 'none'
+                        }
+                        else {
+                            
+                            children.style.animationDelay = `${(i * this.settings.lists.delay).toFixed(2)}s`;
+                            children.style.animationName = this.settings.lists.custom.enabled &&
+                                (this.settings.lists.custom.page>=0?
+                                    this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() != '' &&
+                                    this.isValidKeyframe(this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim)
+                                : 0)
+                                ? 'custom-lists' : this.settings.lists.name;
+                        }
+                    }
+
+                    setTimeout(()=>PluginUtilities.removeStyle(`${this.getName()}-memberslist`), (count * this.settings.lists.delay)+this.settings.lists.duration)
+
+                }
+
+                animateServers = (removeAnimations = false) => {
+
+                    if (!this.settings.lists.enabled) return;
+
+                    var serversListElements = document.querySelectorAll(`#app-mount .${Animations.modules.GuildsSidebar} [class*="listItem"]:not([class*="listItemWrapper"])`);
+                    var count = serversListElements?.length ?? 40;
+
+                    PluginUtilities.addStyle(`${this.getName()}-serverlist`,
+                    `/*servers*/
+                        #app-mount .${Animations.modules.GuildsSidebar} [class*="listItem"]:not([class*="listItemWrapper"])
+                        {
+                            ${this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start : `transform: scale(0);`}
+                            animation-fill-mode: forwards;
+                            animation-duration: ${this.settings.lists.duration}s;
+                        }
+                    `)
+
+                    for (var i = 0; i < count; i++) {
+                        let children = serversListElements[(this.settings.lists.sequence == "fromFirst" ? i : count - i - 1)];
+                        if (!children) return;
+
+                        if (removeAnimations) {
+                            children.style.transform = 'none'
+                        }
+                        else {
+                            children.style.animationDelay = `${(i * this.settings.lists.delay).toFixed(2)}s`;
+                            children.style.animationName = this.settings.lists.custom.enabled &&
+                                (this.settings.lists.custom.page>=0?
+                                    this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() != '' &&
+                                    this.isValidKeyframe(this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim)
+                                : 0)
+                                ? 'custom-lists' : this.settings.lists.name;
+                        }
+                    }
+
+                    setTimeout(()=>PluginUtilities.removeStyle(`${this.getName()}-serverslist`), (count * this.settings.lists.delay)+this.settings.lists.duration)
+
                 }
 
                 async changeStyles(delay=0) {
@@ -625,22 +688,22 @@
                             "slide-up-left":
                             `@keyframes ${name} {
                                 0% {
-                                    transform-origin: 100%;
+                                    transform-origin: 100% 100%;
                                     transform: scale(0) rotate(${rotate}deg);
                                 }
                                 100% {
-                                    transform-origin: ${rotate!=90?'100%':'50%'};
+                                    transform-origin: ${rotate!=90?'100% 100%':'50%'};
                                     transform: scale(1) rotate(${rotate}deg) translate(0);
                                 }
                             }`,
                             "slide-down-right":
                             `@keyframes ${name} {
                                 0% {
-                                    transform-origin: 0%;
+                                    transform-origin: 0% 0%;
                                     transform: scale(0) rotate(${rotate}deg);
                                 }
                                 100% {
-                                    transform-origin: ${rotate!=90?'0%':'50%'};
+                                    transform-origin: ${rotate!=90?'0% 0%':'50%'};
                                     transform: scale(1) rotate(${rotate}deg) translate(0);
                                 }
                             }`,
@@ -713,7 +776,7 @@
                         
                     }
 
-                    var keyframes = (()=>{
+                    let keyframes = ()=>{
                         var result = '';
 
                         Animations.names.forEach(
@@ -727,9 +790,9 @@
                         )
 
                         return result
-                    })()
+                    }
 
-                    let animPrevStyles = (() => {
+                    let animPrevStyles = () => {
                         let result = '';
 
                         ;(["lists", "buttons", "messages", "popouts"]).forEach(type=>{
@@ -771,9 +834,9 @@
                         })
 
                         return result;
-                    })()
+                    }
 
-                    let nthStyles = (() => {
+                    let nthStyles = () => {
                         let result = '';
 
                         result += `.animPreview:hover .animTempBlock {animation-name: out; animation-duration: 0.3s;}\n\n`;
@@ -792,31 +855,50 @@
                         }
 
                         return result;
-                    })()
+                    }
+
+                    let countStyles = ()=>{
+                        let result = '';
+    
+                        ;((this.isValidSelector(this.settings.lists.selectors)&&this.settings.lists.selectors.trim()!='')?this.settings.lists.selectors.split(",").map(item => item.trim()):Animations.selectorsLists)
+                        .forEach((selector, i) => { if(!this.settings.lists.enabled) return;
+    
+                            let count = 65;
+    
+                            if (this.settings.lists.sequence == 'fromFirst') for (var i = 1; i < count + 1; i++) {
+                                result += `${selector}:nth-child(${i}) `
+                                    + `{animation-delay: ${((i - 1) * this.settings.lists.delay).toFixed(2)}s}\n\n`
+                            }
+                            if (this.settings.lists.sequence == 'fromLast') for (var i = 1; i < count + 1; i++) {
+                                result += `${selector}:nth-last-child(${i}) `
+                                    + `{animation-delay: ${((i - 1) * this.settings.lists.delay).toFixed(2)}s}\n\n`
+                            }
+                        
+                        })
+    
+                        ;((this.isValidSelector(this.settings.buttons.selectors)&&this.settings.buttons.selectors.trim()!='')?this.settings.buttons.selectors.split(",").map(item => item.trim()):Animations.selectorsButtons)
+                        .forEach(selector => { if(!this.settings.buttons.enabled) return;
+    
+                            let count = 20;
+    
+                            if (this.settings.buttons.sequence == 'fromFirst') for (var i = 1; i < count + 1; i++) {
+                                result += `${selector}:nth-child(${i}) `
+                                    + `{animation-delay: ${((i - 1) * this.settings.buttons.delay).toFixed(2)}s}\n\n`
+                            }
+                            if (this.settings.buttons.sequence == 'fromLast') for (var i = 1; i < count + 1; i++) {
+                                result += `${selector}:nth-last-child(${i}) `
+                                    + `{animation-delay: ${((i - 1) * this.settings.buttons.delay).toFixed(2)}s}\n\n`
+                            }
+    
+                        })
+    
+                        return result;
+    
+                    }
 
                     this.styles = `
-                /*lists limit*/
-                .${Animations.modules.Side} > :nth-child(n+${this.settings.lists.limit}),
-                .${Animations.modules.ContentThin} > :nth-child(n+${this.settings.lists.limit})
-                {animation: none !important; transform: none !important}
 
                 ${!this.settings.lists.enabled ? '' : `
-                /* wawes */
-                /*channels*/
-                .${Animations.modules.ContainerDefaultSpaceBeforeCategory},
-                .${Animations.modules.ContainerDefault}
-                {
-                    ${this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start : `transform: scale(0);`}
-                    animation-fill-mode: forwards;
-                    animation-duration: ${this.settings.lists.duration}s;
-                }
-
-                /* members offline */
-                .${Animations.modules.Offline}
-                {
-                    animation-name: ${this.settings.lists.name}_offline !important;
-                }
-
                 ${this.settings.lists.selectors?this.settings.lists.selectors:Animations.selectorsLists.join(', ')}
                 {
                     ${this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.start : `transform: scale(0);`}
@@ -904,10 +986,11 @@
 
                 /**Keyframes**/
 
-                ${keyframes}
+                ${keyframes()}
 
-                \n${animPrevStyles}
-                \n${nthStyles}
+                \n${animPrevStyles()}
+                \n${nthStyles()}
+                \n${countStyles()}
 
                 /*Custom keyframes*/
                 
@@ -928,14 +1011,14 @@
                 }
                     `;
 
-                    PluginUtilities.removeStyle('Animations-main');
-                    PluginUtilities.removeStyle('Animations-count');
+                    PluginUtilities.removeStyle(`${this.getName()}-main`);
 
                     await this.wait(delay)
                     
-                    PluginUtilities.addStyle('Animations-main', this.styles);
-                    PluginUtilities.addStyle('Animations-count', this.countStyles);
-                    this.threadsWithChannels();
+                    PluginUtilities.addStyle(`${this.getName()}-main`, this.styles);
+                    this.animateChannels();
+                    this.animateMembers();
+                    this.animateServers();
                 }
 
                 closeSettings() {
@@ -3252,43 +3335,6 @@
                                                 ).render
                                             ).render,
 
-                                            Field(TEMPS.LABELS.FIELD_LIMIT, TEMPS.LABELS.FIELD_LISTS_LIMIT_NOTE(this.defaultSettings.lists.limit),
-                                                ElementsPanel(
-                                                    [
-                                                        {
-                                                            elements: [
-                                                                {
-                                                                    component: 'input',
-                                                                    value: this.settings.lists.limit,
-                                                                    max: 100,
-                                                                    step: 5,
-                                                                    type: 'integer',
-                                                                    onchange: (e, v) => {
-                                                                        this.settings.lists.limit = v;
-                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                        this.changeStyles()
-                                                                    }
-                                                                },
-                                                                {
-                                                                    component: 'button',
-                                                                    padding: '9px',
-                                                                    svgs: [{paths: [Animations.paths.circleArrow],width:'22px',height:'22px'}],
-                                                                    onclick: (e)=>{
-                                                                        var button = e.currentTarget;
-                                                                        var input = button.closest('.elementsContainer').querySelector('input');
-
-                                                                        input.value = this.defaultSettings.lists.limit;
-                                                                        this.settings.lists.limit = this.defaultSettings.lists.limit;
-                                                                        PluginUtilities.saveSettings(this.getName(), this.settings);
-                                                                        this.changeStyles()
-                                                                    }
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                ).render
-                                            ).render,
-
                                             Field(TEMPS.LABELS.FIELD_DURATION, TEMPS.LABELS.FIELD_LISTS_DURATION_NOTE(this.defaultSettings.lists.duration.toString().replace('.', ',')),
                                                 ElementsPanel(
                                                     [
@@ -4234,8 +4280,8 @@
                     }
 
                     .animPreviewsContainer.compact {
-                        border: none;
                         height: fit-content;
+                        padding: 10px 0;
                     }
 
                     .animPreviewsActions {
@@ -4531,22 +4577,6 @@
                         border: 1px solid hsl(359,calc(var(--saturation-factor, 1)*56.7%),48%);
                     }
 
-                    .animButton.yellow.filled {
-                        color: white;
-                        background-color: hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
-                    }
-                    .animButton.yellow.filled:hover:not(.disabled) {
-                        background-color: hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
-                    }
-                    .animButton.yellow.inverted {
-                        color: hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
-                        border: 1px solid hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
-                    }
-                    .animButton.yellow.inverted:hover:not(.disabled) {
-                        color: hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
-                        border: 1px solid hsl(38,calc(var(--saturation-factor, 1)*95.7%),54.1%);
-                    }
-
                     .animButton.green.filled {
                         color: white;
                         background-color: hsl(139,calc(var(--saturation-factor, 1)*47.3%),43.9%);
@@ -4603,23 +4633,18 @@
                         }
                     }
 
-                    document.addEventListener('keyup', this.BadSendingStyles)
-                    // scrolling channels => update styles
-                    this.channelsScrollTimer = -1;
-                    this.channelsScroll = () => {
-                        if (this.channelsScrollTimer != -1) clearTimeout(this.channelsScrollTimer);
-                        this.channelsScrollTimer = setTimeout(()=>this.threadsWithChannels(), 40);// scroll event delay
+                    this.ReanimateLists = (e)=>{
+                        this.animateChannels()
+                        this.animateMembers()
+                        this.animateServers()
                     }
 
-                    var chn = ()=>{
-                        var channels = document.getElementById('channels')
-                        if(channels==null) return
-                        channels.addEventListener('scroll', this.channelsScroll)
-                        channels.addEventListener('mouseup', this.channelsScroll)
-                        this.threadsWithChannels()
-                        clearInterval(chni)
-                    }
-                    var chni = setInterval(chn, 100)
+                    document.addEventListener('keyup', this.BadSendingStyles)
+                    document.addEventListener('click', this.ReanimateLists)
+
+                    this.animateServers()
+                    this.animateMembers()
+                    this.animateChannels()
 
                     // on themes switch
                     this.observer = new MutationObserver(
@@ -4644,34 +4669,20 @@
 
                 stop() {
                     document.removeEventListener('keyup', this.BadSendingStyles);
-                    var chn = ()=>{
-                        var channels = document.getElementById('channels')
-                        if(channels==null) return
-                        channels.removeEventListener('scroll', this.channelsScroll)
-                        channels.removeEventListener('mouseup', this.channelsScroll)
-                        this.threadsWithChannels()
-                        clearInterval(chni)
-                    }
-                    var chni = setInterval(chn, 100)
+                    document.removeEventListener('click', this.ReanimateLists)
+
+                    clearInterval(this.animateInterval)
                     
-                    PluginUtilities.removeStyle('Animations-main');
+                    PluginUtilities.removeStyle(`${this.getName()}-main`);
                     PluginUtilities.removeStyle('Animations-req');
-                    PluginUtilities.removeStyle('Animations-count');
 
                     this.observer.disconnect()
 
                 }
 
                 onSwitch() {
-                    var chn = ()=>{
-                        var channels = document.getElementById('channels')
-                        if(channels==null) return
-                        channels.addEventListener('scroll', this.channelsScroll)
-                        channels.addEventListener('mouseup', this.channelsScroll)
-                        this.threadsWithChannels()
-                        clearInterval(chni)
-                    }
-                    var chni = setInterval(chn, 100)
+                    this.animateChannels()
+                    this.animateMembers()
                 }
             }
         };
