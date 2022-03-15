@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.3.1
+ * @version 1.3.2
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,7 +21,7 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.3.1',
+            version: '1.3.2',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
@@ -4633,14 +4633,7 @@
                         }
                     }
 
-                    this.ReanimateLists = (e)=>{
-                        this.animateChannels()
-                        this.animateMembers()
-                        this.animateServers()
-                    }
-
                     document.addEventListener('keyup', this.BadSendingStyles)
-                    document.addEventListener('click', this.ReanimateLists)
 
                     this.animateServers()
                     this.animateMembers()
@@ -4669,7 +4662,6 @@
 
                 stop() {
                     document.removeEventListener('keyup', this.BadSendingStyles);
-                    document.removeEventListener('click', this.ReanimateLists)
 
                     clearInterval(this.animateInterval)
                     
