@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.3
+ * @version 1.3.1
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,7 +21,7 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.3',
+            version: '1.3.1',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
@@ -400,7 +400,7 @@
 
                     if(membersListElements?.length==1) return setTimeout(()=>this.animateMembers(), 100);
 
-                    PluginUtilities.addStyle(`${this.getName()}-memberlist`,
+                    PluginUtilities.addStyle(`${this.getName()}-memberslist`,
                     `/*members*/
                         .${WebpackModules.getByProps('botTag', 'member').member}:not([class*=placeholder]),
                         /*member-groups*/
@@ -448,7 +448,7 @@
                     var serversListElements = document.querySelectorAll(`#app-mount .${Animations.modules.GuildsSidebar} [class*="listItem"]:not([class*="listItemWrapper"])`);
                     var count = serversListElements?.length ?? 40;
 
-                    PluginUtilities.addStyle(`${this.getName()}-serverlist`,
+                    PluginUtilities.addStyle(`${this.getName()}-serverslist`,
                     `/*servers*/
                         #app-mount .${Animations.modules.GuildsSidebar} [class*="listItem"]:not([class*="listItemWrapper"])
                         {
