@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.3.2
+ * @version 1.3.3
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,14 +21,14 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.3.2',
+            version: '1.3.3',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
         },
         changelog: [
             { "title": "New Stuff", "items": ["Limits for lists have been removed."] },
-            { "title": "Improvements", "type": "improved", "items": ["Now for the lists of members, channels, and servers animation is played once."] },
+            { "title": "Improvements", "type": "improved", "items": ["Now for the lists of members, channels, and servers animation is played once.", "The link to the server should now open without a browser."] },
             { "title": "Fixes", "type": "fixed", "items": ["Fixed some Slide animations."] }
         ],
         main: 'index.js',
@@ -3159,7 +3159,8 @@
                                             color: 'grey',
                                             id: 'animations-server',
                                             svgs: [{viewBox: '0 -5 28 28',paths: [Animations.paths.discordLogo]}],
-                                            link: 'https://discord.gg/PWtAHjBXtG'
+                                            link: 'discord://discord.com/invite/PWtAHjBXtG',
+                                            onclick: ()=>{this.closeSettings()}
                                         },
                                     ],
                                 },
@@ -4617,8 +4618,9 @@
                     this.BadSendingStyles = (e)=>{
                         if(e.key=="Enter") { // finding parent
                             var BadSendingTextNode = document.getElementsByClassName(Animations.modules.ChatContent)[0]
-                            .querySelector(`.${Animations.modules.IsSending}, .${Animations.modules.IsFailed}`)
+                            ?.querySelector?.(`.${Animations.modules.IsSending}, .${Animations.modules.IsFailed}`)
 
+                            if(document.querySelector('[class*=chatContent]'))
                             if(!BadSendingTextNode) {
                                 setTimeout(()=>{
                                     BadSendingTextNode = this.BadSendingStyles(e)
