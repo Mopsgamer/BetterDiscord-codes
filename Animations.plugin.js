@@ -1,6 +1,6 @@
 /**
  * @name Animations
- * @version 1.3.3
+ * @version 1.3.4
  * @description This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.
  * @author Mops
  * @authorLink https://github.com/Mopsgamer/
@@ -21,15 +21,15 @@
                     github_username: 'Mopsgamer',
                 }
             ],
-            version: '1.3.3',
+            version: '1.3.4',
             description: 'This plugin is designed to animate different objects (lists, buttons, panels, etc.) with the ability to set delays, durations, types and sequences of these animations.',
             github: 'https://github.com/Mopsgamer/Animations/blob/main/Animations.plugin.js',
             github_raw: 'https://raw.githubusercontent.com/Mopsgamer/Animations/main/Animations.plugin.js',
         },
         changelog: [
-            { "title": "New Stuff", "items": ["Limits for lists have been removed."] },
-            { "title": "Improvements", "type": "improved", "items": ["Now for the lists of members, channels, and servers animation is played once.", "The link to the server should now open without a browser."] },
-            { "title": "Fixes", "type": "fixed", "items": ["Fixed some Slide animations."] }
+            //{ "title": "New Stuff", "items": ["Limits for lists have been removed."] },
+            //{ "title": "Improvements", "type": "improved", "items": ["Now for the lists of members, channels, and servers animation is played once.", "The link to the server should now open without a browser."] },
+            { "title": "Fixes", "type": "fixed", "items": ["HorizontalServerList now works again."] }
         ],
         main: 'index.js',
     };
@@ -356,6 +356,7 @@
                                 }
                                 else {
                                     children.style.animationDelay = `${((i + threadsCount) * this.settings.lists.delay).toFixed(2)}s`;
+                                    children.style.animationFillMode = 'forwards';
                                     children.style.animationName = this.settings.lists.custom.enabled &&
                                         (this.settings.lists.custom.page>=0?
                                             this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() != '' &&
@@ -380,7 +381,10 @@
                                     }
                                     else {
                                         thread.style.animationDelay = `${((i + threadsCount) * this.settings.lists.delay).toFixed(2)}s`;
-                                        thread.style.animationName = this.settings.lists.custom.enabled && (this.settings.lists.custom.page>=0 ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() : 0) != '' ? 'custom-lists' : this.settings.lists.name;
+                                        children.style.animationFillMode = 'forwards';
+                                        thread.style.animationName = this.settings.lists.custom.enabled &&
+                                            (this.settings.lists.custom.page>=0 ? this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() : 0) != ''
+                                            ? 'custom-lists' : this.settings.lists.name;
                                     }
                                 }
                             }
@@ -428,6 +432,7 @@
                         else {
                             
                             children.style.animationDelay = `${(i * this.settings.lists.delay).toFixed(2)}s`;
+                            children.style.animationFillMode = 'forwards';
                             children.style.animationName = this.settings.lists.custom.enabled &&
                                 (this.settings.lists.custom.page>=0?
                                     this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() != '' &&
@@ -456,6 +461,10 @@
                             animation-fill-mode: forwards;
                             animation-duration: ${this.settings.lists.duration}s;
                         }
+
+                        ${!BdApi.Themes.isEnabled('Horizontal Server List')? '' : `
+                        #app-mount .${Animations.modules.GuildsSidebar} [class*=listItem]:not([class*=listItemWrapper])
+                        { transform: scaleX(0) rotate(90deg); }`}
                     `)
 
                     for (var i = 0; i < count; i++) {
@@ -467,12 +476,13 @@
                         }
                         else {
                             children.style.animationDelay = `${(i * this.settings.lists.delay).toFixed(2)}s`;
+                            children.style.animationFillMode = 'forwards';
                             children.style.animationName = this.settings.lists.custom.enabled &&
                                 (this.settings.lists.custom.page>=0?
                                     this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim?.trim?.() != '' &&
                                     this.isValidKeyframe(this.settings.lists.custom.frames[this.settings.lists.custom.page]?.anim)
                                 : 0)
-                                ? 'custom-lists' : this.settings.lists.name;
+                                ? 'custom-lists' : (this.settings.lists.name+(!BdApi.Themes.isEnabled('Horizontal Server List')?'':'_90'));
                         }
                     }
 
@@ -911,13 +921,6 @@
                     animation-fill-mode: forwards;
                     animation-duration: ${this.settings.lists.duration}s;
                 }
-
-                ${!BdApi.Themes.isEnabled('Horizontal Server List')? '' : `
-                #app-mount .${Animations.modules.GuildsSidebar} [class*=listItem]:not([class*=listItemWrapper]) {
-                    transform: scaleX(0) rotate(90deg);
-                    animation-name: ${this.settings.lists.name}_90;
-                }
-                `}
                 `}
 
                 ${!this.settings.buttons.enabled ? '' : `
